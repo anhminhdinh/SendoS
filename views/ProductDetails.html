@@ -1,31 +1,31 @@
-﻿<div data-options="dxView : { name: 'product-details', title: 'Product' } " >
+﻿<div data-options="dxView : { name: 'product-details', title: 'Sản Phẩm' } " >
 	<div data-bind="dxCommand: { id: 'edit', icon: 'edit', action: edit }" ></div>
 	<div data-options="dxContent : { targetPlaceholder: 'content' } " >
-		<div data-bind="dxLoadPanel:{message: 'Loading...', visible: loadPanelVisible }"></div>
+		<div data-bind="dxLoadPanel:{message: 'Đang tải...', visible: loadPanelVisible }"></div>
 		<div data-bind="dxPopup:{visible:popupEditVisible, fullScreen:false, title:'Edit'}">
 			<div data-options="dxTemplate:{name: 'content'}">
 				<div class="dx-fieldset">
 					<div class="dx-field">
 						<div class="dx-field-label">
-							Name:
+							Tên:
 						</div>
 						<div class="dx-field-value" data-bind="dxTextBox: { value: editName, placeholder: name}"></div>
 					</div>
 					<div class="dx-field">
 						<div class="dx-field-label">
-							Price:
+							Giá:
 						</div>
 						<div class="dx-field-value" data-bind="dxTextBox: { value: editPrice, placeholder: price}"></div>
 					</div>
 					<div class="dx-field">
 						<div class="dx-field-label">
-							Weight:
+							Khối lượng:
 						</div>
 						<div class="dx-field-value" data-bind="dxTextBox: { value: editWeight, placeholder: weight}"></div>
 					</div>
 				</div>
-				<div class="button" data-bind="dxButton: { text: 'Edit', clickAction: changeProductProperties, icon:'edit' }"></div>
-				<div class="button" data-bind="dxButton: { text: 'Cancel', clickAction: hideEditPopup, icon:'close' }"></div>
+				<div class="button" data-bind="dxButton: { text: 'Sửa', clickAction: changeProductProperties, icon:'edit' }"></div>
+				<div class="button" data-bind="dxButton: { text: 'Huỷ', clickAction: hideEditPopup, icon:'close' }"></div>
 			</div>
 		</div>
 		<div data-bind="dxScrollView:{}">
@@ -36,43 +36,43 @@
 				<div class="dx-fieldset">
 					<div class="dx-field">
 						<div class="dx-field-label">
-							Name:
+							Tên:
 						</div>
 						<div class="dx-field-value" data-bind="text:name" ></div>
 					</div>
 					<div class="dx-field">
 						<div class="dx-field-label">
-							Stock:
+							Tình trạng:
 						</div>
 						<div class="dx-field-value" data-bind="dxCheckBox:{checked:stockAvailability, clickAction: changeStockStatus}" ></div>
 					</div>
 					<div class="dx-field">
 						<div class="dx-field-label">
-							Up:
+							Up sản phẩm:
 						</div>
 						<div class="dx-field-value" data-bind="dxButton: { text: upProductDate, clickAction: upProduct, icon: 'arrowup' }" ></div>
 					</div>
 					<div class="dx-field">
 						<div class="dx-field-label">
-							Price:
+							Giá:
 						</div>
 						<div class="dx-field-value" data-bind="text:price" ></div>
 					</div>
 					<div class="dx-field">
 						<div class="dx-field-label">
-							Weight:
+							Khối lượng:
 						</div>
 						<div class="dx-field-value" data-bind="text:weight" ></div>
 					</div>
 					<div class="dx-field">
 						<div class="dx-field-label">
-							Quantity:
+							Số lượng:
 						</div>
 						<div class="dx-field-value" data-bind="text:quantity" ></div>
 					</div>
 					<div class="dx-field">
 						<div class="dx-field-label">
-							Store SKU:
+							Số SKU:
 						</div>
 						<div class="dx-field-value" data-bind="text:storeSku" ></div>
 					</div>

@@ -61,7 +61,7 @@
 
 		hideSplitPopup : function() {
 			this.popupSplitVisible(false);
-		},
+		}
 	};
 	processValueChange = function(text) {
 		// DevExpress.ui.notify("The widget value has been changed to " + text, "info", 1000);
@@ -153,7 +153,7 @@
 					thumnail : item.Thumnail,
 					price : item.Price,
 					weight : item.Weight,
-					stockAvailability : (item.StockAvailability) ? 'Còn' : 'Hết',
+					stockAvailability : (item.StockAvailability) ? 'Còn hàng' : 'Hết hàng',
 					upProductDate : new Date(item.UpProductDate),
 				};
 			});

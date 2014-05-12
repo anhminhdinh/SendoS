@@ -10,7 +10,7 @@
 	$(function() {
 		MyApp.app = new DevExpress.framework.html.HtmlApplication({
 			namespace : MyApp,
-			navigationType : "slideout",
+			navigationType : "navbar",
 			navigation : [{
 				title : 'Đơn hàng',
 				action : "#home",
@@ -26,7 +26,7 @@
 			// icon : "todo"
 			// },
 			{
-				title : 'Hỏi&đáp',
+				title : 'Hỏi & đáp',
 				action : "#chats",
 				icon : "comment"
 			}],
@@ -42,7 +42,7 @@
 						showText : false
 					}]
 				}
-			},
+			}
 		});
 
 		localStorage.removeItem("MyTokenId");
