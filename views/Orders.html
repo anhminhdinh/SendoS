@@ -1,0 +1,17 @@
+﻿<div data-options="dxView : { name: 'orders', title: 'Orders' } " >
+	<div data-bind="dxCommand: { id: 'search', title: 'Search', placeholder: 'Search...', icon: 'find', action: undefined }" ></div>
+	<div data-options="dxContent : { targetPlaceholder: 'content' } " >
+		<div data-bind="dxTextBox: { mode: 'search', value: ''}"></div>
+		<div data-bind="dxList: { dataSource: dataSource }">
+			<!-- <div data-options="dxTemplate : { name: 'item' }" class="dx-fieldset">
+			<div class="dx-field">
+			<div class="dx-field-label" data-bind="text: name"></div>
+			<div class="dx-field-value" data-bind="text: amount"></div>
+			</div>
+			</div> -->
+			<div data-options="dxTemplate : { name: 'item' } " data-bind="dxAction: '#order-details/{name}'">
+				<span data-bind="text: name"></span> (<span data-bind="text: amount"></span>)
+			</div>
+		</div>
+	</div>
+</div>

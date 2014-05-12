@@ -1,0 +1,34 @@
+﻿<div data-options="dxView : { name: 'chats', title: 'Hỏi&đáp', secure: true } " >
+	<div data-options="dxContent : { targetPlaceholder: 'content' } " >
+		<div data-bind="dxLoadPanel:{message: 'Đang tải...', visible: loadPanelVisible }"></div>
+		<!-- <div data-bind="dxList:
+		{ dataSource: listDataSource,
+		autoPagingEnabled: true,
+		pullRefreshEnabled: true,
+		pullRefreshAction: doLoadData }">
+		<div data-options="dxTemplate : { name: 'item' } " data-bind="dxAction: '#chatdetails/{id}'">
+		<span style="font-weight: bold" data-bind="text: name"></span>
+		<span data-bind="text: '('+Globalize.format(date, 'MMM d, yyyy')+'):'"></span>
+		<span data-bind="text: msg"></span>
+		</div>
+		</div> -->
+		<div>
+			<div class="conversations-content" data-bind="dxScrollView: {pullDownAction: doLoadData}">
+				<div>
+					<table class="conversations-list">
+						<tbody>
+							<!-- ko foreach: dataSource -->
+							<tr>
+								<!-- <td class="right conversations-date" data-bind="text: Globalize.format(date, 'dd MM-yy')"></td>
+								<td class="right conversations-name" data-bind="text: name"></td> -->
+								<!-- <td class="left conversations-title" data-bind="dxTextArea: { value:msg, readOnly: true, clickAction: '#chatdetails/{id}'}"></td> -->
+								<td class="left conversations-title" data-bind="text:msg, click: function() {textClicked(id);}"></td>
+							</tr>
+							<!-- /ko -->
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,124 @@
+﻿<div data-options="dxView : { name: 'order-details', title: 'Đơn hàng' } " >
+	<div data-bind="dxCommand: { id: 'edit', icon: 'edit', action: showActionSheet }" ></div>
+	<div data-options="dxContent : { targetPlaceholder: 'content' } " >
+		<div id="actionSheetContainer" data-bind="dxActionSheet: {
+		dataSource: dropDownMenuData,
+		visible: actionSheetVisible,
+		title: 'Xử lý đơn hàng',
+		cancelText: 'Bỏ qua'
+		}"></div>
+		<div data-bind="dxScrollView:{}">
+			<!-- <div data-bind="dxDropDownMenu: { buttonText: 'Change status', dataSource: dropDownMenuData, itemClickAction: processValueChange, disabled: disabled }"></div> -->
+			<div class="dx-fieldset">
+				<div class="dx-field">
+					<div class="dx-field-label">
+						Trạng thái:
+					</div>
+					<div class="dx-field-value" data-bind="text:orderStatus" ></div>
+				</div>
+				<div class="dx-field">
+					<div class="dx-field-label">
+						Ngày đặt:
+					</div>
+					<div class="dx-field-value" data-bind="text:orderDate" ></div>
+				</div>
+				<div class="dx-field">
+					<div class="dx-field-label">
+						Ngày hoãn:
+					</div>
+					<div class="dx-field-value" data-bind="text:delayDate" ></div>
+				</div>
+				<div class="dx-field">
+					<div class="dx-field-label">
+						Tổng tiền:
+					</div>
+					<div class="dx-field-value">
+						<span data-bind="text:totalAmount"></span> VND
+					</div>
+				</div>
+				<div class="dx-field">
+					<div class="dx-field-label">
+						Người mua:
+					</div>
+					<div class="dx-field-value" data-bind="text:buyerName"></div>
+				</div>
+				<div class="dx-field">
+					<div class="dx-field-label">
+						Địa chỉ:
+					</div>
+					<div class="dx-field-value" data-bind="text:buyerAddress" ></div>
+				</div>
+				<div class="dx-field">
+					<div class="dx-field-label">
+						Điện thoại:
+					</div>
+					<div class="dx-field-value">
+						<a data-bind="attr: {href:'tel:'+buyerPhone()}, text:buyerPhone"></a>
+					</div>
+				</div>
+			</div>
+			<div style="font-style: italic; padding: 10px" data-bind="text:note" ></div>
+			<h2>Sản phẩm</h2>
+			<div style="margin: 10px;" data-bind="dxList: {dataSource: products}">
+				<div class="listItem" data-options="dxTemplate:{ name:'item' }">
+					<div class="lazyload" style="display:inline-block; margin: 5px;">
+						<img width="50" height="50"  style="margin:5px;" data-bind="attr: { src: thumnail }" />
+					</div>
+					<div style="display:inline-block; margin: 5px;">
+						<p>
+							Tên: <i data-bind="text: name"></i>
+						</p>
+						<p>
+							Giá: <i data-bind="text: price"></i> VND
+						</p>
+						<p>
+							Số lượng: <i data-bind="text: quantity"></i>
+						</p>
+						<p>
+							Còn hàng: <i data-bind="text: stockAvailability"></i>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div data-bind="dxLoadPanel:{message: 'Loading...', visible: loadPanelVisible }"></div>
+		<div data-bind="dxPopup:{visible:popupDelayVisible, fullScreen:false, title:'Delay'}">
+			<div data-options="dxTemplate:{name: 'content'}">
+				<div class="dx-fieldset">
+					<div class="dx-field">
+						<div class="dx-field-label">
+							Ngày hoãn
+						</div>
+						<div class="dx-field-value" data-bind="
+						dxDateBox: { value: dateBoxValue, format: 'date' }"></div>
+					</div>
+				</div>
+				<div class="button" data-bind="dxButton: { text: 'Hoãn', clickAction: doDelayProcessOrderByOrderID, icon:'clock' }"></div>
+				<div class="button" data-bind="dxButton: { text: 'Huỷ hoãn', clickAction: hideDelayPopup, icon: 'close' }"></div>
+			</div>
+		</div>
+		<div data-bind="dxPopup:{visible:popupSplitVisible, fullScreen:false, title:'Split'}">
+			<div data-options="dxTemplate:{name: 'content'}">
+				<h2>Sản phẩm để tách</h2>
+				<div id="splitList" style="margin: 10px;" data-bind="dxList: {dataSource: productsToSplit, editEnabled: true, editConfig: {deleteEnabled: true, deleteMode: 'toggle'}}">
+					<div class="listItem" data-options="dxTemplate:{ name:'item' }">
+						<div class="lazyload" style="display:inline-block; margin: 5px;">
+							<img width="50" height="50"  style="margin:5px;" data-bind="attr: { src: thumbnail }" />
+						</div>
+						<div style="display:inline-block; margin: 5px;">
+							<p>
+								Tên: <i data-bind="text: name"></i>
+							</p>
+							<p>
+								Còn hàng: <i data-bind="text: stockAvailability"></i>
+							</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="button" data-bind="dxButton: { text: 'Tách', clickAction: doSplitOrderByOrderID, icon:'plus' }"></div>
+				<div class="button" data-bind="dxButton: { text: 'Huỷ tách', clickAction: hideSplitPopup, icon:'close' }"></div>
+			</div>
+		</div>
+	</div>
+</div>

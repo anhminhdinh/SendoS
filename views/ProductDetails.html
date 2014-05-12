@@ -1,0 +1,83 @@
+﻿<div data-options="dxView : { name: 'product-details', title: 'Product' } " >
+	<div data-bind="dxCommand: { id: 'edit', icon: 'edit', action: edit }" ></div>
+	<div data-options="dxContent : { targetPlaceholder: 'content' } " >
+		<div data-bind="dxLoadPanel:{message: 'Loading...', visible: loadPanelVisible }"></div>
+		<div data-bind="dxPopup:{visible:popupEditVisible, fullScreen:false, title:'Edit'}">
+			<div data-options="dxTemplate:{name: 'content'}">
+				<div class="dx-fieldset">
+					<div class="dx-field">
+						<div class="dx-field-label">
+							Name:
+						</div>
+						<div class="dx-field-value" data-bind="dxTextBox: { value: editName, placeholder: name}"></div>
+					</div>
+					<div class="dx-field">
+						<div class="dx-field-label">
+							Price:
+						</div>
+						<div class="dx-field-value" data-bind="dxTextBox: { value: editPrice, placeholder: price}"></div>
+					</div>
+					<div class="dx-field">
+						<div class="dx-field-label">
+							Weight:
+						</div>
+						<div class="dx-field-value" data-bind="dxTextBox: { value: editWeight, placeholder: weight}"></div>
+					</div>
+				</div>
+				<div class="button" data-bind="dxButton: { text: 'Edit', clickAction: changeProductProperties, icon:'edit' }"></div>
+				<div class="button" data-bind="dxButton: { text: 'Cancel', clickAction: hideEditPopup, icon:'close' }"></div>
+			</div>
+		</div>
+		<div data-bind="dxScrollView:{}">
+			<div class="lazyload">
+				<img class="product-photo" data-bind="attr: { src: thumnail }" />
+			</div>
+			<div>
+				<div class="dx-fieldset">
+					<div class="dx-field">
+						<div class="dx-field-label">
+							Name:
+						</div>
+						<div class="dx-field-value" data-bind="text:name" ></div>
+					</div>
+					<div class="dx-field">
+						<div class="dx-field-label">
+							Stock:
+						</div>
+						<div class="dx-field-value" data-bind="dxCheckBox:{checked:stockAvailability, clickAction: changeStockStatus}" ></div>
+					</div>
+					<div class="dx-field">
+						<div class="dx-field-label">
+							Up:
+						</div>
+						<div class="dx-field-value" data-bind="dxButton: { text: upProductDate, clickAction: upProduct, icon: 'arrowup' }" ></div>
+					</div>
+					<div class="dx-field">
+						<div class="dx-field-label">
+							Price:
+						</div>
+						<div class="dx-field-value" data-bind="text:price" ></div>
+					</div>
+					<div class="dx-field">
+						<div class="dx-field-label">
+							Weight:
+						</div>
+						<div class="dx-field-value" data-bind="text:weight" ></div>
+					</div>
+					<div class="dx-field">
+						<div class="dx-field-label">
+							Quantity:
+						</div>
+						<div class="dx-field-value" data-bind="text:quantity" ></div>
+					</div>
+					<div class="dx-field">
+						<div class="dx-field-label">
+							Store SKU:
+						</div>
+						<div class="dx-field-value" data-bind="text:storeSku" ></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

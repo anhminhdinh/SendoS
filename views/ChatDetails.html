@@ -1,0 +1,44 @@
+﻿<div data-options="dxView : { name: 'chatdetails', title: 'Hỏi&đáp', secure: true } " >
+	<div data-options="dxContent : { targetPlaceholder: 'content' } " >
+		<div data-bind="dxLoadPanel:{message: 'Đang tải...', visible: loadPanelVisible }"></div>
+		<div style="height: calc(100% - 88px);">
+			<div class="conversations-content" data-bind="dxScrollView: {pullDownAction: doLoadData}">
+				<div>
+					<table class="conversations-list">
+						<tbody>
+							<!-- ko foreach: dataSource -->
+							<tr>
+								<!-- ko if:isShop -->
+								<td colspan="2" class="left conversations-message" data-bind="text:msg, attr: {'id':name}"></td>
+								<td></td>
+								<!-- /ko -->
+								<!-- ko ifnot:isShop -->
+								<td></td>
+								<td colspan="2" class="left conversations-message" data-bind="text:msg, attr: {'id':name}"></td>
+								<!-- /ko -->
+							</tr>
+							<tr>
+								<!-- ko if:isShop -->
+								<td class="left conversations-date" data-bind="text: date"></td>
+								<!-- /ko -->
+								<!-- ko ifnot:isShop -->
+								<td></td>
+								<!-- /ko -->
+								<td></td>
+								<!-- ko ifnot:isShop -->
+								<td class="left conversations-date" data-bind="text: date"></td>
+								<!-- /ko -->
+								<!-- ko if:isShop -->
+								<td></td>
+								<!-- /ko -->
+							</tr>
+							<!-- /ko -->
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="conversations-comment" data-bind="dxTextArea:{value:commentToPost}"></div>
+		<div class="button" data-bind="dxButton: { text: 'Comment', clickAction: postComment, icon: 'comment' }"></div>
+	</div>
+</div>

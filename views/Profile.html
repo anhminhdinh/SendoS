@@ -1,0 +1,79 @@
+<script type="text/html" id="address-template">
+	<div class="dx-field">
+	<div class="dx-field-label">City</div>
+	<div class="dx-field-value">
+	<div data-bind="text: city"></div>
+	</div>
+	</div>
+	<div class="dx-field">
+	<div class="dx-field-label">District</div>
+	<div class="dx-field-value">
+	<div data-bind="text: district"></div>
+	</div>
+	</div>
+	<div class="dx-field">
+	<div class="dx-field-label">Address</div>
+	<div class="dx-field-value">
+	<div data-bind="text: address"></div>
+	</div>
+	</div>
+	<div class="dx-field">
+	<div class="dx-field-label">Phone</div>
+	<div class="dx-field-value">
+	<div data-bind="text: phoneNumber"></div>
+	</div>
+	</div>
+</script>
+
+<div data-options="dxView : { name: 'profile', title: 'Profile' } " >
+	<div data-options="dxContent : { targetPlaceholder: 'content' } " >
+		<div data-bind="dxScrollView:{}">
+			<div class="view-content profile">
+				<div class="profile-main-info">
+					<div class="profile-block logout-block" data-bind="with: user">
+						<img class="user-photo" data-bind=" attr: { src: photo } " />
+						<div data-bind="dxButton: { text: 'Logout', clickAction: logout, icon: 'runner' }"></div>
+					</div>
+					<h2>
+					<br>
+					User Informations
+					<br>
+					</h2>
+					<div class="profile-block profile-main-block">
+						<div class="dx-fieldset contact-block" data-bind="with: user">
+							<div class="dx-field">
+								<div class="dx-field-label">
+									First Name
+								</div>
+								<div class="dx-field-value" data-bind="text: name"></div>
+							</div>
+							<div class="dx-field">
+								<div class="dx-field-label">
+									Last Name
+								</div>
+								<div class="dx-field-value" data-bind="text: surname"></div>
+							</div>
+							<div class="dx-field">
+								<div class="dx-field-label">
+									Email
+								</div>
+								<div class="dx-field-value" data-bind="text: email"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="profile-address-info">
+					<div class="profile-block contact-block billing">
+						<h2>Billing Address</h2>
+						<div class="dx-fieldset" data-bind="template: { name: 'address-template', data: user.billingAddress }"></div>
+					</div>
+					<div class="profile-block contact-block shipping">
+						<h2>Shipping Address</h2>
+						<div class="dx-fieldset" data-bind="template: { name: 'address-template', data: user.shippingAddress }"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
