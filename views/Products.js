@@ -9,6 +9,9 @@
 		find : function() {
 			viewModel.showSearch(!viewModel.showSearch());
 			viewModel.searchString('');
+			if (viewModel.showSearch())
+				$('#searchBox').dxTextBox('instance').focus();
+
 		},
 		showSearch : ko.observable(false),
 	};
@@ -53,7 +56,7 @@
 					thumnail : item.Thumnail,
 					price : item.Price,
 					weight : item.Weight,
-					stockAvailability : (item.StockAvailability) ? 'Còn' : 'Hết',
+					stockAvailability : (item.StockAvailability) ? 'Còn hàng' : 'Hết hàng',
 					upProductDate : item.UpProductDate,
 				};
 			});

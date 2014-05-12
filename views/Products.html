@@ -1,9 +1,9 @@
 ﻿<div data-options="dxView : { name: 'products', title: 'Sản Phẩm', secure: true } " >
 	<div data-bind="dxCommand: { id: 'search', title: 'Search', placeholder: 'Tìm...', icon: 'find', action: find }" ></div>
 	<div data-options="dxContent : { targetPlaceholder: 'content' } " >
-		<div data-bind="dxTextBox: { mode: 'search', value: searchString, visible: showSearch, valueUpdateEvent: 'search change keyup' }"></div>
+		<div id="searchBox" data-bind="dxTextBox: { mode: 'search', value: searchString, visible: showSearch, valueUpdateEvent: 'search change keyup' }"></div>
 		<div data-bind="dxLoadPanel:{message: 'Đang tải...', visible: loadPanelVisible }"></div>
-		<div data-bind="dxList: { dataSource: dataSource,
+		<div id="productsList" data-bind="dxList: { dataSource: dataSource,
 		pullRefreshEnabled: true,
 		pullRefreshAction: doLoadData}">
 			<div data-options="dxTemplate : { name: 'item' } " data-bind="dxAction: '#product-details/{id}'">
@@ -11,9 +11,6 @@
 					<img width="50" height="50"  style="margin:5px;" data-bind="attr: { src: thumnail }" />
 				</div>
 				<div style="display:inline-block; margin: 5px;">
-					<p style="font-size:larger;">
-						<b data-bind="text: id"></b>
-					</p>
 					<p>
 						<i data-bind="text: name"></i>
 					</p>
@@ -24,7 +21,6 @@
 						<i data-bind="text: stockAvailability"></i>
 					</p>
 				</div>
-				<!-- <span style="font-weight: bold" data-bind="text: msg"></span> -->
 			</div>
 		</div>
 	</div>

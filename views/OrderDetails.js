@@ -276,7 +276,7 @@
 		viewModel.loadPanelVisible(true);
 		// alert(viewModel.id);
 		var tokenId = window.localStorage.getItem("MyTokenId");
-		alert(viewModel.dateBoxValue());
+		// alert(viewModel.dateBoxValue());
 		var newDelayDate = new Date(viewModel.dateBoxValue());
 		// newDelayDate.format("yyyy-mm-dd");
 		// alert(newDelayDate.toString());
@@ -287,7 +287,7 @@
 			DelayDate : Globalize.format(newDelayDate, 'yyyy-MM-dd')
 		};
 		var jsonData = JSON.stringify(dataToSend);
-		alert(jsonData);
+		// alert(jsonData);
 		return $.ajax({
 			url : "http://180.148.138.140/sellerDev2/api/mobile/ProcessOrder",
 			type : "POST",

@@ -9,7 +9,12 @@
 		show : function(redirectParams) {
 			this.visible(true);
 			this.redirectParams = redirectParams;
-			this.username(window.localStorage.getItem("UserName"));
+			if (window.localStorage.getItem("UserName") != null) {
+				this.username(window.localStorage.getItem("UserName"));
+				$('#passBox').dxTextBox('instance').focus();
+			} else {
+				$('#nameBox').dxTextBox('instance').focus();
+			}
 		},
 		close: function() {
             this.visible(false);
