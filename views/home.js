@@ -25,6 +25,7 @@
 		pass : ko.observable(),
 		loadPanelVisible : ko.observable(false),
 	};
+
 	doLoadData = function() {
 		// DevExpress.ui.notify("loading data", "info", 1000);
 		viewModel.loadPanelVisible(true);
@@ -73,7 +74,7 @@
 			viewModel.dataArray(result);
 			viewModel.selectedType(result[0].status);
 			// alert(JSON.stringify(viewModel.dataArray()));
-			doLoadDataByOrder();
+			// doLoadDataByOrder();
 			// alert(JSON.stringify(MyApp.app.navigation()));
 			//textStatus contains the status: success, error, etc
 		}).fail(function(jqxhr, textStatus, error) {
@@ -84,7 +85,8 @@
 
 	};
 
-	var arrayStore = new DevExpress.data.ArrayStore({
+	var arrayStore = new DevExpress.data.LocalStore({
+		name : "ordersStore",
 		key : "orderNumber",
 		data : []
 	});
@@ -94,6 +96,13 @@
 	});
 
 	doLoadDataByOrder = function() {
+		// arrayStore.totalCount().done(function(count) {
+		// if (count > 0) {
+		// DevExpress.ui.notify("loading data from disk", "info", 1000);
+		// viewModel.loadPanelVisible(true);
+		// return;
+		// }
+		// });
 		// DevExpress.ui.notify("loading data", "info", 1000);
 		viewModel.loadPanelVisible(true);
 		// alert(viewModel.selectedType());
@@ -120,17 +129,26 @@
 				// itemOrderDate.format("dd mm, yy");
 				// alert(itemOrderDate.toString());
 				return {
+					status : viewModel.selectedType(),
 					orderNumber : item.OrderNumber,
 					totalAmount : item.TotalAmount,
 					date : itemOrderDate
 				};
 			});
-			listDataSource.store().clear();
+			// arrayStore.clear();
 			for (var i = 0; i < result.length; i++) {
-				listDataSource.store().insert(result[i]);
+				arrayStore.insert(result[i]);
 			}
+			listDataSource.filter("status", "=", viewModel.selectedType());
 			listDataSource.pageIndex(0);
 			listDataSource.load();
+
+			var toastShown = window.localStorage.getItem("ToastShown");
+			if (toastShown == null) {
+				DevExpress.ui.notify('Chọn loại đơn hàng tại menu: Loại', 'info', 3000);
+				window.localStorage.setItem("ToastShown", true);
+			}
+
 			// alert(JSON.stringify(listDataSource.store()));
 			// viewModel.dataSource(result);
 			// alert(JSON.stringify(data));

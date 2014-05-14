@@ -2,7 +2,7 @@
 	<div data-bind="dxCommand: { id: 'edit', icon: 'edit', action: edit }" ></div>
 	<div data-options="dxContent : { targetPlaceholder: 'content' } " >
 		<div data-bind="dxLoadPanel:{message: 'Đang tải...', visible: loadPanelVisible }"></div>
-		<div data-bind="dxPopup:{visible:popupEditVisible, fullScreen:false, title:'Edit'}">
+		<div data-bind="dxPopup:{visible:popupEditVisible, fullScreen:false, title:'Chỉnh sửa sản phẩm'}">
 			<div data-options="dxTemplate:{name: 'content'}">
 				<div class="dx-fieldset">
 					<div class="dx-field">
@@ -15,13 +15,13 @@
 						<div class="dx-field-label">
 							Giá:
 						</div>
-						<div class="dx-field-value" data-bind="dxTextBox: { value: editPrice, placeholder: price}"></div>
+						<div class="dx-field-value" data-bind="dxNumberBox: { value: editPrice, placeholder: price}"></div>
 					</div>
 					<div class="dx-field">
 						<div class="dx-field-label">
 							Khối lượng:
 						</div>
-						<div class="dx-field-value" data-bind="dxTextBox: { value: editWeight, placeholder: weight}"></div>
+						<div class="dx-field-value" data-bind="dxNumberBox: { value: editWeight, placeholder: weight}"></div>
 					</div>
 				</div>
 				<div class="button" data-bind="dxButton: { text: 'Sửa', clickAction: changeProductProperties, icon:'edit' }"></div>

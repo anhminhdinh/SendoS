@@ -1,6 +1,6 @@
 ﻿MyApp.products = function(params) {
 	var viewModel = {
-		dataSource : ko.observableArray(),
+		// dataSource : ko.observableArray(),
 		viewShowing : function() {
 			doLoadData();
 		},
@@ -14,22 +14,14 @@
 
 		},
 		showSearch : ko.observable(false),
-		rowClick: function(e, itemData) {
+		rowClick : function(e, itemData) {
 			MyApp.app.navigate({
-			view : 'product-details',
-			id : itemData.id
-		});
+				view : 'product-details',
+				id : itemData.id
+			});
 		}
 	};
 
-	// var arrayStore = new DevExpress.data.ArrayStore({
-	// key : "id",
-	// data : []
-	// });
-	// listDataSource = new DevExpress.data.DataSource({
-	// store : arrayStore,
-	// pageSize : 10
-	// });
 	changeStockStatus = function(e, itemData) {
 		e.jQueryEvent.stopPropagation();
 		if (confirm("Bạn có chắc muốn chuyển trạng thái còn/hết hàng?")) {
@@ -62,6 +54,15 @@
 		}
 	};
 
+	var arrayStore = new DevExpress.data.ArrayStore({
+		key : "id",
+		data : []
+	});
+	listDataSource = new DevExpress.data.DataSource({
+		store : arrayStore,
+		pageSize : 10
+	});
+
 	doLoadData = function(actionOptions) {
 		// alert(viewModel.id);
 		viewModel.loadPanelVisible(true);
@@ -84,23 +85,26 @@
 		}).done(function(data, textStatus) {
 			// alert(JSON.stringify(data));
 			var result = $.map(data.Data, function(item) {
-				// alert("ITEM - BuyerName: " + item.BuyerName + " TotalAmount:" + item.TotalAmount);
+				// alert(JSON.stringify(item));
 				return {
 					id : item.Id,
 					name : item.Name,
 					thumnail : item.Thumnail,
 					price : item.Price,
 					stockAvailability : ko.observable(item.StockAvailability),
+					// stockAvailability : item.StockAvailability,
 				};
 			});
-			// for (var i = 0; i < result.length; i++) {
-			// listDataSource.store().insert(result[i]);
-			// }
-			// listDataSource.pageIndex(0);
-			// listDataSource.load();
+			arrayStore.clear();
+			for (var i = 0; i < result.length; i++) {
+				arrayStore.insert(result[i]);
+				// alert(JSON.stringify(result[i]));
+			}
+			listDataSource.pageIndex(0);
+			listDataSource.load();
 
 			// alert(JSON.stringify(result));
-			viewModel.dataSource(result);
+			// viewModel.dataSource(result);
 			viewModel.loadPanelVisible(false);
 			actionOptions.component.release();
 			// alert(JSON.stringify(viewModel.dataSource()));

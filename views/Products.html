@@ -3,51 +3,45 @@
 	<div data-options="dxContent : { targetPlaceholder: 'content' } " >
 		<div id="searchBox" data-bind="dxTextBox: { mode: 'search', value: searchString, visible: showSearch, valueUpdateEvent: 'search change keyup' }"></div>
 		<div data-bind="dxLoadPanel:{message: 'Đang tải...', visible: loadPanelVisible }"></div>
-		<!-- <div id="productsList" data-bind="dxList: { dataSource: dataSource,
+		<div id="productsList" data-bind="dxList: { dataSource: listDataSource,
 		pullRefreshEnabled: true,
 		pullRefreshAction: doLoadData}">
-		<div data-options="dxTemplate : { name: 'item' } " data-bind="dxAction: '#product-details/{id}'">
-		<div class="lazyload" style="display:inline-block; margin: 5px;">
-		<img width="50" height="50"  style="margin:5px;" data-bind="attr: { src: thumnail }" />
+			<div data-options="dxTemplate : { name: 'item' } " data-bind="dxAction: '#product-details/{id}'">
+				<table class="products-list" style="background-color: white;">
+					<tbody>
+						<tr>
+							<td width="auto"><img width="50" height="50"  style="margin:5px;" data-bind="attr: { src: thumnail }" /></td>
+							<td width="50%" data-bind="text: name" style="white-space: pre-wrap; word-wrap: break-word;"></td>
+							<td width="auto" style="text-align: right;" data-bind="text: price + ' VND'"></td>
+							<td width="auto" style="text-align: right;" data-bind="dxCheckBox:{checked:stockAvailability,
+							clickAction: function(e) {
+							changeStockStatus(e,$data);
+							}
+							}"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
-		<div style="display:inline-block; margin: 5px;text-align: left;">
-		<p>
-		<i data-bind="text: name"></i>
-		</p>
-		<p>
-		<i data-bind="text: price"></i> VND
-		</p>
-		<p>
-		<i data-bind="text: stockAvailabilityDisplay"></i>
-		</p>
-		</div>
-		<div style="display:inline-block; margin: 5px;" data-bind="dxCheckBox:{checked:stockAvailability,
+
+		<!-- <div data-bind="dxScrollView: {pullDownAction: doLoadData}">
+		<table class="products-list" style="background-color: white;">
+		<tbody> -->
+		<!-- <!-- ko foreach: dataSource -->
+		<!-- <tr data-bind="click: function(e) {$root.rowClick(e, $data);}">
+		<td><img width="50" height="50"  style="margin:5px;" data-bind="click: function(e) {$root.rowClick(e, $data);}, attr: { src: thumnail }" /></td>
+		<td data-bind="click: function(e) {$root.rowClick(e, $data);}, text: name"></td>
+		<td><i data-bind="click: function(e) {$root.rowClick(e, $data);}, text: price"></i> VND </td>
+		<td><i data-bind="dxCheckBox:{checked:stockAvailability,
 		clickAction: function(e) {
 		changeStockStatus(e,$data);
 		}
-		}" ></div>
-
-		</div>
+		}"></i></td>
+		<td><div class="button" data-bind="dxButton: { clickAction: function(e) {$root.rowClick(e, $data);}, icon: 'arrowright' }"></div></td>
+		</tr> -->
+		<!-- <!-- /ko -->
+		<!-- </tbody>
+		</table>
 		</div> -->
-		<div data-bind="dxScrollView: {pullDownAction: doLoadData}">
-			<table class="products-list" style="background-color: white;">
-				<tbody>
-					<!-- ko foreach: dataSource -->
-					<tr data-bind="click: function(e) {$root.rowClick(e, $data);}">
-						<td><img width="50" height="50"  style="margin:5px;" data-bind="click: function(e) {$root.rowClick(e, $data);}, attr: { src: thumnail }" /></td>
-						<td data-bind="click: function(e) {$root.rowClick(e, $data);}, text: name"></td>
-						<td><i data-bind="click: function(e) {$root.rowClick(e, $data);}, text: price"></i> VND </td>
-						<!-- <td><i data-bind="text: stockAvailabilityDisplay"></i></td> -->
-						<td><i data-bind="dxCheckBox:{checked:stockAvailability,
-						clickAction: function(e) {
-						changeStockStatus(e,$data);
-						}
-						}"></i></td>
-						<td><div class="button" data-bind="dxButton: { clickAction: function(e) {$root.rowClick(e, $data);}, icon: 'arrowright' }"></div></td>
-					</tr>
-					<!-- /ko -->
-				</tbody>
-			</table>
-		</div>
 	</div>
 </div>

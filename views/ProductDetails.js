@@ -13,7 +13,7 @@
 		popupEditVisible : ko.observable(false),
 		loadPanelVisible : ko.observable(false),
 		viewShown : function(e) {
-			this.title("Product " + this.id);
+			this.title("Sản phẩm " + this.id);
 			doLoadDataByProductID();
 		},
 		hideEditPopup : function(e) {
@@ -22,12 +22,12 @@
 		edit : function(e) {
 			this.popupEditVisible(true);
 			// this.editName(this.name);
-			// this.editPrice(this.price);
-			// this.editWeight(this.weight);
+			this.editPrice(this.price);
+			this.editWeight(this.weight);
 		},
 		editName : ko.observable(''),
-		editPrice : ko.observable(),
-		editWeight : ko.observable(),
+		editPrice : ko.observable(0),
+		editWeight : ko.observable(0),
 	};
 
 	doLoadDataByProductID = function() {

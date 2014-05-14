@@ -5,10 +5,10 @@
 				<div class="dx-field-label">
 					Loại:
 				</div>
-				<div class="dx-field-value" data-bind="dxSelectBox: {
+				<div class="dx-field-value typesBox" data-bind="dxSelectBox: {
 				dataSource: dataArray,
 				displayExpr: 'statusDisplay',
-				placeholder: 'Mới',
+				placeholder: '',
 				valueExpr: 'status',
 				value: selectedType,
 				valueChangeAction: processValueChange,
@@ -16,10 +16,11 @@
 			</div>
 		</div>
 	</div>
-	<div data-bind="dxList: { dataSource: listDataSource, 
-		autoPagingEnabled: true,
-		pullRefreshEnabled: true,
-  		pullRefreshAction: doLoadDataByOrder}">
+
+	<div data-bind="dxList: { dataSource: listDataSource,
+	autoPagingEnabled: true,
+	pullRefreshEnabled: true,
+	pullRefreshAction: doLoadDataByOrder}">
 		<div data-options="dxTemplate : { name: 'item' } " data-bind="dxAction: '#order-details/{orderNumber}'">
 			<div>
 				<table class="orders-list">
@@ -27,7 +28,7 @@
 						<tr>
 							<td class="right orders-date" data-bind="text: Globalize.format(date, 'dd-MM-yy')"></td>
 							<td class="left orders-title" data-bind="text: orderNumber"></td>
-							<td class="right orders-price" data-bind="text: totalAmount + 'VND'"</td>
+							<td class="right orders-price" data-bind="text: totalAmount + 'VND'"></td>
 						</tr>
 					</tbody>
 				</table>
