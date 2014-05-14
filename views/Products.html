@@ -30,20 +30,20 @@
 		</div>
 		</div> -->
 		<div data-bind="dxScrollView: {pullDownAction: doLoadData}">
-			<table class="products-list">
+			<table class="products-list" style="background-color: white;">
 				<tbody>
 					<!-- ko foreach: dataSource -->
-					<tr databind="click: function() {rowClick(id);}">
-						<td><img width="50" height="50"  style="margin:5px;" data-bind="attr: { src: thumnail }" /></td>
-						<td><i data-bind="text: name"></i></td>
-						<td><i data-bind="text: price"></i> VND </td>
+					<tr data-bind="click: function(e) {$root.rowClick(e, $data);}">
+						<td><img width="50" height="50"  style="margin:5px;" data-bind="click: function(e) {$root.rowClick(e, $data);}, attr: { src: thumnail }" /></td>
+						<td data-bind="click: function(e) {$root.rowClick(e, $data);}, text: name"></td>
+						<td><i data-bind="click: function(e) {$root.rowClick(e, $data);}, text: price"></i> VND </td>
 						<!-- <td><i data-bind="text: stockAvailabilityDisplay"></i></td> -->
 						<td><i data-bind="dxCheckBox:{checked:stockAvailability,
 						clickAction: function(e) {
 						changeStockStatus(e,$data);
 						}
 						}"></i></td>
-						<td><div class="button" data-bind="dxButton: { clickAction: function(e) {$root.rowClick(e, $data);}, icon: 'edit' }"></div></td>
+						<td><div class="button" data-bind="dxButton: { clickAction: function(e) {$root.rowClick(e, $data);}, icon: 'arrowright' }"></div></td>
 					</tr>
 					<!-- /ko -->
 				</tbody>

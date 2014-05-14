@@ -36,14 +36,14 @@
 			viewModel.loadPanelVisible(true);
 			// alert(viewModel.id);
 			var tokenId = window.localStorage.getItem("MyTokenId");
-			alert(itemData.stockAvailability);
+			// alert(itemData.stockAvailability());
 			var dataToSend = {
 				TokenId : tokenId,
 				Id : itemData.id,
-				StockAvailability : !itemData.stockAvailability,
+				StockAvailability : itemData.stockAvailability(),
 			};
 			var jsonData = JSON.stringify(dataToSend);
-			alert(jsonData);
+			// alert(jsonData);
 			return $.ajax({
 				url : "http://180.148.138.140/sellerDev2/api/mobile/UpdateProductStock",
 				type : "POST",
@@ -88,14 +88,9 @@
 				return {
 					id : item.Id,
 					name : item.Name,
-					storeSku : item.StoreSku,
-					quantity : item.Quantity,
 					thumnail : item.Thumnail,
 					price : item.Price,
-					weight : item.Weight,
-					stockAvailabilityDisplay : (item.StockAvailability) ? 'Còn hàng' : 'Hết hàng',
-					stockAvailability : item.StockAvailability,
-					upProductDate : item.UpProductDate,
+					stockAvailability : ko.observable(item.StockAvailability),
 				};
 			});
 			// for (var i = 0; i < result.length; i++) {
