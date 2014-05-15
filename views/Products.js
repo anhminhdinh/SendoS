@@ -66,6 +66,7 @@
 	doLoadData = function(actionOptions) {
 		// alert(viewModel.id);
 		viewModel.loadPanelVisible(true);
+		
 		var tokenId = window.localStorage.getItem("MyTokenId");
 
 		var dataToSend = {

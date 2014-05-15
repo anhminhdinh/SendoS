@@ -16,7 +16,9 @@
 			</div>
 		</div>
 	</div>
-
+	<div style="text-align: center;" >
+		<div class="button" data-bind="dxButton: { text: 'Check data size', clickAction: checkDataSize }"></div>
+	</div>
 	<div data-bind="dxList: { dataSource: listDataSource,
 	autoPagingEnabled: true,
 	pullRefreshEnabled: true,
@@ -26,7 +28,7 @@
 				<table class="orders-list">
 					<tbody>
 						<tr>
-							<td class="right orders-date" data-bind="text: Globalize.format(date, 'dd-MM-yy')"></td>
+							<!-- <td class="right orders-date" data-bind="text: Globalize.format(date, 'dd-MM-yy')"></td> -->
 							<td class="left orders-title" data-bind="text: orderNumber"></td>
 							<td class="right orders-price" data-bind="text: totalAmount + 'VND'"></td>
 						</tr>
