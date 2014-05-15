@@ -9,23 +9,35 @@
 		}"></div>
 		<div data-bind="dxScrollView:{}">
 			<!-- <div data-bind="dxDropDownMenu: { buttonText: 'Change status', dataSource: dropDownMenuData, itemClickAction: processValueChange, disabled: disabled }"></div> -->
-			<h2>Sản phẩm</h2>
+			<h2 style="margin: 10px;">Chi tiết đơn hàng</h2>
 			<div>
-				<table class="products-list" style="background-color: white;">
+				<table class="products-list" style="background-color: white;width:100%;">
 					<tbody>
 						<!-- ko foreach: products -->
 						<tr>
-							<td ><img width="50" height="50"  style="margin:5px;" data-bind="attr: { src: thumnail }" /></td>
-							<td><i data-bind="text: name"></i></td>
+							<td ><img width="75" height="75" data-bind="attr: { src: thumnail }" /></td>
+							<td><p data-bind="text: name"></p>
+							<p>
+								<span style="font-weight: bold;">Giá: </span>
+								<span style="color: red;" data-bind="text: price + ' VND'"></span>
+							</p>
+							<p>
+								<span style="font-weight: bold;">SL: </span><span data-bind="text: quantity"></span>
+							</p><p data-bind="text: stockAvailability">
+
+							</p></td>
+							<!-- <td><i data-bind="text: name"></i></td>
 							<td><i data-bind="text: price"></i> VND </td>
 							<td><i data-bind="text: quantity"></i></td>
-							<td><i data-bind="text: stockAvailability"></i></td>
+							<td><i data-bind="text: stockAvailability"></i></td> -->
 						</tr>
 						<!-- /ko -->
 					</tbody>
 				</table>
 			</div>
-
+			<div style="text-align: right;margin: 10px;">
+				<span style="font-weight: bold;">Tổng giá: </span><span style="color: red;" data-bind="text:totalAmount() + ' VND'"></span>
+			</div>
 			<!-- <div style="margin: 10px;" data-bind="dxList: {dataSource: products}">
 			<div class="listItem" data-options="dxTemplate:{ name:'item' }">
 			<div class="lazyload" style="display:inline-block; margin: 5px;">
@@ -47,7 +59,7 @@
 			</div>
 			</div>
 			</div> -->
-			<div class="dx-fieldset">
+			<div class="order-info dx-fieldset">
 				<div class="dx-field">
 					<div class="dx-field-label">
 						Trạng thái:
@@ -60,20 +72,20 @@
 					</div>
 					<div class="dx-field-value" data-bind="text:orderDate" ></div>
 				</div>
-				<div class="dx-field">
+				<div id="delayField" class="dx-field">
 					<div class="dx-field-label">
 						Ngày hoãn:
 					</div>
 					<div class="dx-field-value" data-bind="text:delayDate" ></div>
 				</div>
-				<div class="dx-field">
-					<div class="dx-field-label">
-						Tổng tiền:
-					</div>
-					<div class="dx-field-value">
-						<span data-bind="text:totalAmount"></span> VND
-					</div>
+				<!-- <div class="dx-field">
+				<div class="dx-field-label">
+				Tổng tiền:
 				</div>
+				<div class="dx-field-value">
+				<span data-bind="text:totalAmount"></span> VND
+				</div>
+				</div> -->
 				<div class="dx-field">
 					<div class="dx-field-label">
 						Người mua:
@@ -95,7 +107,14 @@
 					</div>
 				</div>
 			</div>
-			<div style="font-style: italic; padding: 10px" data-bind="text:note" ></div>
+			<table style="background: yellow;border: 1px solid #d2d3d5;margin: 10px;width: calc(100% - 20px);">
+				<tbody>
+					<tr>
+						<td><div style="font-style: italic; padding: 10px; " data-bind="text:note" ></div></td>
+					</tr>
+				</tbody>
+			</table>
+
 		</div>
 		<div data-bind="dxLoadPanel:{message: 'Đang xử lý...', visible: loadPanelVisible }"></div>
 		<div class="popup" data-bind="dxPopup:{visible:popupDelayVisible, fullScreen:false, title:'Delay'}">
@@ -118,7 +137,7 @@
 		<div class="popup" data-bind="dxPopup:{visible:popupSplitVisible, fullScreen:false, title:'Split'}">
 			<div data-options="dxTemplate:{name: 'content'}">
 				<h2>Sản phẩm để tách</h2>
-				<div id="splitList" style="margin: 10px;" data-bind="dxList: {dataSource: productsToSplit,
+				<div id="splitList" style="margin: 10px;height=calc(100%-68px);" data-bind="dxList: {dataSource: productsToSplit,
 				editEnabled: true,
 				editConfig: {
 				deleteEnabled: true,

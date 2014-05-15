@@ -7,7 +7,16 @@
 		pullRefreshEnabled: true,
 		pullRefreshAction: doLoadData }">
 			<div data-options="dxTemplate : { name: 'item' } " data-bind="dxAction: '#chatdetails/{id}'">
-				<div class="left conversations-title" data-bind="text:msg" style="white-space: pre-wrap; word-wrap: break-word;"></div>
+				<!-- <div class="left conversations-title" data-bind="text:msg" style="white-space: pre-wrap; word-wrap: break-word;"></div> -->
+				<table class="products-list" style="width:100%">
+					<tbody>
+						<tr>
+							<!-- <td width="auto"><img width="75" height="75" data-bind="attr: { src: thumbnail }" /></td> -->
+							<td width="100%" rowspan="2"><div class="left conversations-title" data-bind="text:msg" style="white-space: pre-wrap; word-wrap: break-word;"></div></td>
+						</tr>
+					</tbody>
+				</table>
+
 			</div>
 		</div>
 		<!-- <div>

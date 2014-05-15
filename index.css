@@ -14,62 +14,58 @@ body {
 	margin: auto;
 }
 
-
 /* button widget */
 
-.dx-theme-generic .dx-button,
-.dx-theme-generic .dx-button.dx-state-active {
-    padding: 0;
-    border: none;
-    background: none;
-    box-shadow: none;
+.dx-theme-generic .dx-button, .dx-theme-generic .dx-button.dx-state-active {
+	padding: 0;
+	border: none;
+	background: none;
+	box-shadow: none;
 }
 
-
-.dx-theme-generic .dx-button .dx-button-content { 
-    border: 1px solid #16a8c2;
-    border-radius: 7px;
-    background-color: #14b9d6;    
-    background: linear-gradient(to bottom, #28c8df, #14b9d6);
-    background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#28c8df),color-stop(100%,#14b9d6));
-    box-shadow: 0 1px 5px 0px #d7d8d9, inset 0 0px 2px 0px #8ee1ee;  
-    color: white;
-    font-weight: bold;
-    font-size: 18px;
-    line-height: 43px;
-    height: 52px;
+.dx-theme-generic .dx-button .dx-button-content {
+	border: 1px solid #bb3405;
+	border-radius: 7px;
+	background-color: #f34401;
+	background: linear-gradient(to bottom, #f34401, #bb3405);
+	background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#f34401),color-stop(100%,#bb3405));
+	/*box-shadow: 0 1px 5px 0px #f34401, inset 0 0px 2px 0px #bb3405;*/
+	color: white;
+	font-weight: bold;
+	font-size: 18px;
+	line-height: 43px;
+	height: 52px;
 }
 
 .dx-theme-generic .dx-button.dx-state-active .dx-button-content {
-    
-    background: linear-gradient(to bottom, #00b3ca, #009eb9);
-    background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#00b3ca),color-stop(100%,#009eb9));
-    box-shadow: 0 1px 5px 0px #d7d8d9, inset 0 0px 2px 0px #00c3d5;
-    border-color: #0f9bb4;
+
+	background: linear-gradient(to bottom, #f34401, #bb3405);
+	background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#bb3405),color-stop(100%,#f34401));
+	/*box-shadow: 0 1px 5px 0px #f34401, inset 0 0px 2px 0px #bb3405;*/
+	border-color: #bb3405;
 }
 
 .dx-theme-generic .dx-button .dx-button-content .dx-button-text {
-    font-size: 18px;
-    -webkit-text-shadow: 0px -1px 0px #0f9bb4;
-    text-shadow: 0px -1px 0px #0f9bb4;
+	font-size: 18px;
+	-webkit-text-shadow: 0px -1px 0px #bb3405;
+	text-shadow: 0px -1px 0px #bb3405;
 }
 
 .dx-theme-generic .dx-toolbar .dx-button .dx-button-content {
-    border: none;
-    background: none;
-    box-shadow: none;
-    color: #323a45;
+	border: none;
+	background: none;
+	box-shadow: none;
+	color: #323a45;
 }
 
 .dx-theme-generic .dx-toolbar .dx-button.dx-state-active .dx-button-content {
-    background: none;
+	background: none;
 }
-
 
 /*profile*/
 .user-photo {
-	height: 180px;
-	width: 180px;
+	/*height: 180px;
+	 width: 180px;*/
 	display: block;
 	margin-right: auto;
 	margin-left: auto;
@@ -98,6 +94,17 @@ body {
 	border-bottom: 0;
 }
 
+.dx-theme-generic .order-info .dx-field {
+	/*padding: 0;*/
+	/*margin: 0;*/
+	min-height: 0;
+}
+
+.dx-theme-generic .order-info .dx-field-value {
+	font-weight: bold;
+	text-align: left;
+}
+
 /* orders */
 
 .orders-partial-content .dx-scrollview-content > div {
@@ -109,7 +116,16 @@ body {
 	font-size: 16px;
 }
 
-.products-list, .conversations-list {
+.products-list {
+	border-spacing: 5px;
+	border-collapse: separate;
+} 
+
+.dx-theme-generic .dx-list .dx-list-item {
+	padding: 5px 0;
+}
+
+.conversations-list {
 	border-spacing: 10px;
 	border-collapse: separate;
 }
@@ -186,15 +202,14 @@ body {
 	color: #baffff;
 	/*background-color: #0e66fb;*/
 	border-radius: 10px;
-    background-color: #14b9d6;    
-    background: linear-gradient(to bottom, #28c8df, #14b9d6);
-    background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#28c8df),color-stop(100%,#14b9d6));
-    box-shadow: 0 1px 5px 0px #d7d8d9, inset 0 0px 2px 0px #8ee1ee;  
-	
+	background-color: #14b9d6;
+	background: linear-gradient(to bottom, #28c8df, #14b9d6);
+	background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#28c8df),color-stop(100%,#14b9d6));
+	box-shadow: 0 1px 5px 0px #d7d8d9, inset 0 0px 2px 0px #8ee1ee;
 }
 
 .conversations-title {
-	margin: 10px;
+	/*margin: 10px;*/
 	padding: 10px;
 	width: auto;
 	background-color: lightgray;
@@ -208,10 +223,10 @@ body {
 .popup .footer {
 	position: absolute;
 	bottom: 0;
-	height: 45px;
+	height: 68px;
 	width: 95%;
 }
 
 .dx-theme-generic .dx-textbox {
-    background: lightgray;
+	background: lightgray;
 }

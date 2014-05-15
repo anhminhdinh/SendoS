@@ -13,7 +13,7 @@
 			status : "Splitting",
 			count : 0
 		}]),
-		selectedType : ko.observable(''),
+		// selectedType : ko.observable(''),
 		// dataSource : ko.observableArray(),
 		viewShowing : function() {
 			doLoadData();
@@ -24,25 +24,6 @@
 		username : ko.observable(),
 		pass : ko.observable(),
 		loadPanelVisible : ko.observable(false),
-		listDataSource : new DevExpress.data.DataSource({
-			store : {
-				type : "local",
-				name : "OrdersStore",
-				key : "orderNumber",
-				flushInterval : 1000,
-				// immediate : true,
-			},
-			pageSize : 10
-		}),
-		viewShown : function() {
-			viewModel.listDataSource.store().totalCount().done(function(count) {
-				if (count > 0)
-					DevExpress.ui.notify("total count " + count, "info", 1000);
-				else {
-					DevExpress.ui.notify("Empty", "info", 1000);
-				}
-			});
-		},
 	};
 
 	doLoadData = function() {
@@ -75,6 +56,7 @@
 						display = "Chờ tách";
 						break;
 				}
+				doLoadDataByOrder(item.Status);
 				return {
 					statusDisplay : display,
 					status : item.Status,
@@ -91,7 +73,7 @@
 			// window.localStorage.setItem("OrderStatus", JSON.stringify(statusArray));
 			// alert(JSON.stringify(result));
 			viewModel.dataArray(result);
-			viewModel.selectedType(result[0].status);
+			// viewModel.selectedType(result[0].status);
 			// alert(JSON.stringify(viewModel.dataArray()));
 			// doLoadDataByOrder();
 			// alert(JSON.stringify(MyApp.app.navigation()));
@@ -104,13 +86,54 @@
 
 	};
 
-	checkDataSize = function() {
-		viewModel.listDataSource.store().totalCount().done(function(count) {
-			DevExpress.ui.notify("total count " + count, "info", 1000);
-		});
-	};
+	listDataStore = new DevExpress.data.LocalStore({
+		type : "local",
+		name : "OrdersStore",
+		key : "orderNumber",
+		flushInterval : 1000,
+		// immediate : true,
+	});
+	items = [{
+		title : "Mới",
+		listItems : new DevExpress.data.DataSource({
+			store : listDataStore,
+			sort : "orderNumber",
+			filter : ["status", "=", "New"]
+		})
+	}, {
+		title : "Đang giao",
+		listItems : new DevExpress.data.DataSource({
+			store : listDataStore,
+			sort : "orderNumber",
+			filter : ["status", "=", "Processing"]
+		})
+	}, {
+		title : "Đang hoãn",
+		listItems : new DevExpress.data.DataSource({
+			store : listDataStore,
+			sort : "orderNumber",
+			filter : ["status", "=", "Delayed"]
+		})
+	}, {
+		title : "Chờ tách",
+		listItems : new DevExpress.data.DataSource({
+			store : listDataStore,
+			sort : "orderNumber",
+			filter : ["status", "=", "Splitting"]
+		})
+	}];
+	listDataSource = new DevExpress.data.DataSource({
+		store : listDataStore,
+		pageSize : 10
+	});
 
-	doLoadDataByOrder = function() {
+	// checkDataSize = function() {
+	// listDataSource.store().totalCount().done(function(count) {
+	// DevExpress.ui.notify("total count " + count, "info", 1000);
+	// });
+	// };
+
+	doLoadDataByOrder = function(status) {
 
 		// DevExpress.ui.notify("loading data", "info", 1000);
 		viewModel.loadPanelVisible(true);
@@ -121,8 +144,9 @@
 			timeStamp = 0;
 		var dataToSend = {
 			TokenId : tokenId,
-			Status : viewModel.selectedType(),
-			TimeStamp : 0
+			Status : status,
+			// Status : viewModel.selectedType(),
+			TimeStamp : timeStamp
 		};
 		var jsonData = JSON.stringify(dataToSend);
 		// alert(jsonData);
@@ -134,42 +158,64 @@
 			dataType : "json"
 		}).done(function(data, textStatus) {
 			viewModel.loadPanelVisible(false);
-			alert(JSON.stringify(data.Data));
+			// alert(JSON.stringify(data.Data));
 			if (data.Data.length == 0) {
-				viewModel.listDataSource.store().totalCount().done(function(count) {
-					if (count > 0) {
-						DevExpress.ui.notify("loading data from disk", "info", 1000);
-						viewModel.listDataSource.store().load();
-						viewModel.listDataSource.pageIndex(0);
-						viewModel.listDataSource.load();
-					}
-				});
+				// listDataSource.store().totalCount().done(function(count) {
+				// if (count > 0) {
+				DevExpress.ui.notify("loading data from disk", "info", 1000);
+				// listDataSource.store().load();
+				// listDataSource.pageIndex(0);
+				// listDataSource.load();
+				// }
+				// });
 			} else {
 				window.localStorage.setItem("OrdersTimeStamp", data.TimeStamp);
 				var result = $.map(data.Data, function(item) {
 					// alert("ITEM - orderNumber: " + item.OrderNumber + " TotalAmount:" + item.TotalAmount);
 					var itemOrderDate = new Date(item.OrderDate);
+					var dateString = Globalize.format(itemOrderDate, 'dd/MM/yyyy'); 
 					// itemOrderDate.format("dd mm, yy");
 					// alert(itemOrderDate.toString());
 					return {
-						status : viewModel.selectedType(),
+						status : status,
 						orderNumber : item.OrderNumber,
 						totalAmount : item.TotalAmount,
-						// date : itemOrderDate
+						date : dateString
 					};
 				});
-				
-				viewModel.listDataSource.store().clear();
-				for (var i = 0; i < result.length; i++) {					
-					viewModel.listDataSource.store().insert(result[i]);
+
+				// listDataSource.store().clear();
+				for (var i = 0; i < result.length; i++) {
+					// viewModel.listDataSource.store().byKey(result[i].orderNumber).done(function(dataItem) {
+					// if (dataItem != undefined)
+					// listDataSource.store().update(result[i].orderNumber, result[i]).fail(function(error) {
+					// alert(error);
+					// });
+					// else
+					// listDataSource.store().insert(result[i]).fail(function(error) {
+					// alert("insert: " + error);
+					// });
+					// });
+					//
+					listDataStore.byKey(result[i].orderNumber).done(function(dataItem) {
+						if (dataItem != undefined)
+							listDataStore.update(result[i].orderNumber, result[i]).fail(function(error) {
+								alert(error);
+							});
+						else
+							listDataStore.insert(result[i]).fail(function(error) {
+								alert("insert: " + error);
+							});
+					});
+
 					// alert(JSON.stringify(result[i]));
 				}
 				// alert(JSON.stringify(result));
-				viewModel.listDataSource.filter("status", "=", viewModel.selectedType());
-				viewModel.listDataSource.pageIndex(0);
-				viewModel.listDataSource.load();
+				listDataSource.filter("status", "=", viewModel.selectedType());
+				listDataSource.pageIndex(0);
+				listDataSource.load();
 
-				viewModel.listDataSource.store().totalCount().done(function(count) {
+				listDataSource.store().totalCount().done(function(count) {
 					DevExpress.ui.notify("total count " + count, "info", 1000);
 				});
 

@@ -7,10 +7,11 @@
 		loadPanelVisible : ko.observable(false),
 	};
 
-	var arrayStore = new DevExpress.data.ArrayStore({
+	var arrayStore = new DevExpress.data.LocalStore({
 		name : "chatIdsStore",
-		key : "id",		
-		immediate: true,
+		key : "id",
+		flushInterval : 1000,
+		// immediate: true,
 	});
 	listDataSource = new DevExpress.data.DataSource({
 		store : arrayStore,
@@ -26,10 +27,10 @@
 			timeStamp = 0;
 		var dataToSend = {
 			TokenId : tokenId,
-			TimeStamp : timeStamp
+			TimeStamp : 0
 		};
 		var jsonData = JSON.stringify(dataToSend);
-		alert(jsonData);
+		// alert(jsonData);
 		return $.ajax({
 			url : "http://180.148.138.140/sellerDev2/api/mobile/ListComment",
 			type : "POST",
@@ -37,7 +38,7 @@
 			contentType : "application/json; charset=utf-8",
 			dataType : "json"
 		}).done(function(data, textStatus) {
-			if (data.TimeStamp !== timeStamp) {
+			if (data.Data.length > 0) {
 				window.localStorage.setItem("ListCommentTimeStamp", data.TimeStamp);
 				var result = $.map(data.Data, function(item) {
 					// alert("ITEM - BuyerName: " + item.BuyerName + " TotalAmount:" + item.TotalAmount);
@@ -45,9 +46,25 @@
 					var dateString = Globalize.format(date, 'dd MM-yy');
 					var name = item.CustomerName.toUpperCase();
 					var message = name + ' (' + dateString + '): ' + item.Message;
+					var dataToSend = {
+						TokenId : tokenId,
+						Id : item.ProductId
+					};
+					var jsonData = JSON.stringify(dataToSend);
+					var thumbnail = "";
+					$.ajax({
+						url : "http://180.148.138.140/sellerDev2/api/mobile/ProductInfoById",
+						type : "POST",
+						data : jsonData,
+						contentType : "application/json; charset=utf-8",
+						dataType : "json"
+					}).done(function(data, textStatus) {
+						alert(JSON.stringify(data.Data));
+						// thumbnail = data.Data.Thumnail;
+					});
 					return {
 						id : item.Id,
-						productId : item.ProductId,
+						thumbnail : thumbnail,
 						msg : message,
 						isParent : item.IsParent
 					};
@@ -57,13 +74,13 @@
 				}
 				listDataSource.pageIndex(0);
 				listDataSource.load();
-				alert(JSON.stringify(data));
+				// alert(JSON.stringify(data));
 				// viewModel.dataSource(result);
-				viewModel.loadPanelVisible(false);
-				actionOptions.component.release();
 				// alert(JSON.stringify(viewModel.dataSource()));
 				// popupVisible(false);
 			}
+			viewModel.loadPanelVisible(false);
+			actionOptions.component.release();
 			//textStatus contains the status: success, error, etc
 		}).fail(function(jqxhr, textStatus, error) {
 			var err = textStatus + ", " + jqxhr.responseText;

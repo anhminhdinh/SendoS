@@ -137,12 +137,14 @@
 					display = "Chờ tách";
 					break;
 			}
-
+			if (data.Data.OrderStatus != "Delayed") {
+				$("#delayField").hide();
+			}
 			viewModel.orderStatus(display);
 			// viewModel.disabled(data.Data.OrderStatus != "New");
 			// alert(viewModel.editable());
 			// viewModel.selectedType(data.Data.OrderStatus);
-			viewModel.note('LƯU Ý:' + data.Data.Note);
+			viewModel.note('LƯU Ý: ' + data.Data.Note);
 			// alert(JSON.stringify(data.Data.Products));
 			var result = $.map(data.Data.Products, function(item) {
 				return {
