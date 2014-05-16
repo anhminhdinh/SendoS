@@ -27,7 +27,7 @@
 			timeStamp = 0;
 		var dataToSend = {
 			TokenId : tokenId,
-			TimeStamp : 0
+			TimeStamp : timeStamp
 		};
 		var jsonData = JSON.stringify(dataToSend);
 		// alert(jsonData);
@@ -42,7 +42,7 @@
 				window.localStorage.setItem("ListCommentTimeStamp", data.TimeStamp);
 				var result = $.map(data.Data, function(item) {
 					// alert("ITEM - BuyerName: " + item.BuyerName + " TotalAmount:" + item.TotalAmount);
-					var date = new Date(item.CommentDate);
+					var date = new Date(item.CommentDate + 'Z');
 					var dateString = Globalize.format(date, 'dd MM-yy');
 					var name = item.CustomerName.toUpperCase();
 					var message = name + ' (' + dateString + '): ' + item.Message;
@@ -59,7 +59,7 @@
 						contentType : "application/json; charset=utf-8",
 						dataType : "json"
 					}).done(function(data, textStatus) {
-						alert(JSON.stringify(data.Data));
+						// alert(JSON.stringify(data.Data));
 						// thumbnail = data.Data.Thumnail;
 					});
 					return {

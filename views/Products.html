@@ -1,7 +1,7 @@
 ﻿<div data-options="dxView : { name: 'products', title: 'Sản Phẩm', secure: true } " >
-	<div data-bind="dxCommand: { id: 'search', title: 'Search', placeholder: 'Tìm...', icon: 'find', action: find }" ></div>
+	<!-- <div data-bind="dxCommand: { id: 'search', title: 'Search', placeholder: 'Tìm...', icon: 'find', action: find }" ></div> -->
 	<div data-options="dxContent : { targetPlaceholder: 'content' } " >
-		<div id="searchBox" data-bind="dxTextBox: { mode: 'search', value: searchString, visible: showSearch, valueUpdateEvent: 'search change keyup' }"></div>
+		<div id="searchBox" data-bind="dxTextBox: { mode: 'search', value: searchString, placeholder: 'Tìm sản phẩm theo tên', valueUpdateEvent: 'search change keyup' }"></div>
 		<div data-bind="dxLoadPanel:{message: 'Đang tải...', visible: loadPanelVisible }"></div>
 		<div id="productsList" data-bind="dxList: { dataSource: listDataSource,
 		pullRefreshEnabled: true,

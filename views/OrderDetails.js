@@ -121,9 +121,9 @@
 			viewModel.buyerName(data.Data.BuyerName);
 			viewModel.buyerAddress(data.Data.BuyerAddress);
 			viewModel.buyerPhone(data.Data.BuyerPhone);
-			var OrderDate = new Date(data.Data.OrderDate);
+			var OrderDate = new Date(data.Data.OrderDate + 'Z');
 			viewModel.orderDate(Globalize.format(OrderDate, 'dd-MM, yyyy'));
-			var DelayDate = new Date(data.Data.DelayDate);
+			var DelayDate = new Date(data.Data.DelayDate + 'Z');
 			viewModel.delayDate(Globalize.format(DelayDate, 'dd-MM, yyyy'));
 			var display = "Mới";
 			switch (data.Data.OrderStatus) {
@@ -289,7 +289,7 @@
 			DelayDate : Globalize.format(newDelayDate, 'yyyy-MM-dd')
 		};
 		var jsonData = JSON.stringify(dataToSend);
-		// alert(jsonData);
+		alert(jsonData);
 		return $.ajax({
 			url : "http://180.148.138.140/sellerDev2/api/mobile/ProcessOrder",
 			type : "POST",

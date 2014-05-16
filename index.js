@@ -41,6 +41,17 @@
 						location : 'right',
 						showText : false
 					}]
+				},
+				"generic-header-toolbar" : {
+					commands : [{
+						id : "search",
+						location : 'right',
+						showText : false
+					}, {
+						id : "edit",
+						location : 'right',
+						showText : false
+					}]
 				}
 			}
 		});

@@ -87,7 +87,7 @@ body {
 	width: 100%;
 }
 
-.dx-theme-ios .type-block .dx-fieldset, .dx-theme-generic .type-block .dx-fieldset {
+.dx-theme-generic .type-block .dx-fieldset, .dx-theme-generic .type-block .dx-fieldset {
 	margin-top: 0;
 	padding: 10;
 	min-height: 0;

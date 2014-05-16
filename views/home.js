@@ -1,26 +1,10 @@
 ﻿MyApp.home = function(params) {
 	var viewModel = {
-		dataArray : ko.observableArray([{
-			status : "New",
-			count : 0
-		}, {
-			status : "Delayed",
-			count : 0
-		}, {
-			status : "Processing",
-			count : 0
-		}, {
-			status : "Splitting",
-			count : 0
-		}]),
-		// selectedType : ko.observable(''),
-		// dataSource : ko.observableArray(),
+
 		viewShowing : function() {
 			doLoadData();
 		},
-		processValueChange : function() {
-			doLoadDataByOrder();
-		},
+
 		username : ko.observable(),
 		pass : ko.observable(),
 		loadPanelVisible : ko.observable(false),
@@ -63,21 +47,8 @@
 					count : item.Count
 				};
 			});
-			var count = 0;
-			// var statusArray = [];
-			for (var i = 0; i < result.length; i++) {
-				count += result[i].count;
-				// statusArray.push(result[i].status);
-			}
-			MyApp.app.navigation[0].option('title', 'Đơn hàng (' + count + ')');
-			// window.localStorage.setItem("OrderStatus", JSON.stringify(statusArray));
-			// alert(JSON.stringify(result));
-			viewModel.dataArray(result);
-			// viewModel.selectedType(result[0].status);
-			// alert(JSON.stringify(viewModel.dataArray()));
-			// doLoadDataByOrder();
-			// alert(JSON.stringify(MyApp.app.navigation()));
-			//textStatus contains the status: success, error, etc
+			// MyApp.app.navigation[0].option('title', 'Đơn hàng (' + count + ')');
+			// textStatus contains the status: success, error, etc
 		}).fail(function(jqxhr, textStatus, error) {
 			viewModel.loadPanelVisible(false);
 			var err = textStatus + ", " + jqxhr.responseText;
@@ -95,6 +66,7 @@
 	});
 	items = [{
 		title : "Mới",
+		dataName : "New",
 		listItems : new DevExpress.data.DataSource({
 			store : listDataStore,
 			sort : "orderNumber",
@@ -102,6 +74,7 @@
 		})
 	}, {
 		title : "Đang giao",
+		dataName : "Processing",
 		listItems : new DevExpress.data.DataSource({
 			store : listDataStore,
 			sort : "orderNumber",
@@ -109,6 +82,7 @@
 		})
 	}, {
 		title : "Đang hoãn",
+		dataName : "Delayed",
 		listItems : new DevExpress.data.DataSource({
 			store : listDataStore,
 			sort : "orderNumber",
@@ -116,6 +90,7 @@
 		})
 	}, {
 		title : "Chờ tách",
+		dataName : "Splitting",
 		listItems : new DevExpress.data.DataSource({
 			store : listDataStore,
 			sort : "orderNumber",
@@ -126,12 +101,6 @@
 		store : listDataStore,
 		pageSize : 10
 	});
-
-	// checkDataSize = function() {
-	// listDataSource.store().totalCount().done(function(count) {
-	// DevExpress.ui.notify("total count " + count, "info", 1000);
-	// });
-	// };
 
 	doLoadDataByOrder = function(status) {
 
@@ -146,7 +115,7 @@
 			TokenId : tokenId,
 			Status : status,
 			// Status : viewModel.selectedType(),
-			TimeStamp : timeStamp
+			TimeStamp : 0
 		};
 		var jsonData = JSON.stringify(dataToSend);
 		// alert(jsonData);
@@ -160,43 +129,50 @@
 			viewModel.loadPanelVisible(false);
 			// alert(JSON.stringify(data.Data));
 			if (data.Data.length == 0) {
-				// listDataSource.store().totalCount().done(function(count) {
-				// if (count > 0) {
 				DevExpress.ui.notify("loading data from disk", "info", 1000);
-				// listDataSource.store().load();
-				// listDataSource.pageIndex(0);
-				// listDataSource.load();
-				// }
-				// });
 			} else {
+				// alert(JSON.stringify(data.Data));
 				window.localStorage.setItem("OrdersTimeStamp", data.TimeStamp);
 				var result = $.map(data.Data, function(item) {
-					// alert("ITEM - orderNumber: " + item.OrderNumber + " TotalAmount:" + item.TotalAmount);
-					var itemOrderDate = new Date(item.OrderDate);
-					var dateString = Globalize.format(itemOrderDate, 'dd/MM/yyyy'); 
-					// itemOrderDate.format("dd mm, yy");
-					// alert(itemOrderDate.toString());
+					var itemOrderDate = new Date(item.OrderDate + 'Z');
+					var orderDateString = Globalize.format(itemOrderDate, 'dd/MM/yyyy');
+					var itemDelayDate = new Date(item.DelayDate + 'Z');
+					var delayDateString = Globalize.format(itemDelayDate, 'dd/MM/yyyy');
+					var products = $.map(data.Data.Products, function(product) {
+						return {
+							id:product.Id,
+							name:product.Name,
+							storeSku:product.StoreSku,
+							quantity:product.Quantity,
+							thumbnail:product.Thumnail,
+							price:product.Price,
+							weight:product.Weight,
+							stockAvailability:product.StockAvailability,
+							upProductDate:product.UpProductDate + 'Z',
+							updatedDate:product.UpdatedDate + 'Z',
+						};
+					});
 					return {
 						status : status,
 						orderNumber : item.OrderNumber,
+						date : orderDateString,
+						dalayDate : delayDateString,
+						buyerName : item.BuyerName,
+						buyerAddress : item.BuyerAddress,
+						buyerPhone : item.BuyerPhone,
+						note : item.Note,
 						totalAmount : item.TotalAmount,
-						date : dateString
+						updatedDate : item.UpdatedDate,
+						canDelay : item.CanDelay,
+						canCancel : item.CanCancel,
+						canSplit : item.CanSplit,
+						canProcess : item.CanProcess,
+						products : products,
 					};
 				});
 
 				// listDataSource.store().clear();
 				for (var i = 0; i < result.length; i++) {
-					// viewModel.listDataSource.store().byKey(result[i].orderNumber).done(function(dataItem) {
-					// if (dataItem != undefined)
-					// listDataSource.store().update(result[i].orderNumber, result[i]).fail(function(error) {
-					// alert(error);
-					// });
-					// else
-					// listDataSource.store().insert(result[i]).fail(function(error) {
-					// alert("insert: " + error);
-					// });
-					// });
-					//
 					listDataStore.byKey(result[i].orderNumber).done(function(dataItem) {
 						if (dataItem != undefined)
 							listDataStore.update(result[i].orderNumber, result[i]).fail(function(error) {
@@ -207,17 +183,17 @@
 								alert("insert: " + error);
 							});
 					});
-
 					// alert(JSON.stringify(result[i]));
 				}
 				// alert(JSON.stringify(result));
-				listDataSource.filter("status", "=", viewModel.selectedType());
-				listDataSource.pageIndex(0);
-				listDataSource.load();
+				// listDataSource.filter("status", "=", viewModel.selectedType());
+				// listDataSource.pageIndex(0);
+				// listDataSource.load();
 
-				listDataSource.store().totalCount().done(function(count) {
-					DevExpress.ui.notify("total count " + count, "info", 1000);
-				});
+				// listDataStore.totalCount().done(function(count) {
+				// MyApp.app.navigation[0].option('title', 'Đơn hàng (' + count + ')');
+				// // DevExpress.ui.notify("total count " + count, "info", 1000);
+				// });
 
 				// var toastShown = window.localStorage.getItem("ToastShown");
 				// if (toastShown == null) {

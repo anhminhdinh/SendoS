@@ -1,53 +1,18 @@
 ﻿<div data-options="dxView : { name: 'home', title: 'Đơn hàng', secure: true } " >
-	<!-- <div class="type-block">
-	<div class="dx-fieldset">
-	<div class="dx-field">
-	<div class="dx-field-label">
-	Loại:
-	</div>
-	<div class="dx-field-value typesBox" data-bind="dxSelectBox: {
-	dataSource: dataArray,
-	displayExpr: 'statusDisplay',
-	placeholder: '',
-	valueExpr: 'status',
-	value: selectedType,
-	valueChangeAction: processValueChange,
-	}"></div>
-	</div>
-	</div>
-	</div> -->
-	<!-- <div style="text-align: center;" >
-	<div class="button" data-bind="dxButton: { text: 'Check data size', clickAction: checkDataSize }"></div>
-	</div> -->
-	<!-- <div data-bind="dxList: { dataSource: listDataSource,
-	autoPagingEnabled: true,
-	pullRefreshEnabled: true,
-	pullRefreshAction: doLoadDataByOrder}">
-	<div data-options="dxTemplate : { name: 'item' } " data-bind="dxAction: '#order-details/{orderNumber}'">
-	<div>
-	<table class="orders-list">
-	<tbody>
-	<tr>
-	<td class="right orders-date" data-bind="text: Globalize.format(date, 'dd-MM-yy')"></td>
-	<td class="left orders-title" data-bind="text: orderNumber"></td>
-	<td class="right orders-price" data-bind="text: totalAmount + 'VND'"></td>
-	</tr>
-	</tbody>
-	</table>
-	</div>
-	</div>
-	</div> -->
 	<div data-bind="dxPivot: { dataSource: items }">
-    <div data-options="dxTemplate : { name: 'item' } ">
-        <div data-bind="dxList: { dataSource: listItems }">
-            <div data-options="dxTemplate : { name: 'item' }" data-bind="dxAction: '#order-details/{orderNumber}'">
-                <div data-bind="text: date"></div>
-                <div data-bind="text: orderNumber"></div>
-                <div data-bind="text: totalAmount + 'VND'"></div>
-            </div>
-        </div>
-    </div>
-</div>
+		<div data-options="dxTemplate : { name: 'item' } ">
+			<div data-bind="dxList: { dataSource: listItems,
+			pullRefreshEnabled: true,			
+			pullRefreshAction: function() {doLoadDataByOrder(dataName);} }">
+				<!-- <div data-bind="dxList: { dataSource: listItems}"> -->
+				<div data-options="dxTemplate : { name: 'item' }" data-bind="dxAction: '#order-details/{orderNumber}'">
+					<div data-bind="text: date"></div>
+					<div data-bind="text: orderNumber"></div>
+					<div data-bind="text: totalAmount + 'VND'"></div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div data-bind="dxLoadPanel:{message: 'Đang tải...', visible: loadPanelVisible }"></div>
-
 </div>
+<!-- pullRefreshAction: function() {doLoadDataByOrder(dataName);} }"> -->
