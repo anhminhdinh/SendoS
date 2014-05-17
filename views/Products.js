@@ -19,7 +19,19 @@
 				view : 'product-details',
 				id : itemData.id
 			});
-		}
+		},
+		selectedType : ko.observable('updatedDate'),
+		sortTypes : [{
+			name : 'Ngày tạo',
+			type : 'updatedDate'
+		}, {
+			name : 'Up gần nhất',
+			type : 'upProductDate'
+		}],
+		processSortTypeChange : function() {
+			// alert(viewModel.selectedType());
+			doReload();
+		},
 	};
 
 	changeStockStatus = function(e, itemData) {
@@ -44,6 +56,7 @@
 				dataType : "json"
 			}).done(function(data, textStatus) {
 				viewModel.loadPanelVisible(false);
+				//TODO change local data
 				// doLoadDataByProductID();
 				//textStatus contains the status: success, error, etc
 			}).fail(function(jqxhr, textStatus, error) {
@@ -54,26 +67,31 @@
 		}
 	};
 
-	var arrayStore = new DevExpress.data.ArrayStore({
+	listDataStore = new DevExpress.data.LocalStore({
+		name : "productsStore",
 		key : "id",
-		data : []
 	});
 	listDataSource = new DevExpress.data.DataSource({
-		store : arrayStore,
-		pageSize : 10
+		store : listDataStore,
+		sort : 'updatedDate',
+		// pageSize : 10
 	});
 
 	doLoadData = function(actionOptions) {
 		// alert(viewModel.id);
 		viewModel.loadPanelVisible(true);
-		
+
 		var tokenId = window.localStorage.getItem("MyTokenId");
+		var timeStamp = window.localStorage.getItem("ProductsTimeStamp");
+		if (timeStamp == undefined)
+			timeStamp = 0;
 
 		var dataToSend = {
 			TokenId : tokenId,
 			Name : viewModel.searchString(),
 			From : 0,
-			To : 100
+			To : 100,
+			TimeStamp : 0,
 		};
 		var jsonData = JSON.stringify(dataToSend);
 		// alert(jsonData);
@@ -86,24 +104,41 @@
 		}).done(function(data, textStatus) {
 			// alert(JSON.stringify(data));
 			var result = $.map(data.Data, function(item) {
+				var UpProductDate = new Date(item.UpProductDate);
+				UpProductDateDisplay = Globalize.format(UpProductDate, 'dd/MM/yyyy');
+				var UpdatedDate = new Date(item.UpdatedDate);
+				UpdatedDateDisplay = Globalize.format(UpdatedDate, 'dd/MM/yyyy');
 				// alert(JSON.stringify(item));
 				return {
 					id : item.Id,
+					stockAvailability : item.StockAvailability,
 					name : item.Name,
-					thumnail : item.Thumnail,
+					thumbnail : item.Thumnail,
 					price : item.Price,
-					stockAvailability : ko.observable(item.StockAvailability),
+					storeSKU : item.StoreSku,
+					quantity : item.Quantity,
+					weight : item.Weight,
+					storeSKU : item.StoreSku,
+					upProductDate : UpProductDate,
+					updatedDate : UpdatedDate,
+					upProductDateDisplay : UpProductDateDisplay,
+					updatedDateDisplay : UpdatedDateDisplay,
 					// stockAvailability : item.StockAvailability,
 				};
 			});
-			arrayStore.clear();
+			// arrayStore.clear();
 			for (var i = 0; i < result.length; i++) {
-				arrayStore.insert(result[i]);
+				listDataStore.byKey(result[i].id).done(function(dataItem) {
+					if (dataItem != undefined)
+						listDataStore.update(result[i].id, result[i]);
+					else
+						listDataStore.insert(result[i]);
+				}).fail(function(error) {
+					listDataStore.insert(result[i]);
+				});
 				// alert(JSON.stringify(result[i]));
 			}
-			listDataSource.pageIndex(0);
-			listDataSource.load();
-
+			doReload();
 			// alert(JSON.stringify(result));
 			// viewModel.dataSource(result);
 			viewModel.loadPanelVisible(false);
@@ -118,6 +153,72 @@
 			actionOptions.component.release();
 		});
 
+	};
+
+	upProduct = function(id) {
+		if (confirm("Up sản phẩm ngay?")) {
+			viewModel.loadPanelVisible(true);
+			// alert(viewModel.id);
+			var tokenId = window.localStorage.getItem("MyTokenId");
+
+			var dataToSend = {
+				TokenId : tokenId,
+				ProductId : id,
+			};
+			var jsonData = JSON.stringify(dataToSend);
+			alert(jsonData);
+			return $.ajax({
+				url : "http://180.148.138.140/sellerDev2/api/mobile/UpProduct",
+				type : "POST",
+				data : jsonData,
+				contentType : "application/json; charset=utf-8",
+				dataType : "json"
+			}).done(function(data, textStatus) {
+				var dataToSend = {
+					TokenId : tokenId,
+					Id : id,
+				};
+				var jsonData = JSON.stringify(dataToSend);
+				$.ajax({
+					url : "http://180.148.138.140/sellerDev2/api/mobile/ProductInfoById",
+					type : "POST",
+					data : jsonData,
+					contentType : "application/json; charset=utf-8",
+					dataType : "json"
+				}).done(function(data, textStatus) {
+					var UpProductDate = new Date(data.Data[0].UpProductDate);
+					UpProductDateDisplay = Globalize.format(UpProductDate, 'dd/MM/yyyy');
+					var UpdatedDate = new Date(data.Data[0].UpdatedDate);
+					UpdatedDateDisplay = Globalize.format(UpdatedDate, 'dd/MM/yyyy');
+					listDataStore.byKey(id).done(function(dataItem) {
+						dataItem.upProductDate = UpProductDate;
+						dataItem.upProductDateDisplay = UpProductDateDisplay;
+						dataItem.updatedDate = UpdatedDate;
+						dataItem.updatedDateDisplay = UpdatedDateDisplay;
+						listDataStore.remove(id);
+						listDataStore.insert(dataItem);
+						// listDataStore.update(id, dataItem);
+					});
+					doReload();
+					viewModel.loadPanelVisible(false);
+				});
+				//textStatus contains the status: success, error, etc
+			}).fail(function(jqxhr, textStatus, error) {
+				viewModel.loadPanelVisible(false);
+				var err = textStatus + ", " + jqxhr.responseText;
+				alert("Get Failed: " + err);
+			});
+		}
+	};
+
+	doReload = function() {
+		listDataStore.load();
+		listDataSource.sort({
+			getter : viewModel.selectedType(),
+			desc : true
+		});
+		listDataSource.pageIndex(0);
+		listDataSource.load();
 	};
 
 	ko.computed(function() {

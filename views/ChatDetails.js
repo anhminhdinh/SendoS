@@ -33,6 +33,7 @@
 				var name = item.CustomerName.toLowerCase();
 				var message = name.toUpperCase() + ': ' + item.Message;
 				var isShop = name === "anna";
+				//TODO : server response isShop
 				return {
 					name : name,
 					date : dateString,
@@ -44,8 +45,13 @@
 			});
 			// alert(JSON.stringify(result));
 			viewModel.dataSource(result);
-			$("#anna").css("background-color", "lightgray");
+
+			$("#anna").css("background", "linear-gradient(to bottom, #f1f6f9, #d1d8de)");
+			$("#anna").css("background", "-webkit-gradient(linear,left top,left bottom,color-stop(0%,#f1f6f9),color-stop(100%,#d1d8de))");
 			$("#anna").css("color", "black");
+			var chatScroll = $("#chatScroll").dxScrollView("instance");
+			var scrollHeight = chatScroll.scrollHeight();
+			$("#chatScroll").dxScrollView("instance").scrollTo(scrollHeight);
 
 			viewModel.loadPanelVisible(false);
 			actionOptions.component.release();

@@ -2,7 +2,6 @@
 
 	var viewModel = {
 		title : ko.observable('Orders'),
-		// dropDownMenuData : ko.observableArray(),
 		dropDownMenuData : [{
 			text : "Mới",
 			clickAction : function() {
@@ -26,21 +25,62 @@
 		}],
 		viewShown : function(e) {
 			this.title("Đơn hàng " + this.id);
-			// var orderStatus = window.localStorage.getItem("OrderStatus");
-			// var array = JSON.parse(orderStatus);
-			// this.dropDownMenuData(array);
-			// alert(orderStatus);
-			doLoadDataByOrderID();
+			listDataStore.byKey(this.id).done(function(dataItem) {
+				viewModel.totalAmount(dataItem.totalAmount);
+				viewModel.orderNumber(dataItem.orderNumber);
+				viewModel.buyerName(dataItem.buyerName);
+				viewModel.buyerAddress(dataItem.buyerAddress);
+				viewModel.buyerPhone(dataItem.buyerPhone);
+				viewModel.orderDate(dataItem.orderDate);
+				viewModel.delayDate(dataItem.delayDate);
+				viewModel.updatedDate(dataItem.updatedDate);
+				viewModel.orderDateDisplay(dataItem.orderDateDisplay);
+				viewModel.delayDateDisplay(dataItem.delayDateDisplay);
+				switch (dataItem.status) {
+					case "New":
+						viewModel.orderStatus("Mới");
+						break;
+					case "Processing":
+						viewModel.orderStatus("Đang giao hàng");
+						break;
+					case "Delayed":
+						viewModel.orderStatus("Đang hoãn");
+						break;
+					case "Splitting":
+						viewModel.orderStatus("Chờ tách");
+						break;
+				}
+
+				viewModel.note(dataItem.note);
+				viewModel.products(dataItem.products);
+				viewModel.canDelay(dataItem.canDelay);
+				viewModel.canCancel(dataItem.canCancel);
+				viewModel.canSplit(dataItem.canSplit);
+				viewModel.canProcess(dataItem.canProcess);
+				if (viewModel.orderStatus != "Delayed") {
+					$("#delayField").hide();
+				}
+				viewModel.dataItem(dataItem);
+				viewModel.loadPanelVisible(false);
+			});
 		},
 		id : params.id,
-		orderNumber : ko.observable(0),
+		dataItem : ko.observable(),
+		orderNumber : ko.observable(''),
 		totalAmount : ko.observable(0),
 		buyerName : ko.observable('Minh'),
 		buyerAddress : ko.observable('HCM'),
 		buyerPhone : ko.observable(''),
 		orderDate : ko.observable(),
 		delayDate : ko.observable(),
+		orderDateDisplay : ko.observable(''),
+		delayDateDisplay : ko.observable(''),
 		orderStatus : ko.observable(false),
+		canDelay : ko.observable(false),
+		canCancel : ko.observable(false),
+		canSplit : ko.observable(false),
+		canProcess : ko.observable(false),
+		updatedDate : ko.observable(),
 		note : ko.observable(''),
 		products : ko.observableArray([]),
 		productsToSplit : ko.observableArray([]),
@@ -54,17 +94,23 @@
 		popupDelayVisible : ko.observable(false),
 		popupSplitVisible : ko.observable(false),
 		loadPanelVisible : ko.observable(true),
-
-		hideDelayPopup : function() {
-			this.popupDelayVisible(false);
-		},
-
-		hideSplitPopup : function() {
-			this.popupSplitVisible(false);
-		}
 	};
+
+	showLoading = function(show) {
+		viewModel.loadPanelVisible(show);
+	};
+
+	hideSplitPopUp = function() {
+		viewModel.loadPanelVisible(false);
+		viewModel.popupSplitVisible(false);
+	};
+
+	hideDelayPopUp = function() {
+		viewModel.loadPanelVisible(false);
+		viewModel.popupDelayVisible(false);
+	};
+
 	processValueChange = function(text) {
-		// DevExpress.ui.notify("The widget value has been changed to " + text, "info", 1000);
 		switch (text) {
 			case "Processing":
 				doSwitchProcessOrderByOrderID();
@@ -73,31 +119,28 @@
 				viewModel.popupDelayVisible(true);
 				break;
 			case "Split":
-				// alert(this.popupSplitVisible());
 				viewModel.productsToSplit().length = 0;
 				for (var i = 0; i < viewModel.products().length; i++) {
 					var product = {
 						name : viewModel.products()[i].name,
 						id : viewModel.products()[i].id,
-						thumbnail : viewModel.products()[i].thumnail,
-						stockAvailability : viewModel.products()[i].stockAvailability
+						thumbnail : viewModel.products()[i].thumbnail,
+						stockAvailability : viewModel.products()[i].stockAvailabilityDisplay
 					};
 					viewModel.productsToSplit().push(product);
 				}
 
 				viewModel.popupSplitVisible(true);
 				$("#splitList").dxList('instance').option('dataSource', viewModel.productsToSplit());
-				// alert(JSON.stringify(this.productsToSplit()));
 				break;
 			case "New":
 				doSwitchNewOrderByOrderID();
 				break;
 		}
-		// MyApp.app.back();
 	};
+
 	doLoadDataByOrderID = function() {
-		viewModel.loadPanelVisible(true);
-		// alert(viewModel.id);
+		showLoading(true);
 		var tokenId = window.localStorage.getItem("MyTokenId");
 
 		var dataToSend = {
@@ -105,7 +148,6 @@
 			OrderNumber : viewModel.id
 		};
 		var jsonData = JSON.stringify(dataToSend);
-		// alert(jsonData);
 		return $.ajax({
 			url : "http://180.148.138.140/sellerDev2/api/mobile/SalesOrderInfoByOrderNumber",
 			type : "POST",
@@ -113,11 +155,9 @@
 			contentType : "application/json; charset=utf-8",
 			dataType : "json"
 		}).done(function(data, textStatus) {
-			// alert(JSON.stringify(data));
-			viewModel.loadPanelVisible(false);
+			showLoading(false);
 			viewModel.orderNumber(data.Data.OrderNumber);
 			viewModel.totalAmount(data.Data.TotalAmount);
-			// alert(data.Data.BuyerName);
 			viewModel.buyerName(data.Data.BuyerName);
 			viewModel.buyerAddress(data.Data.BuyerAddress);
 			viewModel.buyerPhone(data.Data.BuyerPhone);
@@ -141,11 +181,7 @@
 				$("#delayField").hide();
 			}
 			viewModel.orderStatus(display);
-			// viewModel.disabled(data.Data.OrderStatus != "New");
-			// alert(viewModel.editable());
-			// viewModel.selectedType(data.Data.OrderStatus);
 			viewModel.note('LƯU Ý: ' + data.Data.Note);
-			// alert(JSON.stringify(data.Data.Products));
 			var result = $.map(data.Data.Products, function(item) {
 				return {
 					id : item.Id,
@@ -159,13 +195,9 @@
 					upProductDate : new Date(item.UpProductDate),
 				};
 			});
-			// alert(JSON.stringify(result));
 			viewModel.products(result);
-			// alert(JSON.stringify(viewModel.productsToSplit()));
-			// alert(JSON.stringify(data));
-			//textStatus contains the status: success, error, etc
 		}).fail(function(jqxhr, textStatus, error) {
-			viewModel.loadPanelVisible(false);
+			showLoading(false);
 			var err = textStatus + ", " + jqxhr.responseText;
 			alert("Get Failed: " + err);
 		});
@@ -173,17 +205,15 @@
 	};
 
 	doSwitchNewOrderByOrderID = function() {
-		viewModel.loadPanelVisible(true);
-		// alert(viewModel.id);
+		showLoading(true);
 		var tokenId = window.localStorage.getItem("MyTokenId");
 
 		var dataToSend = {
 			TokenId : tokenId,
-			OrderNumber : viewModel.id,
+			OrderNumber : viewModel.dataItem().orderNumber,
 			Action : "New",
 		};
 		var jsonData = JSON.stringify(dataToSend);
-		// alert(jsonData);
 		return $.ajax({
 			url : "http://180.148.138.140/sellerDev2/api/mobile/ProcessOrder",
 			type : "POST",
@@ -191,12 +221,12 @@
 			contentType : "application/json; charset=utf-8",
 			dataType : "json"
 		}).done(function(data, textStatus) {
-			// alert(JSON.stringify(data));
-			viewModel.loadPanelVisible(false);
-			// DevExpress.ui.notify("Processed Order", "info", 1000);
+			showLoading(false);
+			viewModel.dataItem().status = "New";
+			listDataStore.update(viewModel.dataItem().orderNumber, viewModel.dataItem());
 			MyApp.app.back();
 		}).fail(function(jqxhr, textStatus, error) {
-			viewModel.loadPanelVisible(false);
+			showLoading(false);
 			var err = textStatus + ", " + jqxhr.responseText;
 			alert("Process Failed: " + err);
 		});
@@ -204,17 +234,15 @@
 	};
 
 	doSwitchProcessOrderByOrderID = function() {
-		viewModel.loadPanelVisible(true);
-		// alert(viewModel.id);
+		showLoading(true);
 		var tokenId = window.localStorage.getItem("MyTokenId");
 
 		var dataToSend = {
 			TokenId : tokenId,
-			OrderNumber : viewModel.id,
+			OrderNumber : viewModel.dataItem().orderNumber,
 			Action : "Processing",
 		};
 		var jsonData = JSON.stringify(dataToSend);
-		// alert(jsonData);
 		return $.ajax({
 			url : "http://180.148.138.140/sellerDev2/api/mobile/ProcessOrder",
 			type : "POST",
@@ -222,12 +250,12 @@
 			contentType : "application/json; charset=utf-8",
 			dataType : "json"
 		}).done(function(data, textStatus) {
-			// alert(JSON.stringify(data));
-			viewModel.loadPanelVisible(false);
-			// DevExpress.ui.notify("Processed Order", "info", 1000);
+			showLoading(false);
+			viewModel.dataItem().status = "Processing";
+			listDataStore.update(viewModel.dataItem().orderNumber, viewModel.dataItem());
 			MyApp.app.back();
 		}).fail(function(jqxhr, textStatus, error) {
-			viewModel.loadPanelVisible(false);
+			showLoading(false);
 			var err = textStatus + ", " + jqxhr.responseText;
 			alert("Process Failed: " + err);
 		});
@@ -235,7 +263,7 @@
 	};
 
 	doSplitOrderByOrderID = function() {
-		viewModel.loadPanelVisible(true);
+		showLoading(true);
 		var splitIDs = [];
 		for (var i = 0; i < viewModel.productsToSplit().length; i++) {
 			var product = {
@@ -243,7 +271,6 @@
 			};
 			splitIDs.push(product);
 		}
-		// alert(splitIDs);
 		var tokenId = window.localStorage.getItem("MyTokenId");
 		var dataToSend = {
 			TokenId : tokenId,
@@ -252,7 +279,6 @@
 			Products : splitIDs
 		};
 		var jsonData = JSON.stringify(dataToSend);
-		// alert(jsonData);
 		return $.ajax({
 			url : "http://180.148.138.140/sellerDev2/api/mobile/ProcessOrder",
 			type : "POST",
@@ -260,13 +286,11 @@
 			contentType : "application/json; charset=utf-8",
 			dataType : "json"
 		}).done(function(data, textStatus) {
-			// alert(JSON.stringify(data));
-			viewModel.loadPanelVisible(false);
-			// DevExpress.ui.notify("Processed Order", "info", 1000);
-			viewModel.popupSplitVisible(false);
+			hideSplitPopUp();
 			MyApp.app.back();
+			//TODO modify local data here
 		}).fail(function(jqxhr, textStatus, error) {
-			viewModel.loadPanelVisible(false);
+			hideSplitPopUp();
 			viewModel.popupSplitVisible(false);
 			var err = textStatus + ", " + jqxhr.responseText;
 			alert("Process Failed: " + err);
@@ -275,13 +299,9 @@
 	};
 
 	doDelayProcessOrderByOrderID = function() {
-		viewModel.loadPanelVisible(true);
-		// alert(viewModel.id);
+		showLoading(true);
 		var tokenId = window.localStorage.getItem("MyTokenId");
-		// alert(viewModel.dateBoxValue());
 		var newDelayDate = new Date(viewModel.dateBoxValue());
-		// newDelayDate.format("yyyy-mm-dd");
-		// alert(newDelayDate.toString());
 		var dataToSend = {
 			TokenId : tokenId,
 			OrderNumber : viewModel.id,
@@ -297,19 +317,17 @@
 			contentType : "application/json; charset=utf-8",
 			dataType : "json"
 		}).done(function(data, textStatus) {
-			// alert(JSON.stringify(data));
-			viewModel.loadPanelVisible(false);
-			// DevExpress.ui.notify("Delayed Order", "info", 1000);
-			viewModel.popupDelayVisible(false);
+			//TODO modify local data here
+			hideDelayPopUp();
 			MyApp.app.back();
 		}).fail(function(jqxhr, textStatus, error) {
-			viewModel.loadPanelVisible(false);
-			viewModel.popupDelayVisible(false);
+			hideDelayPopUp();
 			var err = textStatus + ", " + jqxhr.responseText;
 			alert("Process Failed: " + err);
 		});
 
 	};
+
 	function load(img) {
 		img.fadeOut(0, function() {
 			img.fadeIn(1000);

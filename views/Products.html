@@ -1,62 +1,66 @@
 ﻿<div data-options="dxView : { name: 'products', title: 'Sản Phẩm', secure: true } " >
 	<!-- <div data-bind="dxCommand: { id: 'search', title: 'Search', placeholder: 'Tìm...', icon: 'find', action: find }" ></div> -->
 	<div data-options="dxContent : { targetPlaceholder: 'content' } " >
-		<div id="searchBox" data-bind="dxTextBox: { mode: 'search', value: searchString, placeholder: 'Tìm sản phẩm theo tên', valueUpdateEvent: 'search change keyup' }"></div>
-		<div data-bind="dxLoadPanel:{message: 'Đang tải...', visible: loadPanelVisible }"></div>
-		<div id="productsList" data-bind="dxList: { dataSource: listDataSource,
-		pullRefreshEnabled: true,
-		pullRefreshAction: doLoadData}">
-			<div data-options="dxTemplate : { name: 'item' } " data-bind="dxAction: '#product-details/{id}'">
-				<table class="products-list" style="background-color: white;width:100%">
-					<tbody>
-						<tr>
-							<!-- <td width="auto"><img width="75" height="75" data-bind="attr: { src: thumnail }" /></td>
-							<td width="50%" data-bind="text: name" style="white-space: pre-wrap; word-wrap: break-word;"></td>
-							<td width="auto" style="text-align: right;" data-bind="text: price + ' VND'"></td>
-							<td width="auto" style="text-align: right;" data-bind="dxCheckBox:{checked:stockAvailability,
-							clickAction: function(e) {
-							changeStockStatus(e,$data);
-							}
-							}"></td> -->
-							<td width="auto"><img width="75" height="75" data-bind="attr: { src: thumnail }" /></td>
-							<td width="100%" rowspan="2"><p style="white-space: pre-wrap; word-wrap: break-word; text-align: left;" data-bind="text: name"></p><!-- <p>
-							<span style="font-weight: bold;">KL: </span><span data-bind="text: weight + 'g'"></span>
-							</p> -->
-							<p>
-								<span style="font-weight: bold;">Giá: </span>
-								<span style="color: red;" data-bind="text: price + ' VND'"></span>
-							</p></td>
-						</tr>
-						<tr>
-							<td width="auto" style="text-align: right;" data-bind="dxSwitch:{value:stockAvailability,
-							clickAction: function(e) {
-							changeStockStatus(e,$data);
-							}
-							}"></td>
-						</tr>
-					</tbody>
-				</table>
+		<div id="searchBox"
+		data-bind="dxTextBox: {
+		mode: 'search',
+		value: searchString,
+		placeholder: 'Tìm sản phẩm theo tên',
+		valueUpdateEvent: 'search change keyup',
+		height:'44px' }"></div>
+
+		<div class="dx-fieldset">
+			<div class="dx-field">
+				<div class="dx-field-label" style="width:30%">
+					Sắp xếp:
+				</div>
+				<div class="dx-field-value"
+				data-bind="dxSelectBox: {
+				dataSource: sortTypes,
+				displayExpr: 'name',
+				valueExpr: 'type',
+				value: selectedType,
+				valueChangeAction: processSortTypeChange,
+				placeholder: 'Ngày tạo'}" style="width:auto"></div>
 			</div>
 		</div>
-
-		<!-- <div data-bind="dxScrollView: {pullDownAction: doLoadData}">
-		<table class="products-list" style="background-color: white;">
-		<tbody> -->
-		<!-- <!-- ko foreach: dataSource -->
-		<!-- <tr data-bind="click: function(e) {$root.rowClick(e, $data);}">
-		<td><img width="50" height="50"  style="margin:5px;" data-bind="click: function(e) {$root.rowClick(e, $data);}, attr: { src: thumnail }" /></td>
-		<td data-bind="click: function(e) {$root.rowClick(e, $data);}, text: name"></td>
-		<td><i data-bind="click: function(e) {$root.rowClick(e, $data);}, text: price"></i> VND </td>
-		<td><i data-bind="dxCheckBox:{checked:stockAvailability,
-		clickAction: function(e) {
-		changeStockStatus(e,$data);
-		}
-		}"></i></td>
-		<td><div class="button" data-bind="dxButton: { clickAction: function(e) {$root.rowClick(e, $data);}, icon: 'arrowright' }"></div></td>
-		</tr> -->
-		<!-- <!-- /ko -->
-		<!-- </tbody>
-		</table>
-		</div> -->
+		<div style="height:75%;height:calc(100% - 118px);">
+			<div id="productsList" data-bind="dxList: { dataSource: listDataSource,
+			pullRefreshEnabled: true,
+			pullRefreshAction: doLoadData}">
+				<div data-options="dxTemplate : { name: 'item' }">
+					<table class="products-list" style="background-color: white;width:100%">
+						<tbody>
+							<tr>
+								<td width="auto"><img width="75" height="75" data-bind="attr: { src: thumbnail }" /></td>
+								<td width="100%" rowspan="2"><p style="white-space: pre-wrap; word-wrap: break-word; text-align: left;" data-bind="text: name"></p>
+								<p>
+									<span style="font-weight: bold;">Giá: </span>
+									<span style="color: red;" data-bind="text: price + ' VND'"></span>
+								</p></td>
+							</tr>
+							<tr>
+								<td width="auto" style="text-align: right;"
+								data-bind="dxSwitch:{
+								value:stockAvailability,
+								clickAction: function(e) {
+								changeStockStatus(e,$data);
+								}
+								}"></td>
+							</tr>
+						</tbody>
+					</table>
+					<table class="products-list" style="background-color: white;width:100%">
+						<tbody>
+							<tr>
+								<td data-bind="text: 'Up gần nhất: ' + upProductDateDisplay"></td>
+								<td data-bind="dxButton: {text:'Up ngay', clickAction: function() {upProduct(id);}}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div data-bind="dxLoadPanel:{message: 'Đang tải...', visible: loadPanelVisible }"></div>
 	</div>
 </div>

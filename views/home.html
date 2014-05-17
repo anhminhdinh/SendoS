@@ -1,14 +1,109 @@
 ﻿<div data-options="dxView : { name: 'home', title: 'Đơn hàng', secure: true } " >
+	<div id="actionSheetContainer" data-bind="dxActionSheet: {
+	dataSource: dropDownMenuData,
+	visible: actionSheetVisible,
+	title: 'Xử lý đơn hàng',
+	cancelText: 'Bỏ qua'
+	}"></div>
+	<div class="popup" data-bind="dxPopup:{visible:popupDelayVisible, fullScreen:false, title:'Delay'}">
+		<div data-options="dxTemplate:{name: 'content'}">
+			<div class="dx-fieldset">
+				<div class="dx-field">
+					<div class="dx-field-label">
+						Ngày hoãn
+					</div>
+					<div class="dx-field-value" data-bind="
+					dxDateBox: { value: dateBoxValue, format: 'date' }"></div>
+				</div>
+			</div>
+			<div class="footer">
+				<div class="button" data-bind="dxButton: { text: 'Hoãn', clickAction: function() {doDelayProcessOrderByOrderID();}, icon:'clock' }"></div>
+				<div class="button" data-bind="dxButton: { text: 'Huỷ hoãn', clickAction: hideDelayPopUp, icon: 'close' }"></div>
+			</div>
+		</div>
+	</div>
+	<div class="popup" data-bind="dxPopup:{visible:popupSplitVisible, fullScreen:true, title:'Split'}">
+		<div data-options="dxTemplate:{name: 'content'}">
+			<h2>Sản phẩm để tách</h2>
+			<div id="splitList" style="margin: 10px;height=75%;height=calc(100%-68px);" data-bind="dxList: {dataSource: productsToSplit,
+			editEnabled: true,
+			editConfig: {
+			deleteEnabled: true,
+			deleteMode: 'toggle'
+			}
+			}">
+				<div class="listItem" data-options="dxTemplate:{ name:'item' }">
+					<div class="lazyload" style="display:inline-block; margin: 5px;">
+						<img width="50" height="50"  style="margin:5px;" data-bind="attr: { src: thumbnail }" />
+					</div>
+					<div style="display:inline-block; margin: 5px;">
+						<p>
+							<i data-bind="text: name" style="white-space: pre-wrap; word-wrap: break-word; text-align: left;"></i>
+						</p>
+						<p>
+							<i data-bind="text: stockAvailability"></i>
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="footer">
+				<!-- <div style="float:right;" data-bind="dxButton: { text: 'Continue', clickAction: popup.hide }"></div> -->
+				<div class="button"  data-bind="dxButton: { text: 'Tách', clickAction: function() { doSplitOrderByOrderID(); }, icon:'plus' }"></div>
+				<div class="button"  data-bind="dxButton: { text: 'Huỷ tách', clickAction: hideSplitPopUp, icon:'close' }"></div>
+			</div>
+		</div>
+	</div>
 	<div data-bind="dxPivot: { dataSource: items }">
 		<div data-options="dxTemplate : { name: 'item' } ">
 			<div data-bind="dxList: { dataSource: listItems,
-			pullRefreshEnabled: true,			
+			autoPagingEnabled: true,
+			pullRefreshEnabled: true,
 			pullRefreshAction: function() {doLoadDataByOrder(dataName);} }">
 				<!-- <div data-bind="dxList: { dataSource: listItems}"> -->
-				<div data-options="dxTemplate : { name: 'item' }" data-bind="dxAction: '#order-details/{orderNumber}'">
-					<div data-bind="text: date"></div>
+				<div data-options="dxTemplate : { name: 'item' }">
+					<!-- data-bind="dxAction: '#order-details/{orderNumber}'" -->
+					<div>
+						<table class="products-list" style="background-color: white;width:100%;">
+							<tbody>
+								<tr>
+									<td style="text-align: left; font-weight: lighter;" data-bind="text:'#' + orderNumber"></td>
+									<td style="text-align: right; font-weight: bold;" data-bind="text:orderDateDisplay"></td>
+								</tr>
+							</tbody>
+						</table>
+						<table class="products-list" style="background-color: white;width:100%;">
+							<tbody>
+								<!-- ko foreach: products -->
+								<tr>
+									<td width="auto"><img width="75" height="75" data-bind="attr: { src: thumbnail }" /></td>
+									<td width="100%"><p style="white-space: pre-wrap; word-wrap: break-word; text-align: left;" data-bind="text: name"></p>
+									<p>
+										<span style="font-weight: bold;">Giá: </span>
+										<span style="color: red;" data-bind="text: price + ' VND'"></span>
+									</p></td>
+								</tr>
+								<!-- /ko -->
+							</tbody>
+						</table>
+						<table class="products-list" style="background-color: white;width:100%;">
+							<tbody>
+								<tr>
+									<td style="text-align: left; font-weight: bold;"><a data-bind="attr: {href:'tel:'+buyerPhone}, text:buyerPhone"></a></td>
+									<td style="text-align: right;">Tổng tiền:</td>
+								</tr>
+								<tr>
+									<td style="text-align: left; font-weight: bold;" data-bind="text:buyerName"></td>
+									<td style="text-align: right; color: red;" data-bind="text: totalAmount + 'VND'"></td>
+								</tr>
+								<tr>
+									<td colspan="2" style="text-align: center;"><div style="display: inline-block;padding: 20px;" data-bind="dxButton: {text:'Xử lý ngay', clickAction:function() {showActionSheet(orderNumber);}}"></div><div style="display: inline-block;padding: 20px;" data-bind="dxButton: {text:'Xem chi tiết', clickAction: function() {showDetail(orderNumber);}}"></div></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<!-- <div data-bind="text: date"></div>
 					<div data-bind="text: orderNumber"></div>
-					<div data-bind="text: totalAmount + 'VND'"></div>
+					<div data-bind="text: totalAmount + 'VND'"></div> -->
 				</div>
 			</div>
 		</div>

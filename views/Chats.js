@@ -7,14 +7,21 @@
 		loadPanelVisible : ko.observable(false),
 	};
 
-	var arrayStore = new DevExpress.data.LocalStore({
+	var listDataStore = new DevExpress.data.LocalStore({
 		name : "chatIdsStore",
 		key : "id",
 		flushInterval : 1000,
 		// immediate: true,
 	});
 	listDataSource = new DevExpress.data.DataSource({
-		store : arrayStore,
+		store : listDataStore,
+		sort : [{
+			getter : 'updatedDate',
+			desc : true
+		}, {
+			getter : 'createdDate',
+			desc : true
+		}],
 		pageSize : 10
 	});
 
@@ -27,7 +34,7 @@
 			timeStamp = 0;
 		var dataToSend = {
 			TokenId : tokenId,
-			TimeStamp : timeStamp
+			TimeStamp : 0
 		};
 		var jsonData = JSON.stringify(dataToSend);
 		// alert(jsonData);
@@ -46,32 +53,34 @@
 					var dateString = Globalize.format(date, 'dd MM-yy');
 					var name = item.CustomerName.toUpperCase();
 					var message = name + ' (' + dateString + '): ' + item.Message;
-					var dataToSend = {
-						TokenId : tokenId,
-						Id : item.ProductId
-					};
-					var jsonData = JSON.stringify(dataToSend);
-					var thumbnail = "";
-					$.ajax({
-						url : "http://180.148.138.140/sellerDev2/api/mobile/ProductInfoById",
-						type : "POST",
-						data : jsonData,
-						contentType : "application/json; charset=utf-8",
-						dataType : "json"
-					}).done(function(data, textStatus) {
-						// alert(JSON.stringify(data.Data));
-						// thumbnail = data.Data.Thumnail;
-					});
+					var updatedDate = new Date(item.UpdatedDate);
 					return {
 						id : item.Id,
-						thumbnail : thumbnail,
+						thumbnail : item.Thumnail,
 						msg : message,
-						isParent : item.IsParent
+						isParent : item.IsParent,
+						updatedDate : updatedDate,
+						createdDate : date,
 					};
 				});
 				for (var i = 0; i < result.length; i++) {
-					listDataSource.store().insert(result[i]);
+					listDataStore.byKey(result[i].id).done(function(dataItem) {
+						if (dataItem != undefined)
+							listDataStore.update(result[i].id, result[i]);
+						else
+							listDataStore.insert(result[i]);
+					}).fail(function(error) {
+						listDataStore.insert(result[i]);
+					});
 				}
+				listDataStore.load();
+				listDataSource.sort([{
+					getter : 'updatedDate',
+					desc : true
+				}, {
+					getter : 'createdDate',
+					desc : true
+				}]);
 				listDataSource.pageIndex(0);
 				listDataSource.load();
 				// alert(JSON.stringify(data));
