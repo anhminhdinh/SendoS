@@ -1,5 +1,5 @@
 ﻿<div data-options="dxView : { name: 'home', title: 'Đơn hàng', secure: true } " >
-	<div id="actionSheetContainer" data-bind="dxActionSheet: {
+	<div data-bind="dxActionSheet: {
 	dataSource: dropDownMenuData,
 	visible: actionSheetVisible,
 	title: 'Xử lý đơn hàng',
@@ -58,7 +58,7 @@
 			<div data-bind="dxList: { dataSource: listItems,
 			autoPagingEnabled: true,
 			pullRefreshEnabled: true,
-			pullRefreshAction: function() {doLoadDataByOrder(dataName);} }">
+			pullRefreshAction: function() { doLoadDataByOrderStatus(dataName); } }">
 				<!-- <div data-bind="dxList: { dataSource: listItems}"> -->
 				<div data-options="dxTemplate : { name: 'item' }">
 					<!-- data-bind="dxAction: '#order-details/{orderNumber}'" -->
@@ -88,7 +88,7 @@
 						<table class="products-list" style="background-color: white;width:100%;">
 							<tbody>
 								<tr>
-									<td style="text-align: left; font-weight: bold;"><a data-bind="attr: {href:'tel:'+buyerPhone}, text:buyerPhone"></a></td>
+									<td style="text-align: left; font-size: 18px; font-weight: bold;"><a data-bind="attr: {href:'tel:'+buyerPhone}, text:buyerPhone"></a></td>
 									<td style="text-align: right;">Tổng tiền:</td>
 								</tr>
 								<tr>

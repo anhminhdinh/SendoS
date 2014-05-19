@@ -2,14 +2,17 @@
 	var viewModel = {
 
 		viewShowing : function() {
-			doLoadDataByOrder("New");
-			doLoadDataByOrder("Delayed");
-			doLoadDataByOrder("Processing");
-			doLoadDataByOrder("Splitting");
+			// listDataStore.clear();
+			doLoadDataByOrderStatus("New");
+			doLoadDataByOrderStatus("Delayed");
+			doLoadDataByOrderStatus("Processing");
+			doLoadDataByOrderStatus("Splitting");
 		},
 
 		username : ko.observable(),
 		pass : ko.observable(),
+
+		actionSheetVisible : ko.observable(false),
 		dropDownMenuData : [{
 			text : "Mới",
 			clickAction : function() {
@@ -33,7 +36,6 @@
 		}],
 		products : ko.observableArray([]),
 		productsToSplit : ko.observableArray([]),
-		actionSheetVisible : ko.observable(false),
 		dataItem : ko.observable(),
 		dateBoxValue : ko.observable(new Date()),
 		popupDelayVisible : ko.observable(false),
@@ -103,8 +105,8 @@
 			var oldStatus = item.status;
 			item.status = "New";
 			listDataStore.update(item.orderNumber, item);
-			doLoadDataByOrder(oldStatus);
-			doLoadDataByOrder("New");
+			doLoadDataByOrderStatus(oldStatus);
+			doLoadDataByOrderStatus("New");
 		}).fail(function(jqxhr, textStatus, error) {
 			showLoading(false);
 			var err = textStatus + ", " + jqxhr.responseText;
@@ -135,8 +137,8 @@
 			var oldStatus = item.status;
 			item.status = "Processing";
 			listDataStore.update(item.orderNumber, item);
-			doLoadDataByOrder(oldStatus);
-			doLoadDataByOrder("Processing");
+			doLoadDataByOrderStatus(oldStatus);
+			doLoadDataByOrderStatus("Processing");
 		}).fail(function(jqxhr, textStatus, error) {
 			showLoading(false);
 			var err = textStatus + ", " + jqxhr.responseText;
@@ -170,7 +172,7 @@
 			dataType : "json"
 		}).done(function(data, textStatus) {
 			hideSplitPopUp();
-			doLoadDataByOrder("Splitting");
+			doLoadDataByOrderStatus("Splitting");
 			//TODO modify local data here
 		}).fail(function(jqxhr, textStatus, error) {
 			hideSplitPopUp();
@@ -201,7 +203,7 @@
 			dataType : "json"
 		}).done(function(data, textStatus) {
 			//TODO modify local data here
-			doLoadDataByOrder("Delayed");
+			doLoadDataByOrderStatus("Delayed");
 			hideDelayPopUp();
 		}).fail(function(jqxhr, textStatus, error) {
 			hideDelayPopUp();
@@ -294,7 +296,7 @@
 		}
 	};
 
-	doLoadDataByOrder = function(status) {
+	doLoadDataByOrderStatus = function(status) {
 
 		// DevExpress.ui.notify("loading data", "info", 1000);
 		viewModel.loadPanelVisible(true);
@@ -307,7 +309,7 @@
 			TokenId : tokenId,
 			Status : status,
 			// Status : viewModel.selectedType(),
-			TimeStamp : 0
+			TimeStamp : timeStamp
 		};
 		var jsonData = JSON.stringify(dataToSend);
 		// alert(jsonData);

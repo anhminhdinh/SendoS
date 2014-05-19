@@ -2,7 +2,8 @@
 	var viewModel = {
 		// dataSource : ko.observableArray(),
 		viewShowing : function() {
-			doLoadData();
+			listDataStore.clear();
+			doLoadProducts();
 		},
 		loadPanelVisible : ko.observable(false),
 		searchString : ko.observable(''),
@@ -21,33 +22,53 @@
 			});
 		},
 		selectedType : ko.observable('updatedDate'),
-		sortTypes : [{
-			name : 'Ngày tạo',
-			type : 'updatedDate'
-		}, {
-			name : 'Up gần nhất',
-			type : 'upProductDate'
-		}],
+
+		// sortTypes : [{
+		// name : 'Ngày tạo',
+		// type : 'updatedDate'
+		// }, {
+		// name : 'Up gần nhất',
+		// type : 'upProductDate'
+		// }],
+
 		processSortTypeChange : function() {
 			// alert(viewModel.selectedType());
 			doReload();
 		},
+		showSortOptions : function() {
+			this.actionSheetVisible(true);
+		},
+		actionSheetVisible : ko.observable(false),
+		dropDownMenuData : [{
+			text : "Ngày tạo",
+			clickAction : function() {
+				viewModel.selectedType("updatedDate");
+				doReload();
+			}
+		}, {
+			text : "Up gần nhất",
+			clickAction : function() {
+				viewModel.selectedType("upProductDate");
+				doReload();
+			}
+		}],
+
 	};
 
 	changeStockStatus = function(e, itemData) {
-		e.jQueryEvent.stopPropagation();
+		// e.jQueryEvent.stopPropagation();
 		if (confirm("Bạn có chắc muốn chuyển trạng thái còn/hết hàng?")) {
 			viewModel.loadPanelVisible(true);
 			// alert(viewModel.id);
 			var tokenId = window.localStorage.getItem("MyTokenId");
-			// alert(itemData.stockAvailability());
+			// alert(itemData.stockAvailability);
 			var dataToSend = {
 				TokenId : tokenId,
 				Id : itemData.id,
-				StockAvailability : itemData.stockAvailability(),
+				StockAvailability : !itemData.stockAvailability,
 			};
 			var jsonData = JSON.stringify(dataToSend);
-			// alert(jsonData);
+			alert(jsonData);
 			return $.ajax({
 				url : "http://180.148.138.140/sellerDev2/api/mobile/UpdateProductStock",
 				type : "POST",
@@ -55,6 +76,14 @@
 				contentType : "application/json; charset=utf-8",
 				dataType : "json"
 			}).done(function(data, textStatus) {
+				listDataStore.byKey(itemData.id).done(function(dataItem) {
+					// dataItem.stockAvailability = itemData.stockAvailability;
+					dataItem.stockAvailability = !itemData.stockAvailability;
+					listDataStore.remove(itemData.id);
+					listDataStore.insert(dataItem);
+					// listDataStore.update(id, dataItem);
+				});
+				doReload();
 				viewModel.loadPanelVisible(false);
 				//TODO change local data
 				// doLoadDataByProductID();
@@ -77,7 +106,7 @@
 		// pageSize : 10
 	});
 
-	doLoadData = function(actionOptions) {
+	doLoadProducts = function(actionOptions) {
 		// alert(viewModel.id);
 		viewModel.loadPanelVisible(true);
 
@@ -91,7 +120,7 @@
 			Name : viewModel.searchString(),
 			From : 0,
 			To : 100,
-			TimeStamp : 0,
+			TimeStamp : timeStamp,
 		};
 		var jsonData = JSON.stringify(dataToSend);
 		// alert(jsonData);
@@ -111,7 +140,7 @@
 				// alert(JSON.stringify(item));
 				return {
 					id : item.Id,
-					stockAvailability : item.StockAvailability,
+					// stockAvailabilityDisplay : ko.observable(item.StockAvailability),
 					name : item.Name,
 					thumbnail : item.Thumnail,
 					price : item.Price,
@@ -123,7 +152,7 @@
 					updatedDate : UpdatedDate,
 					upProductDateDisplay : UpProductDateDisplay,
 					updatedDateDisplay : UpdatedDateDisplay,
-					// stockAvailability : item.StockAvailability,
+					stockAvailability : item.StockAvailability,
 				};
 			});
 			// arrayStore.clear();
@@ -217,6 +246,12 @@
 			getter : viewModel.selectedType(),
 			desc : true
 		});
+
+		// if (viewModel.searchString() !== '') {
+		// DevExpress.ui.notify("search by " + viewModel.searchString(), "info", 3000);
+		listDataSource.filter("name", "contains", viewModel.searchString());
+		// }
+
 		listDataSource.pageIndex(0);
 		listDataSource.load();
 	};
@@ -226,7 +261,7 @@
 	}).extend({
 		throttle : 500
 	}).subscribe(function() {
-		doLoadData();
+		doLoadProducts();
 	});
 	return viewModel;
 };

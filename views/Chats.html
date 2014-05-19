@@ -5,7 +5,7 @@
 		{ dataSource: listDataSource,
 		autoPagingEnabled: true,
 		pullRefreshEnabled: true,
-		pullRefreshAction: doLoadData }">
+		pullRefreshAction: function() { doLoadChatIdsData(); } }">
 			<div data-options="dxTemplate : { name: 'item' } " data-bind="dxAction: '#chatdetails/{id}'">
 				<!-- <div class="left conversations-title" data-bind="text:msg" style="white-space: pre-wrap; word-wrap: break-word;"></div> -->
 				<table class="products-list" style="width:100%">

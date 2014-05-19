@@ -1,8 +1,8 @@
 ﻿<div data-options="dxView : { name: 'chatdetails', title: 'Hỏi & đáp', secure: true } " >
 	<div data-options="dxContent : { targetPlaceholder: 'content' } " >
 		<div data-bind="dxLoadPanel:{message: 'Đang tải...', visible: loadPanelVisible }"></div>
-		<div style="height: calc(100% - 88px);">
-			<div id="chatScroll" class="conversations-content" data-bind="dxScrollView: {pullDownAction: doLoadData}">
+		<div class="chatscroll">
+			<div id="chatScroll" class="conversations-content" data-bind="dxScrollView: {pullDownAction: function() {doLoadChatDetailData();}}">
 				<div>
 					<table class="conversations-list">
 						<tbody>
@@ -39,6 +39,6 @@
 			</div>
 		</div>
 		<div class="conversations-comment" data-bind="dxTextArea:{value:commentToPost}"></div>
-		<div class="button" data-bind="dxButton: { text: 'Trả lời', clickAction: postComment, icon: 'comment' }"></div>
+		<div class="conversations-comment-button" data-bind="dxButton: { text: 'Trả lời', clickAction: postComment, icon: 'comment' }"></div>
 	</div>
 </div>

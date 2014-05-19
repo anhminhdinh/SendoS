@@ -2,7 +2,7 @@
 	var viewModel = {
 		// dataSource : ko.observableArray(),
 		viewShowing : function() {
-			doLoadData();
+			doLoadChatIdsData();
 		},
 		loadPanelVisible : ko.observable(false),
 	};
@@ -25,7 +25,7 @@
 		pageSize : 10
 	});
 
-	doLoadData = function(actionOptions) {
+	doLoadChatIdsData = function(actionOptions) {
 		// alert(viewModel.id);
 		viewModel.loadPanelVisible(true);
 		var tokenId = window.localStorage.getItem("MyTokenId");

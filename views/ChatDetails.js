@@ -4,11 +4,11 @@
 		id : params.id,
 		loadPanelVisible : ko.observable(false),
 		viewShowing : function() {
-			doLoadData();
+			doLoadChatDetailData();
 		},
 		commentToPost : ko.observable(''),
 	};
-	doLoadData = function(actionOptions) {
+	doLoadChatDetailData = function(actionOptions) {
 		viewModel.loadPanelVisible(true);
 		var tokenId = window.localStorage.getItem("MyTokenId");
 		var dataToSend = {
