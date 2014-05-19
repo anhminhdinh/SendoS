@@ -23,14 +23,6 @@
 		},
 		selectedType : ko.observable('updatedDate'),
 
-		// sortTypes : [{
-		// name : 'Ngày tạo',
-		// type : 'updatedDate'
-		// }, {
-		// name : 'Up gần nhất',
-		// type : 'upProductDate'
-		// }],
-
 		processSortTypeChange : function() {
 			// alert(viewModel.selectedType());
 			doReload();
@@ -52,7 +44,24 @@
 				doReload();
 			}
 		}],
-
+		dataItem : ko.observable(),
+		popupEditVisible : ko.observable(false),
+		editName : ko.observable(''),
+		editPrice : ko.observable(0),
+		editWeight : ko.observable(0),
+		hideEditPopup : function(e) {
+			this.popupEditVisible(false);
+		},
+	};
+	
+	edit = function(e, itemData) {
+		viewModel.popupEditVisible(true);
+		listDataStore.byKey(itemData.id).done(function(dataItem) {
+			viewModel.dataItem(dataItem);
+			viewModel.editName(dataItem.name);
+			viewModel.editPrice(dataItem.price);
+			viewModel.editWeight(dataItem.weight);
+		});
 	};
 
 	changeStockStatus = function(e, itemData) {
@@ -85,11 +94,52 @@
 				});
 				doReload();
 				viewModel.loadPanelVisible(false);
-				//TODO change local data
 				// doLoadDataByProductID();
 				//textStatus contains the status: success, error, etc
 			}).fail(function(jqxhr, textStatus, error) {
 				viewModel.loadPanelVisible(false);
+				var err = textStatus + ", " + jqxhr.responseText;
+				alert("Get Failed: " + err);
+			});
+		}
+	};
+
+	changeProductProperties = function() {
+		if (confirm("Are you sure you wanna edit this?")) {
+			viewModel.loadPanelVisible(true);
+			// alert(viewModel.id);
+			var tokenId = window.localStorage.getItem("MyTokenId");
+
+			var dataToSend = {
+				TokenId : tokenId,
+				Id : viewModel.dataItem().id,
+				Name : viewModel.editName(),
+				Weight : viewModel.editWeight(),
+				Price : viewModel.editPrice(),
+			};
+			var jsonData = JSON.stringify(dataToSend);
+			// alert(jsonData);
+			return $.ajax({
+				url : "http://180.148.138.140/sellerDev2/api/mobile/UpdateProduct",
+				type : "POST",
+				data : jsonData,
+				contentType : "application/json; charset=utf-8",
+				dataType : "json"
+			}).done(function(data, textStatus) {
+				listDataStore.byKey(viewModel.dataItem().id).done(function(dataItem) {
+					dataItem.name = viewModel.editName();
+					dataItem.price = viewModel.editPrice();
+					dataItem.weight = viewModel.editWeight();
+					listDataStore.remove(dataItem.id);
+					listDataStore.insert(dataItem);
+				});
+				doReload();
+				viewModel.loadPanelVisible(false);
+				viewModel.popupEditVisible(false);
+				//textStatus contains the status: success, error, etc
+			}).fail(function(jqxhr, textStatus, error) {
+				viewModel.loadPanelVisible(false);
+				viewModel.popupEditVisible(false);
 				var err = textStatus + ", " + jqxhr.responseText;
 				alert("Get Failed: " + err);
 			});
@@ -120,7 +170,7 @@
 			Name : viewModel.searchString(),
 			From : 0,
 			To : 100,
-			TimeStamp : timeStamp,
+			TimeStamp : 0,
 		};
 		var jsonData = JSON.stringify(dataToSend);
 		// alert(jsonData);
@@ -256,12 +306,12 @@
 		listDataSource.load();
 	};
 
-	ko.computed(function() {
-		return viewModel.searchString();
-	}).extend({
-		throttle : 500
-	}).subscribe(function() {
-		doLoadProducts();
-	});
+	// ko.computed(function() {
+		// return viewModel.searchString();
+	// }).extend({
+		// throttle : 500
+	// }).subscribe(function() {
+		// doLoadProducts();
+	// });
 	return viewModel;
 };

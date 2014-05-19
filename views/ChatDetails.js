@@ -83,7 +83,7 @@
 			contentType : "application/json; charset=utf-8",
 			dataType : "json"
 		}).done(function(data, textStatus) {
-			doLoadData();
+			doLoadChatDetailData();
 		}).fail(function(jqxhr, textStatus, error) {
 			var err = textStatus + ", " + jqxhr.responseText;
 			alert("Get Failed: " + err);

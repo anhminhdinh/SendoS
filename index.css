@@ -37,14 +37,14 @@ body {
 
 /* button widget */
 
-.dx-theme-generic .dx-button, .dx-theme-generic .dx-button.dx-state-active {
+.dx-theme-generic .default-button, .dx-theme-generic .default-button .dx-state-active, .dx-theme-generic .conversations-comment-button, .dx-theme-generic .conversations-comment-button .dx-state-active {
 	padding: 0;
 	border: none;
 	background: none;
 	box-shadow: none;
 }
 
-.dx-theme-generic .dx-button .dx-button-content {
+.dx-theme-generic .default-button .dx-button-content, .dx-theme-generic .conversations-comment-button .dx-button-content {
 	border: 1px solid #bb3405;
 	border-radius: 7px;
 	background-color: #f34401;
@@ -58,7 +58,7 @@ body {
 	height: 52px;
 }
 
-.dx-theme-generic .dx-button.dx-state-active .dx-button-content {
+.dx-theme-generic .default-button .dx-state-active .dx-button-content, .dx-theme-generic .conversations-comment-button .dx-state-active .dx-button-content {
 
 	background: linear-gradient(to bottom, #f34401, #bb3405);
 	background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#bb3405),color-stop(100%,#f34401));
@@ -66,20 +66,20 @@ body {
 	border-color: #bb3405;
 }
 
-.dx-theme-generic .dx-button .dx-button-content .dx-button-text {
+.dx-theme-generic .default-button .dx-button-content .dx-button-text, .dx-theme-generic .conversations-comment-button .dx-button-content .dx-button-text {
 	font-size: 18px;
 	-webkit-text-shadow: 0px -1px 0px #bb3405;
 	text-shadow: 0px -1px 0px #bb3405;
 }
 
-.dx-theme-generic .dx-toolbar .dx-button .dx-button-content {
+.dx-theme-generic .dx-toolbar .default-button .dx-button-content, .dx-theme-generic .dx-toolbar .conversations-comment-button .dx-button-content {
 	border: none;
 	background: none;
 	box-shadow: none;
 	color: #323a45;
 }
 
-.dx-theme-generic .dx-toolbar .dx-button.dx-state-active .dx-button-content {
+.dx-theme-generic .dx-toolbar .default-button .dx-state-active .dx-button-content, .dx-theme-generic .dx-toolbar .conversations-comment-button .dx-state-active .dx-button-content {
 	background: none;
 }
 
@@ -195,7 +195,6 @@ body {
 	width: 44px;
 }
 
-
 .popup .footer {
 	position: absolute;
 	bottom: 0;
@@ -210,7 +209,6 @@ body {
 .dx-theme-generic .dx-editbox .dx-editbox-input {
 	padding: 10px;
 }
-
 
 /*conversation*/
 .conversations-name {

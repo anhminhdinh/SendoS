@@ -2,7 +2,7 @@
 	var viewModel = {
 
 		viewShowing : function() {
-			// listDataStore.clear();
+			listDataStore.clear();
 			doLoadDataByOrderStatus("New");
 			doLoadDataByOrderStatus("Delayed");
 			doLoadDataByOrderStatus("Processing");
@@ -133,7 +133,7 @@
 			dataType : "json"
 		}).done(function(data, textStatus) {
 			showLoading(false);
-			var item = viewModel.dataItem(); 
+			var item = viewModel.dataItem();
 			var oldStatus = item.status;
 			item.status = "Processing";
 			listDataStore.update(item.orderNumber, item);
@@ -159,7 +159,7 @@
 		var tokenId = window.localStorage.getItem("MyTokenId");
 		var dataToSend = {
 			TokenId : tokenId,
-			OrderNumber : viewModel.id,
+			OrderNumber : viewModel.dataItem().orderNumber,
 			Action : "Split",
 			Products : splitIDs
 		};
@@ -189,7 +189,7 @@
 		var newDelayDate = new Date(viewModel.dateBoxValue());
 		var dataToSend = {
 			TokenId : tokenId,
-			OrderNumber : viewModel.id,
+			OrderNumber : viewModel.dataItem().orderNumber,
 			Action : "Delay",
 			DelayDate : Globalize.format(newDelayDate, 'yyyy-MM-dd')
 		};
@@ -309,7 +309,7 @@
 			TokenId : tokenId,
 			Status : status,
 			// Status : viewModel.selectedType(),
-			TimeStamp : timeStamp
+			TimeStamp : 0
 		};
 		var jsonData = JSON.stringify(dataToSend);
 		// alert(jsonData);
@@ -399,7 +399,7 @@
 			id : orderNumber
 		});
 	};
-	
+
 	showActionSheet = function(orderNumber) {
 		viewModel.actionSheetVisible(true);
 		listDataStore.byKey(orderNumber).done(function(dataItem) {
