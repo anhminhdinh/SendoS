@@ -2,19 +2,27 @@
 	var viewModel = {
 		// dataSource : ko.observableArray(),
 		viewShowing : function() {
-			doLoadChatIdsData();
+			if (window.localStorage.getItem("MyTokenId") == undefined) {
+				MyApp.app.navigate({
+					view : "user",
+					id : undefined
+				}, {
+					root : true
+				});
+			} else
+				doLoadChatIdsData();
 		},
 		loadPanelVisible : ko.observable(false),
 	};
 
-	var listDataStore = new DevExpress.data.LocalStore({
+	var chatIdsStore = new DevExpress.data.LocalStore({
 		name : "chatIdsStore",
 		key : "id",
 		flushInterval : 1000,
 		// immediate: true,
 	});
-	listDataSource = new DevExpress.data.DataSource({
-		store : listDataStore,
+	chatsDataSource = new DevExpress.data.DataSource({
+		store : chatIdsStore,
 		sort : [{
 			getter : 'updatedDate',
 			desc : true
@@ -56,6 +64,7 @@
 					var updatedDate = new Date(item.UpdatedDate);
 					return {
 						id : item.Id,
+						name : item.ProductName,
 						thumbnail : item.Thumnail,
 						msg : message,
 						isParent : item.IsParent,
@@ -64,25 +73,25 @@
 					};
 				});
 				for (var i = 0; i < result.length; i++) {
-					listDataStore.byKey(result[i].id).done(function(dataItem) {
+					chatIdsStore.byKey(result[i].id).done(function(dataItem) {
 						if (dataItem != undefined)
-							listDataStore.update(result[i].id, result[i]);
+							chatIdsStore.update(result[i].id, result[i]);
 						else
-							listDataStore.insert(result[i]);
+							chatIdsStore.insert(result[i]);
 					}).fail(function(error) {
-						listDataStore.insert(result[i]);
+						chatIdsStore.insert(result[i]);
 					});
 				}
-				listDataStore.load();
-				listDataSource.sort([{
+				chatIdsStore.load();
+				chatsDataSource.sort([{
 					getter : 'updatedDate',
 					desc : true
 				}, {
 					getter : 'createdDate',
 					desc : true
 				}]);
-				listDataSource.pageIndex(0);
-				listDataSource.load();
+				chatsDataSource.pageIndex(0);
+				chatsDataSource.load();
 				// alert(JSON.stringify(data));
 				// viewModel.dataSource(result);
 				// alert(JSON.stringify(viewModel.dataSource()));

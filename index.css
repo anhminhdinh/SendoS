@@ -1,284 +1,239 @@
 ﻿html, body, #view-port {
-	height: 100%;
+	height:100%;
 }
 body {
-	margin: 0;
-	padding: 0;
+	margin:0;
+	padding:0;
 }
-
 .wrapper {
-	text-align: center;
+	text-align:center;
 }
-
 .button-center {
-	margin: auto;
+	margin:auto;
 }
-
 .dx-theme-generic .dx-pivottabs {
-	height: 30px;
+	height:30px;
 }
-
 .dx-theme-generic .dx-pivottabs .dx-pivottabs-tab, .dx-theme-generic .dx-pivottabs .dx-pivottabs-ghosttab {
-	padding: 0px 10px;
-	font-size: 20px;
+	padding:0px 10px;
+	font-size:20px;
 }
-
 .dx-theme-generic .dx-pivot .dx-pivot-itemcontainer {
-	top: 30px;
+	top:30px;
 }
-
 .dx-theme-generic .dx-list .dx-scrollable-container {
-	padding: 0;
+	padding:0;
 }
-
 .dx-theme-generic .dx-list .dx-list-item {
-	font-size: 14px;
+	font-size:14px;
 }
-
 /* button widget */
-
-.dx-theme-generic .default-button, .dx-theme-generic .default-button .dx-state-active, .dx-theme-generic .conversations-comment-button, .dx-theme-generic .conversations-comment-button .dx-state-active {
-	padding: 0;
-	border: none;
-	background: none;
-	box-shadow: none;
+.dx-theme-generic .default-button, .dx-theme-generic .default-button .dx-state-active, .dx-theme-generic .conversations-comment-button, .dx-theme-generic .conversations-comment-button .dx-state-active, .dx-theme-generic .transparent-button, .dx-theme-generic .transparent-button .dx-state-active {
+	padding:0;
+	border:none;
+	background:none;
+	box-shadow:none;
 }
-
-.dx-theme-generic .default-button .dx-button-content, .dx-theme-generic .conversations-comment-button .dx-button-content {
-	border: 1px solid #bb3405;
-	border-radius: 7px;
-	background-color: #f34401;
-	background: linear-gradient(to bottom, #f34401, #bb3405);
-	background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#f34401),color-stop(100%,#bb3405));
+.dx-theme-generic .default-button .dx-button-content {
+	border:1px solid #bb3405;
+	border-radius:7px;
+	background-color:#f34401;
+	background:linear-gradient(to bottom, #f34401, #bb3405);
+	background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#f34401),color-stop(100%,#bb3405));
 	/*box-shadow: 0 1px 5px 0px #f34401, inset 0 0px 2px 0px #bb3405;*/
-	color: white;
-	font-weight: bold;
-	font-size: 18px;
-	line-height: 43px;
-	height: 52px;
+	color:white;
+	font-weight:bold;
+	font-size:18px;
+	line-height:43px;
+	height:52px;
 }
-
-.dx-theme-generic .default-button .dx-state-active .dx-button-content, .dx-theme-generic .conversations-comment-button .dx-state-active .dx-button-content {
-
-	background: linear-gradient(to bottom, #f34401, #bb3405);
-	background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#bb3405),color-stop(100%,#f34401));
+.dx-theme-generic .default-button .dx-state-active .dx-button-content {
+	background:linear-gradient(to bottom, #f34401, #bb3405);
+	background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#bb3405),color-stop(100%,#f34401));
 	/*box-shadow: 0 1px 5px 0px #f34401, inset 0 0px 2px 0px #bb3405;*/
-	border-color: #bb3405;
+	border-color:#bb3405;
 }
-
-.dx-theme-generic .default-button .dx-button-content .dx-button-text, .dx-theme-generic .conversations-comment-button .dx-button-content .dx-button-text {
-	font-size: 18px;
-	-webkit-text-shadow: 0px -1px 0px #bb3405;
-	text-shadow: 0px -1px 0px #bb3405;
+.dx-theme-generic .default-button .dx-button-content .dx-button-text {
+	font-size:18px;
+	-webkit-text-shadow:0px -1px 0px #bb3405;
+	text-shadow:0px -1px 0px #bb3405;
 }
-
-.dx-theme-generic .dx-toolbar .default-button .dx-button-content, .dx-theme-generic .dx-toolbar .conversations-comment-button .dx-button-content {
-	border: none;
-	background: none;
-	box-shadow: none;
-	color: #323a45;
+.dx-theme-generic .dx-toolbar .default-button .dx-button-content {
+	border:none;
+	background:none;
+	box-shadow:none;
+	color:#323a45;
 }
-
-.dx-theme-generic .dx-toolbar .default-button .dx-state-active .dx-button-content, .dx-theme-generic .dx-toolbar .conversations-comment-button .dx-state-active .dx-button-content {
-	background: none;
+.dx-theme-generic .dx-toolbar .default-button .dx-state-active .dx-button-content {
+	background:none;
 }
-
 /*profile*/
 .user-photo {
 	/*height: 180px;
 	 width: 180px;*/
-	display: block;
-	margin-right: auto;
-	margin-left: auto;
-	border: 1px solid #d2d3d5;
-	border-radius: 50%;
+	display:block;
+	margin-right:auto;
+	margin-left:auto;
+	border:1px solid #d2d3d5;
+	/*border-radius:50%;*/
 }
-
 .product-photo {
-	height: 240px;
-	width: 240px;
-	display: block;
-	margin-right: auto;
-	margin-left: auto;
-	border: 1px solid #d2d3d5;
-	border-radius: 50%;
+	height:240px;
+	width:240px;
+	display:block;
+	margin-right:auto;
+	margin-left:auto;
+	border:1px solid #d2d3d5;
+	border-radius:50%;
 }
-
 .logout-block .dx-button {
-	width: 100%;
+	width:100%;
 }
-
 .dx-theme-generic .type-block .dx-fieldset, .dx-theme-generic .type-block .dx-fieldset {
-	margin-top: 0;
-	padding: 10;
-	min-height: 0;
-	border-bottom: 0;
+	margin-top:0;
+	padding:10;
+	min-height:0;
+	border-bottom:0;
 }
-
 .dx-theme-generic .order-info .dx-field {
 	/*padding: 0;*/
 	/*margin: 0;*/
-	min-height: 0;
+	min-height:0;
 }
-
 .dx-theme-generic .order-info .dx-field-value {
-	font-weight: bold;
-	text-align: left;
+	font-weight:bold;
+	text-align:left;
 }
-
 /* orders */
-
-.orders-partial-content .dx-scrollview-content > div {
-	padding-right: 10px;
+.orders-partial-content .dx-scrollview-content> div {
+	padding-right:10px;
 }
-
 .conversations-list, .orders-list {
-	width: 100%;
-	font-size: 16px;
+	width:100%;
+	font-size:16px;
 }
-
 .productslist {
-	height: 100%;
-	padding-bottom: 48px;
-	box-sizing: border-box;
+	height:100%;
+	padding-bottom:48px;
+	box-sizing:border-box;
 	/*height: calc(100% - 48px);*/
 }
-
 .products-list {
-	border-spacing: 5px;
-	border-collapse: separate;
+	border-spacing:5px;
+	border-collapse:separate;
 }
-
 .dx-theme-generic .dx-list .dx-list-item {
-	padding: 5px 0;
+	padding:5px 0;
 }
-
 .products-list tr {
-	border-bottom: 1px solid black;
+	border-bottom:1px solid black;
 }
-
 .orders-list td {
-	text-align: center;
-	padding: 5px 1px;
+	text-align:center;
+	padding:5px 1px;
 }
-
 .conversations-list td.left, .orders-list td.left {
-	text-align: left;
+	text-align:left;
 }
-
 .conversations-list td.right, .orders-list td.right {
-	text-align: right;
+	text-align:right;
 }
-
 .orders-date {
 	/*vertical-align: top;*/
-	color: blue;
-	width: 44px;
+	color:blue;
+	width:44px;
 }
-
 .orders-price {
-	font-weight: bold;
+	font-weight:bold;
 	/*font-size: 14px;*/
-	width: 25%;
+	width:25%;
 }
-
 .orders-title div {
-	padding-left: 7px;
-	border-left: 1px solid #b5b9bc;
-	width: auto;
+	padding-left:7px;
+	border-left:1px solid #b5b9bc;
+	width:auto;
 	/*vertical-align: top;*/
 }
-
 .orders-state {
-	background-position: center left;
-	background-repeat: no-repeat;
-	width: 44px;
+	background-position:center left;
+	background-repeat:no-repeat;
+	width:44px;
 }
-
 .popup .footer {
-	position: absolute;
-	bottom: 0;
-	height: 68px;
-	width: 95%;
+	position:absolute;
+	bottom:0;
+	height:68px;
+	width:95%;
 }
-
 .dx-theme-generic .dx-textbox {
-	background: lightgray;
+	background:lightgray;
 }
-
 .dx-theme-generic .dx-editbox .dx-editbox-input {
-	padding: 10px;
+	padding:10px;
 }
-
 /*conversation*/
 .conversations-name {
-	font-style: italic;
-	color: blue;
+	font-style:italic;
+	color:blue;
 	/*vertical-align: top;*/
-	width: 66px;
+	width:66px;
 }
-
 .conversations-message {
-	margin: 0px 10px;
-	width: auto;
-	color: #baffff;
+	margin:0px 10px;
+	width:auto;
+	color:#baffff;
 	/*background-color: #0e66fb;*/
-	border-radius: 10px;
-	background-color: #14b9d6;
-	background: linear-gradient(to bottom, #28c8df, #14b9d6);
-	background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#28c8df),color-stop(100%,#14b9d6));
+	border-radius:10px;
+	background-color:#14b9d6;
+	background:linear-gradient(to bottom, #28c8df, #14b9d6);
+	background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#28c8df),color-stop(100%,#14b9d6));
 	/*box-shadow: 0 1px 5px 0px #d7d8d9, inset 0 0px 2px 0px #8ee1ee;*/
 }
-
 .conversations-title {
 	/*margin: 10px;*/
-	padding: 10px;
-	width: auto;
-	background-color: lightgray;
-	border-radius: 10px;
+	padding:10px;
+	width:auto;
+	background-color:lightgray;
+	border-radius:10px;
 }
-
 .conversations-empty {
-	width: 10px;
+	width:10px;
 }
-
 .conversations-date {
 	/*vertical-align: top;*/
-	text-align: center;
-	width: 50px;
-	font-size: 10px;
+	text-align:center;
+	width:50px;
+	font-size:10px;
 }
-
 .conversations-list td {
-	text-align: center;
-	padding: 5px 5px;
+	text-align:center;
+	padding:5px 5px;
 }
-
 .conversations-list tr {
-	padding: 0px 5px;
-	margin: 10px;
+	padding:0px 5px;
+	margin:10px;
 }
-
 .conversations-list {
-	border-spacing: 10px;
-	border-collapse: separate;
+	border-spacing:10px;
+	border-collapse:separate;
 }
-
 .chatscroll {
-	height: 100%;
-	padding-bottom: 98px;
-	box-sizing: border-box;
+	height:100%;
+	padding-bottom:54px;
+	box-sizing:border-box;
 	/*height: calc(100% - 88px);*/
 }
-
 .conversations-comment {
-	position: absolute;
-	bottom: 54px;
-	width: 100%;
+	position:absolute;
+	bottom:0;
+	/*right:0;*/
+	width:100%;
+	padding-right:44px;
+	box-sizing:border-box;
 }
-
 .conversations-comment-button {
-	position: absolute;
-	bottom: 0;
+	position:absolute;
+	bottom:0;
+	right:0;
 	/*width: 100%;*/
 }

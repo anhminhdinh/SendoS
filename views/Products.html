@@ -67,7 +67,7 @@
 		</div> -->
 		<!-- <div style="height:100%;padding-bottom: 56px;height: calc(100% -56px);"> -->
 		<div class="productslist">
-			<div id="productsList" data-bind="dxList: { dataSource: listDataSource,
+			<div id="productsList" data-bind="dxList: { dataSource: productsDataSource,
 			pullRefreshEnabled: true,
 			pullRefreshAction: function() { doLoadProducts(); } }">
 				<div data-options="dxTemplate : { name: 'item' }">
@@ -79,6 +79,10 @@
 								<p>
 									<span style="font-weight: bold;">Giá: </span>
 									<span style="color: red;" data-bind="text: price + ' VND'"></span>
+								</p>
+								<p>
+									<span style="font-weight: bold;">Trọng lượng: </span>
+									<span style="color: blue;" data-bind="text: weight"></span>
 								</p></td>
 								<td data-bind="dxButton: {icon:'edit', clickAction: function(e) {edit(e, $data);}}"></td>
 							</tr>

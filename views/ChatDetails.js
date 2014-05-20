@@ -1,6 +1,7 @@
 ﻿MyApp.chatdetails = function(params) {
 	var viewModel = {
-		dataSource : ko.observableArray(),
+		// title : ko.observable(),
+		chatDetailDataSource : ko.observableArray(),
 		id : params.id,
 		loadPanelVisible : ko.observable(false),
 		viewShowing : function() {
@@ -44,7 +45,7 @@
 				};
 			});
 			// alert(JSON.stringify(result));
-			viewModel.dataSource(result);
+			viewModel.chatDetailDataSource(result);
 
 			$("#anna").css("background", "linear-gradient(to bottom, #f1f6f9, #d1d8de)");
 			$("#anna").css("background", "-webkit-gradient(linear,left top,left bottom,color-stop(0%,#f1f6f9),color-stop(100%,#d1d8de))");
@@ -55,7 +56,7 @@
 
 			viewModel.loadPanelVisible(false);
 			actionOptions.component.release();
-			// alert(JSON.stringify(viewModel.dataSource()));
+			// alert(JSON.stringify(viewModel.chatDetailDataSource()));
 			// popupVisible(false);
 			//textStatus contains the status: success, error, etc
 		}).fail(function(jqxhr, textStatus, error) {

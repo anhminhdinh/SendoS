@@ -2,8 +2,17 @@
 	var viewModel = {
 		// dataSource : ko.observableArray(),
 		viewShowing : function() {
-			listDataStore.clear();
-			doLoadProducts();
+			if (window.localStorage.getItem("MyTokenId") == undefined) {
+				MyApp.app.navigate({
+					view : "user",
+					id : undefined
+				}, {
+					root : true
+				});
+			} else {
+				productsStore.clear();
+				doLoadProducts();
+			}
 		},
 		loadPanelVisible : ko.observable(false),
 		searchString : ko.observable(''),
@@ -53,10 +62,10 @@
 			this.popupEditVisible(false);
 		},
 	};
-	
+
 	edit = function(e, itemData) {
 		viewModel.popupEditVisible(true);
-		listDataStore.byKey(itemData.id).done(function(dataItem) {
+		productsStore.byKey(itemData.id).done(function(dataItem) {
 			viewModel.dataItem(dataItem);
 			viewModel.editName(dataItem.name);
 			viewModel.editPrice(dataItem.price);
@@ -85,12 +94,12 @@
 				contentType : "application/json; charset=utf-8",
 				dataType : "json"
 			}).done(function(data, textStatus) {
-				listDataStore.byKey(itemData.id).done(function(dataItem) {
+				productsStore.byKey(itemData.id).done(function(dataItem) {
 					// dataItem.stockAvailability = itemData.stockAvailability;
 					dataItem.stockAvailability = !itemData.stockAvailability;
-					listDataStore.remove(itemData.id);
-					listDataStore.insert(dataItem);
-					// listDataStore.update(id, dataItem);
+					productsStore.remove(itemData.id);
+					productsStore.insert(dataItem);
+					// productsStore.update(id, dataItem);
 				});
 				doReload();
 				viewModel.loadPanelVisible(false);
@@ -101,6 +110,8 @@
 				var err = textStatus + ", " + jqxhr.responseText;
 				alert("Get Failed: " + err);
 			});
+		} else {
+			doReload();
 		}
 	};
 
@@ -126,12 +137,12 @@
 				contentType : "application/json; charset=utf-8",
 				dataType : "json"
 			}).done(function(data, textStatus) {
-				listDataStore.byKey(viewModel.dataItem().id).done(function(dataItem) {
+				productsStore.byKey(viewModel.dataItem().id).done(function(dataItem) {
 					dataItem.name = viewModel.editName();
 					dataItem.price = viewModel.editPrice();
 					dataItem.weight = viewModel.editWeight();
-					listDataStore.remove(dataItem.id);
-					listDataStore.insert(dataItem);
+					productsStore.remove(dataItem.id);
+					productsStore.insert(dataItem);
 				});
 				doReload();
 				viewModel.loadPanelVisible(false);
@@ -146,12 +157,12 @@
 		}
 	};
 
-	listDataStore = new DevExpress.data.LocalStore({
+	productsStore = new DevExpress.data.LocalStore({
 		name : "productsStore",
 		key : "id",
 	});
-	listDataSource = new DevExpress.data.DataSource({
-		store : listDataStore,
+	productsDataSource = new DevExpress.data.DataSource({
+		store : productsStore,
 		sort : 'updatedDate',
 		// pageSize : 10
 	});
@@ -207,13 +218,13 @@
 			});
 			// arrayStore.clear();
 			for (var i = 0; i < result.length; i++) {
-				listDataStore.byKey(result[i].id).done(function(dataItem) {
+				productsStore.byKey(result[i].id).done(function(dataItem) {
 					if (dataItem != undefined)
-						listDataStore.update(result[i].id, result[i]);
+						productsStore.update(result[i].id, result[i]);
 					else
-						listDataStore.insert(result[i]);
+						productsStore.insert(result[i]);
 				}).fail(function(error) {
-					listDataStore.insert(result[i]);
+					productsStore.insert(result[i]);
 				});
 				// alert(JSON.stringify(result[i]));
 			}
@@ -269,14 +280,14 @@
 					UpProductDateDisplay = Globalize.format(UpProductDate, 'dd/MM/yyyy');
 					var UpdatedDate = new Date(data.Data[0].UpdatedDate);
 					UpdatedDateDisplay = Globalize.format(UpdatedDate, 'dd/MM/yyyy');
-					listDataStore.byKey(id).done(function(dataItem) {
+					productsStore.byKey(id).done(function(dataItem) {
 						dataItem.upProductDate = UpProductDate;
 						dataItem.upProductDateDisplay = UpProductDateDisplay;
 						dataItem.updatedDate = UpdatedDate;
 						dataItem.updatedDateDisplay = UpdatedDateDisplay;
-						listDataStore.remove(id);
-						listDataStore.insert(dataItem);
-						// listDataStore.update(id, dataItem);
+						productsStore.remove(id);
+						productsStore.insert(dataItem);
+						// productsStore.update(id, dataItem);
 					});
 					doReload();
 					viewModel.loadPanelVisible(false);
@@ -291,27 +302,27 @@
 	};
 
 	doReload = function() {
-		listDataStore.load();
-		listDataSource.sort({
+		productsStore.load();
+		productsDataSource.sort({
 			getter : viewModel.selectedType(),
 			desc : true
 		});
 
 		// if (viewModel.searchString() !== '') {
 		// DevExpress.ui.notify("search by " + viewModel.searchString(), "info", 3000);
-		listDataSource.filter("name", "contains", viewModel.searchString());
+		productsDataSource.filter("name", "contains", viewModel.searchString());
 		// }
 
-		listDataSource.pageIndex(0);
-		listDataSource.load();
+		productsDataSource.pageIndex(0);
+		productsDataSource.load();
 	};
 
 	// ko.computed(function() {
-		// return viewModel.searchString();
+	// return viewModel.searchString();
 	// }).extend({
-		// throttle : 500
+	// throttle : 500
 	// }).subscribe(function() {
-		// doLoadProducts();
+	// doLoadProducts();
 	// });
 	return viewModel;
 };

@@ -62,6 +62,9 @@
 				}
 				viewModel.dataItem(dataItem);
 				viewModel.loadPanelVisible(false);
+			}).fail(function(error){
+				alert(JSON.stringify(error));
+				viewModel.loadPanelVisible(false);
 			});
 		},
 		id : params.id,

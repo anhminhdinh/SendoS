@@ -2,11 +2,20 @@
 	var viewModel = {
 
 		viewShowing : function() {
-			listDataStore.clear();
-			doLoadDataByOrderStatus("New");
-			doLoadDataByOrderStatus("Delayed");
-			doLoadDataByOrderStatus("Processing");
-			doLoadDataByOrderStatus("Splitting");
+			if (window.localStorage.getItem("MyTokenId") == undefined) {
+				MyApp.app.navigate({
+					view : "user",
+					id : undefined
+				}, {
+					root : true
+				});
+			} else {
+				ordersStore.clear();
+				doLoadDataByOrderStatus("New");
+				doLoadDataByOrderStatus("Delayed");
+				doLoadDataByOrderStatus("Processing");
+				doLoadDataByOrderStatus("Splitting");
+			}
 		},
 
 		username : ko.observable(),
@@ -58,7 +67,7 @@
 	};
 
 	doReloadPivot = function(status) {
-		listDataStore.load();
+		ordersStore.load();
 		switch (status) {
 			case "New":
 				newDataSource.filter("status", status);
@@ -104,7 +113,7 @@
 			var item = viewModel.dataItem();
 			var oldStatus = item.status;
 			item.status = "New";
-			listDataStore.update(item.orderNumber, item);
+			ordersStore.update(item.orderNumber, item);
 			doLoadDataByOrderStatus(oldStatus);
 			doLoadDataByOrderStatus("New");
 		}).fail(function(jqxhr, textStatus, error) {
@@ -136,7 +145,7 @@
 			var item = viewModel.dataItem();
 			var oldStatus = item.status;
 			item.status = "Processing";
-			listDataStore.update(item.orderNumber, item);
+			ordersStore.update(item.orderNumber, item);
 			doLoadDataByOrderStatus(oldStatus);
 			doLoadDataByOrderStatus("Processing");
 		}).fail(function(jqxhr, textStatus, error) {
@@ -213,7 +222,7 @@
 
 	};
 
-	listDataStore = new DevExpress.data.LocalStore({
+	ordersStore = new DevExpress.data.LocalStore({
 		type : "local",
 		name : "OrdersStore",
 		key : "orderNumber",
@@ -222,28 +231,28 @@
 	});
 
 	newDataSource = new DevExpress.data.DataSource({
-		store : listDataStore,
+		store : ordersStore,
 		pageSize : 10,
 		sort : "orderNumber",
 		filter : ["status", "=", "New"]
 	});
 
 	processingDataSource = new DevExpress.data.DataSource({
-		store : listDataStore,
+		store : ordersStore,
 		pageSize : 10,
 		sort : "orderNumber",
 		filter : ["status", "=", "Processing"]
 	});
 
 	delayedDataSource = new DevExpress.data.DataSource({
-		store : listDataStore,
+		store : ordersStore,
 		pageSize : 10,
 		sort : "orderNumber",
 		filter : ["status", "=", "Delayed"]
 	});
 
 	splittingDataSource = new DevExpress.data.DataSource({
-		store : listDataStore,
+		store : ordersStore,
 		pageSize : 10,
 		sort : "orderNumber",
 		filter : ["status", "=", "Spitting"]
@@ -352,6 +361,8 @@
 						orderNumber : item.OrderNumber,
 						orderDate : itemOrderDate,
 						delayDate : itemDelayDate,
+						paymentMethod : item.PaymentMethod,
+						shippingMethod : item.ShippingMethod,
 						orderDateDisplay : orderDateString,
 						delayDateDisplay : delayDateString,
 						buyerName : item.BuyerName,
@@ -370,13 +381,13 @@
 
 				// listDataSource.store().clear();
 				for (var i = 0; i < result.length; i++) {
-					listDataStore.byKey(result[i].orderNumber).done(function(dataItem) {
+					ordersStore.byKey(result[i].orderNumber).done(function(dataItem) {
 						if (dataItem != undefined)
-							listDataStore.update(result[i].orderNumber, result[i]).fail(function(error) {
+							ordersStore.update(result[i].orderNumber, result[i]).fail(function(error) {
 								alert(error);
 							});
 						else
-							listDataStore.insert(result[i]).fail(function(error) {
+							ordersStore.insert(result[i]).fail(function(error) {
 								alert("insert: " + error);
 							});
 					});
@@ -402,7 +413,7 @@
 
 	showActionSheet = function(orderNumber) {
 		viewModel.actionSheetVisible(true);
-		listDataStore.byKey(orderNumber).done(function(dataItem) {
+		ordersStore.byKey(orderNumber).done(function(dataItem) {
 			viewModel.dataItem(dataItem);
 			viewModel.products(dataItem.products);
 		});

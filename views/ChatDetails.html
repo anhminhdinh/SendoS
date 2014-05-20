@@ -6,7 +6,7 @@
 				<div>
 					<table class="conversations-list">
 						<tbody>
-							<!-- ko foreach: dataSource -->
+							<!-- ko foreach: chatDetailDataSource -->
 							<tr>
 								<!-- ko if:isShop -->
 								<td colspan="2" class="left conversations-message" data-bind="text:msg, attr: {'id':name}"></td>
@@ -38,7 +38,8 @@
 				</div>
 			</div>
 		</div>
-		<div class="conversations-comment" data-bind="dxTextArea:{value:commentToPost}"></div>
-		<div class="conversations-comment-button" data-bind="dxButton: { text: 'Trả lời', clickAction: postComment, icon: 'comment' }"></div>
+		<div class="conversations-comment" data-bind="dxTextBox:{value:commentToPost }"></div>		
+		<div class="conversations-comment-button" data-bind="dxButton: { clickAction: postComment, icon: 'comment' }"></div>
 	</div>
 </div>
+

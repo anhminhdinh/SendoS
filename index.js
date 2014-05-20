@@ -19,16 +19,14 @@
 				title : 'Sản Phẩm',
 				action : "#products",
 				icon : "product"
-			},
-			// {
-			// title : 'Raise Product',
-			// action : "#upproducts",
-			// icon : "todo"
-			// },
-			{
+			}, {
 				title : 'Hỏi & đáp',
 				action : "#chats",
 				icon : "comment"
+			}, {
+				title : 'Người dùng',
+				action : "#user",
+				icon : "user"
 			}],
 			commandMapping : {
 				"ios-header-toolbar" : {
@@ -59,7 +57,7 @@
 		localStorage.removeItem("MyTokenId");
 
 		MyApp.app.router.register(":view/:id", {
-			view : "home",
+			view : "user",
 			id : undefined
 		});
 		function exitApp() {
@@ -128,7 +126,9 @@
 			if (len > 0) {
 				for ( i = 0; i < len; i++) {
 					//Get message object
+					alert(myNotifications[i]);
 					msgObj = AppMobi.notification.getNotificationData(myNotifications[i]);
+					alert(JSON.stringify(msgObj));
 					try {
 						if ( typeof msgObj == "object" && msgObj.id == myNotifications[i]) {
 							//Display the message now.
@@ -157,25 +157,25 @@
 		};
 		document.addEventListener("backbutton", onBackButton, false);
 
-		MyApp.app.initialized.add(function() {
-			var $view = MyApp.app.getViewTemplate("LogOnPopup");
-			$view.appendTo(".dx-viewport");
-			MyApp.logOnPopupViewModel = MyApp.LogOnPopup();
-
-			ko.applyBindings(MyApp.logOnPopupViewModel, $view[0]);
-		});
-
-		MyApp.app.navigating.add(function(e) {
-			var params = MyApp.app.router.parse(e.uri), viewInfo = MyApp.app.getViewTemplateInfo(params.view);
-			var localTokenId = window.localStorage.getItem("MyTokenId");
-			if (viewInfo.secure && localTokenId == null) {
-				// DevExpress.ui.notify("show logon", "info", 1000);
-				e.cancel = true;
-				MyApp.logOnPopupViewModel.show(e);
-			}
-			// else
-			// DevExpress.ui.notify(localTokenId, "info", 1000);
-		});
+		// MyApp.app.initialized.add(function() {
+		// var $view = MyApp.app.getViewTemplate("LogOnPopup");
+		// $view.appendTo(".dx-viewport");
+		// MyApp.logOnPopupViewModel = MyApp.LogOnPopup();
+		//
+		// ko.applyBindings(MyApp.logOnPopupViewModel, $view[0]);
+		// });
+		//
+		// MyApp.app.navigating.add(function(e) {
+		// var params = MyApp.app.router.parse(e.uri), viewInfo = MyApp.app.getViewTemplateInfo(params.view);
+		// var localTokenId = window.localStorage.getItem("MyTokenId");
+		// if (viewInfo.secure && localTokenId == null) {
+		// // DevExpress.ui.notify("show logon", "info", 1000);
+		// e.cancel = true;
+		// MyApp.logOnPopupViewModel.show(e);
+		// }
+		// // else
+		// // DevExpress.ui.notify(localTokenId, "info", 1000);
+		// });
 		MyApp.app.navigate();
 	});
 })();
