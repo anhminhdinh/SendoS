@@ -27,6 +27,8 @@ body {
 .dx-theme-ios.dx-version-major-7 .dx-list .dx-list-item {
 	font-size: 14px;
 }
+
+.dx-theme-ios.dx-version-major-7 .dx-loadpanel-content,
 .dx-loadpanel-content {
 	border: none;
 	background: none;
@@ -74,6 +76,9 @@ body {
 }
 .dx-theme-ios.dx-version-major-7 .dx-toolbar .default-button .dx-state-active .dx-button-content {
 	background: none;
+}
+.dx-theme-ios.dx-version-major-7 .default-button .dx-button-content .dx-button-text {
+	color: white;
 }
 .dx-theme-ios.dx-version-major-7 .transparent-button .dx-button-content .dx-icon
 {
@@ -178,9 +183,9 @@ body {
 	height: 68px;
 	width: 95%;
 }
-.dx-theme-ios.dx-version-major-7 .dx-textbox {
+/*.dx-theme-ios.dx-version-major-7 .dx-textbox {
 	background: lightgray;
-}
+}*/
 .dx-theme-ios.dx-version-major-7 .dx-editbox .dx-editbox-input {
 	padding: 10px;
 }

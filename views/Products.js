@@ -86,7 +86,7 @@
 				StockAvailability : !itemData.stockAvailability,
 			};
 			var jsonData = JSON.stringify(dataToSend);
-			alert(jsonData);
+			// alert(jsonData);
 			return $.ajax({
 				url : "http://180.148.138.140/sellerDev2/api/mobile/UpdateProductStock",
 				type : "POST",
@@ -256,7 +256,7 @@
 				ProductId : id,
 			};
 			var jsonData = JSON.stringify(dataToSend);
-			alert(jsonData);
+			// alert(jsonData);
 			return $.ajax({
 				url : "http://180.148.138.140/sellerDev2/api/mobile/UpProduct",
 				type : "POST",
