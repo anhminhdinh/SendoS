@@ -1,7 +1,7 @@
 ﻿<div data-options="dxView : { name: 'product-details', title: 'Sản Phẩm' } " >
 	<div data-bind="dxCommand: { id: 'edit', icon: 'edit', action: edit }" ></div>
 	<div data-options="dxContent : { targetPlaceholder: 'content' } " >
-		<div data-bind="dxLoadPanel:{message: 'Đang tải...', visible: loadPanelVisible }"></div>
+		<div data-bind="dxLoadPanel:{message: '', visible: loadPanelVisible }"></div>
 		<div data-bind="dxPopup:{visible:popupEditVisible, fullScreen:false, title:'Chỉnh sửa sản phẩm'}">
 			<div data-options="dxTemplate:{name: 'content'}">
 				<div class="dx-fieldset">

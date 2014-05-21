@@ -10,7 +10,7 @@
 					root : true
 				});
 			} else {
-				productsStore.clear();
+				// productsStore.clear();
 				doLoadProducts();
 			}
 		},
@@ -181,7 +181,7 @@
 			Name : viewModel.searchString(),
 			From : 0,
 			To : 100,
-			TimeStamp : 0,
+			TimeStamp : timeStamp,
 		};
 		var jsonData = JSON.stringify(dataToSend);
 		// alert(jsonData);

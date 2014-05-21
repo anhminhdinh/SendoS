@@ -10,11 +10,10 @@
 					root : true
 				});
 			} else {
-				ordersStore.clear();
+				// ordersStore.clear();
 				doLoadDataByOrderStatus("New");
 				doLoadDataByOrderStatus("Delayed");
 				doLoadDataByOrderStatus("Processing");
-				doLoadDataByOrderStatus("Splitting");
 			}
 		},
 
@@ -28,7 +27,7 @@
 				processValueChange("New");
 			}
 		}, {
-			text : "Chờ giao hàng ",
+			text : "Còn hàng",
 			clickAction : function() {
 				processValueChange("Processing");
 			}
@@ -38,7 +37,7 @@
 				processValueChange("Delay");
 			}
 		}, {
-			text : "Tách",
+			text : "Tách đơn hàng",
 			clickAction : function() {
 				processValueChange("Split");
 			}
@@ -83,11 +82,6 @@
 				delayedDataSource.filter("status", status);
 				delayedDataSource.pageIndex(0);
 				delayedDataSource.load();
-				break;
-			case "Splitting":
-				splittingDataSource.filter("status", status);
-				splittingDataSource.pageIndex(0);
-				splittingDataSource.load();
 				break;
 		}
 	};
@@ -203,7 +197,7 @@
 			DelayDate : Globalize.format(newDelayDate, 'yyyy-MM-dd')
 		};
 		var jsonData = JSON.stringify(dataToSend);
-		alert(jsonData);
+		// alert(jsonData);
 		return $.ajax({
 			url : "http://180.148.138.140/sellerDev2/api/mobile/ProcessOrder",
 			type : "POST",
@@ -251,13 +245,6 @@
 		filter : ["status", "=", "Delayed"]
 	});
 
-	splittingDataSource = new DevExpress.data.DataSource({
-		store : ordersStore,
-		pageSize : 10,
-		sort : "orderNumber",
-		filter : ["status", "=", "Spitting"]
-	});
-
 	items = [{
 		title : "Mới",
 		dataName : "New",
@@ -270,10 +257,6 @@
 		title : "Đang hoãn",
 		dataName : "Delayed",
 		listItems : delayedDataSource
-	}, {
-		title : "Chờ tách",
-		dataName : "Splitting",
-		listItems : splittingDataSource
 	}];
 
 	processValueChange = function(text) {
@@ -318,7 +301,7 @@
 			TokenId : tokenId,
 			Status : status,
 			// Status : viewModel.selectedType(),
-			TimeStamp : 0
+			TimeStamp : timeStamp
 		};
 		var jsonData = JSON.stringify(dataToSend);
 		// alert(jsonData);
@@ -416,6 +399,9 @@
 		ordersStore.byKey(orderNumber).done(function(dataItem) {
 			viewModel.dataItem(dataItem);
 			viewModel.products(dataItem.products);
+			viewModel.dropDownMenuData[1].disabled(!dataItem.canProcess);
+			viewModel.dropDownMenuData[2].disabled(!dataItem.canDelay);
+			viewModel.dropDownMenuData[3].disabled(!dataItem.canSplit);
 		});
 	};
 

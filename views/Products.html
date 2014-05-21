@@ -74,17 +74,17 @@
 					<table class="products-list" style="background-color: white;width:100%">
 						<tbody>
 							<tr>
-								<td width="auto"><img width="75" height="75" data-bind="attr: { src: thumbnail }" /></td>
-								<td width="100%" rowspan="2"><p style="white-space: pre-wrap; word-wrap: break-word; text-align: left;" data-bind="text: name"></p>
-								<p>
-									<span style="font-weight: bold;">Giá: </span>
-									<span style="color: red;" data-bind="text: price + ' VND'"></span>
-								</p>
-								<p>
-									<span style="font-weight: bold;">Trọng lượng: </span>
-									<span style="color: blue;" data-bind="text: weight"></span>
-								</p></td>
+								<td rowspan="3" width="auto"><img width="75" height="75" data-bind="attr: { src: thumbnail }" /></td>
+								<td colspan="2" width="100%" style="white-space: pre-wrap; word-wrap: break-word; text-align: left;" data-bind="text: name"></td>
 								<td data-bind="dxButton: {icon:'edit', clickAction: function(e) {edit(e, $data);}}"></td>
+							</tr>
+							<tr>
+								<td width="auto" class="transparent-button" data-bind="dxButton: {icon: 'money'}"></td>
+								<td width="100%" style="color: red;" data-bind="text: price + ' VND'"></td>
+							</tr>
+							<tr>
+								<td width="auto" class="transparent-button" data-bind="dxButton: {iconSrc: 'images/weight.png'}"></td>
+								<td width="100%" style="color: red;" data-bind="text: weight + ' g'"></td>
 							</tr>
 							<tr>
 								<td width="auto" style="text-align: right;"
@@ -101,13 +101,13 @@
 						<tbody>
 							<tr>
 								<td style="width:50%;white-space: pre-wrap; word-wrap: break-word; text-align: left;" data-bind="text: 'Up gần nhất:\n' + upProductDateDisplay"></td>
-								<td class="default-button" style="width:100%;" data-bind="dxButton: {text:'Up ngay', clickAction: function() {upProduct(id);}}"></td>
+								<td class="default-button" style="width:auto;" data-bind="dxButton: {text:'Up ngay', clickAction: function() {upProduct(id);}}"></td>
 							</tr>
 						</tbody>
 					</table>
 				</div>
 			</div>
 		</div>
-		<div data-bind="dxLoadPanel:{message: 'Đang tải...', visible: loadPanelVisible }"></div>
+		<div data-bind="dxLoadPanel:{message: '', visible: loadPanelVisible }"></div>
 	</div>
 </div>

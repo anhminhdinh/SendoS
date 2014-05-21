@@ -1,6 +1,6 @@
 ﻿<div data-options="dxView : { name: 'chatdetails', title: 'Hỏi & đáp', secure: true } " >
 	<div data-options="dxContent : { targetPlaceholder: 'content' } " >
-		<div data-bind="dxLoadPanel:{message: 'Đang tải...', visible: loadPanelVisible }"></div>
+		<div data-bind="dxLoadPanel:{message: '', visible: loadPanelVisible }"></div>
 		<div class="chatscroll">
 			<div id="chatScroll" class="conversations-content" data-bind="dxScrollView: {pullDownAction: function() {doLoadChatDetailData();}}">
 				<div>

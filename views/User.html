@@ -1,6 +1,6 @@
 <div data-options="dxView : { name: 'user', title: 'Đăng nhập' } " >
 	<div  data-options="dxContent : { targetPlaceholder: 'content' } " >
-		<div data-bind="dxLoadPanel:{message: 'Loading...', visible: loadPanelVisible }"></div>
+		<div data-bind="dxLoadPanel:{message: '', visible: loadPanelVisible }"></div>
 		<img class="user-photo" src="images/logo.jpg" />
 		<!-- ko if:isLoggedOut -->
 		<div class="dx-fieldset">
@@ -20,7 +20,7 @@
 		<!-- ko ifnot:isLoggedOut -->
 		<div class="dx-fieldset">
 			<div class="dx-field">
-				<div id="nameBox" data-bind="{ text:username }"></div>
+				<div data-bind="{ text:username }"></div>
 			</div>
 		</div>
 		<div style="text-align: center;" >

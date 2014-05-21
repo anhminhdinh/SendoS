@@ -11,33 +11,38 @@ body {
 .button-center {
 	margin: auto;
 }
-.dx-theme-generic .dx-pivottabs {
+.dx-theme-ios.dx-version-major-7 .dx-pivottabs {
 	height: 30px;
 }
-.dx-theme-generic .dx-pivottabs .dx-pivottabs-tab, .dx-theme-generic .dx-pivottabs .dx-pivottabs-ghosttab {
+.dx-theme-ios.dx-version-major-7 .dx-pivottabs .dx-pivottabs-tab, .dx-theme-ios.dx-version-major-7 .dx-pivottabs .dx-pivottabs-ghosttab {
 	padding: 0px 10px;
 	font-size: 20px;
 }
-.dx-theme-generic .dx-pivot .dx-pivot-itemcontainer {
+.dx-theme-ios.dx-version-major-7 .dx-pivot .dx-pivot-itemcontainer {
 	top: 30px;
 }
-.dx-theme-generic .dx-list .dx-scrollable-container {
+.dx-theme-ios.dx-version-major-7 .dx-list .dx-scrollable-container {
 	padding: 0;
 }
-.dx-theme-generic .dx-list .dx-list-item {
+.dx-theme-ios.dx-version-major-7 .dx-list .dx-list-item {
 	font-size: 14px;
 }
+.dx-loadpanel-content {
+	border: none;
+	background: none;
+	background-color: none;
+}
 /* button widget */
-.dx-theme-generic .default-button, .dx-theme-generic .default-button .dx-state-active, .dx-theme-generic .conversations-comment-button, .dx-theme-generic .conversations-comment-button .dx-state-active, .dx-theme-generic .transparent-button, .dx-theme-generic .transparent-button .dx-state-active {
+.dx-theme-ios.dx-version-major-7 .default-button, .dx-theme-ios.dx-version-major-7 .default-button .dx-state-active, .dx-theme-ios.dx-version-major-7 .conversations-comment-button, .dx-theme-ios.dx-version-major-7 .conversations-comment-button .dx-state-active, .dx-theme-ios.dx-version-major-7 .transparent-button, .dx-theme-ios.dx-version-major-7 .transparent-button .dx-state-active {
 	padding: 0;
 	border: none;
 	background: none;
 	box-shadow: none;
 }
-.dx-theme-generic .transparent-button, .dx-theme-generic .transparent-button .dx-state-active {
+.dx-theme-ios.dx-version-major-7 .transparent-button, .dx-theme-ios.dx-version-major-7 .transparent-button .dx-state-active {
 
 }
-.dx-theme-generic .default-button .dx-button-content {
+.dx-theme-ios.dx-version-major-7 .default-button .dx-button-content {
 	border: 1px solid #bb3405;
 	border-radius: 7px;
 	background-color: #f34401;
@@ -50,27 +55,27 @@ body {
 	line-height: 43px;
 	height: 52px;
 }
-.dx-theme-generic .default-button .dx-state-active .dx-button-content {
+.dx-theme-ios.dx-version-major-7 .default-button .dx-state-active .dx-button-content {
 	background: linear-gradient(to bottom, #f34401, #bb3405);
 	background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#bb3405),color-stop(100%,#f34401));
 	/*box-shadow: 0 1px 5px 0px #f34401, inset 0 0px 2px 0px #bb3405;*/
 	border-color: #bb3405;
 }
-.dx-theme-generic .default-button .dx-button-content .dx-button-text {
+.dx-theme-ios.dx-version-major-7 .default-button .dx-button-content .dx-button-text {
 	font-size: 18px;
 	-webkit-text-shadow: 0px -1px 0px #bb3405;
 	text-shadow: 0px -1px 0px #bb3405;
 }
-.dx-theme-generic .dx-toolbar .default-button .dx-button-content {
+.dx-theme-ios.dx-version-major-7 .dx-toolbar .default-button .dx-button-content {
 	border: none;
 	background: none;
 	box-shadow: none;
 	color: #323a45;
 }
-.dx-theme-generic .dx-toolbar .default-button .dx-state-active .dx-button-content {
+.dx-theme-ios.dx-version-major-7 .dx-toolbar .default-button .dx-state-active .dx-button-content {
 	background: none;
 }
-.dx-theme-generic .transparent-button .dx-button-content .dx-icon
+.dx-theme-ios.dx-version-major-7 .transparent-button .dx-button-content .dx-icon
 {
     width: 24px;
     height: 24px;
@@ -97,18 +102,18 @@ body {
 .logout-block .dx-button {
 	width: 100%;
 }
-.dx-theme-generic .type-block .dx-fieldset, .dx-theme-generic .type-block .dx-fieldset {
+.dx-theme-ios.dx-version-major-7 .type-block .dx-fieldset, .dx-theme-ios.dx-version-major-7 .type-block .dx-fieldset {
 	margin-top: 0;
 	padding: 10;
 	min-height: 0;
 	border-bottom: 0;
 }
-.dx-theme-generic .order-info .dx-field {
+.dx-theme-ios.dx-version-major-7 .order-info .dx-field {
 	/*padding: 0;*/
 	/*margin: 0;*/
 	min-height: 0;
 }
-.dx-theme-generic .order-info .dx-field-value {
+.dx-theme-ios.dx-version-major-7 .order-info .dx-field-value {
 	font-weight: bold;
 	text-align: left;
 }
@@ -130,7 +135,7 @@ body {
 	border-spacing: 5px;
 	border-collapse: separate;
 }
-.dx-theme-generic .dx-list .dx-list-item {
+.dx-theme-ios.dx-version-major-7 .dx-list .dx-list-item {
 	padding: 5px 0;
 }
 .products-list tr {
@@ -173,10 +178,10 @@ body {
 	height: 68px;
 	width: 95%;
 }
-.dx-theme-generic .dx-textbox {
+.dx-theme-ios.dx-version-major-7 .dx-textbox {
 	background: lightgray;
 }
-.dx-theme-generic .dx-editbox .dx-editbox-input {
+.dx-theme-ios.dx-version-major-7 .dx-editbox .dx-editbox-input {
 	padding: 10px;
 }
 /*conversation*/

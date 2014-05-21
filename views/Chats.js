@@ -42,7 +42,7 @@
 			timeStamp = 0;
 		var dataToSend = {
 			TokenId : tokenId,
-			TimeStamp : 0
+			TimeStamp : timeStamp
 		};
 		var jsonData = JSON.stringify(dataToSend);
 		// alert(jsonData);

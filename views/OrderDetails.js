@@ -36,6 +36,8 @@
 				viewModel.updatedDate(dataItem.updatedDate);
 				viewModel.orderDateDisplay(dataItem.orderDateDisplay);
 				viewModel.delayDateDisplay(dataItem.delayDateDisplay);
+				viewModel.paymentMethod(dataItem.paymentMethod);
+				viewModel.shippingMethod(dataItem.shippingMethod);
 				switch (dataItem.status) {
 					case "New":
 						viewModel.orderStatus("Mới");
@@ -79,6 +81,8 @@
 		orderDateDisplay : ko.observable(''),
 		delayDateDisplay : ko.observable(''),
 		orderStatus : ko.observable(false),
+		paymentMethod : ko.observable(''),
+		shippingMethod : ko.observable(''),
 		canDelay : ko.observable(false),
 		canCancel : ko.observable(false),
 		canSplit : ko.observable(false),
@@ -92,13 +96,24 @@
 		actionSheetVisible : ko.observable(false),
 		showActionSheet : function() {
 			this.actionSheetVisible(true);
+			viewModel.dropDownMenuData[1].disabled(!viewModel.dataItem().canProcess);
+			viewModel.dropDownMenuData[2].disabled(!viewModel.dataItem().canDelay);
+			viewModel.dropDownMenuData[3].disabled(!viewModel.dataItem().canSplit);
 		},
 		dateBoxValue : ko.observable(new Date()),
 		popupDelayVisible : ko.observable(false),
 		popupSplitVisible : ko.observable(false),
 		loadPanelVisible : ko.observable(true),
 	};
-
+	
+	listDataStore = new DevExpress.data.LocalStore({
+		type : "local",
+		name : "OrdersStore",
+		key : "orderNumber",
+		flushInterval : 1000,
+		// immediate : true,
+	});
+	
 	showLoading = function(show) {
 		viewModel.loadPanelVisible(show);
 	};
