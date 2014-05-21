@@ -70,6 +70,11 @@ body {
 .dx-theme-generic .dx-toolbar .default-button .dx-state-active .dx-button-content {
 	background: none;
 }
+.dx-theme-generic .transparent-button .dx-button-content .dx-icon
+{
+    width: 24px;
+    height: 24px;
+}
 /*profile*/
 .user-photo {
 	/*height: 180px;

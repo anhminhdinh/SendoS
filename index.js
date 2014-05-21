@@ -126,7 +126,7 @@
 			if (len > 0) {
 				for ( i = 0; i < len; i++) {
 					//Get message object
-					alert(myNotifications[i]);
+					alert(JSON.stringify(myNotifications[i]));
 					msgObj = AppMobi.notification.getNotificationData(myNotifications[i]);
 					alert(JSON.stringify(msgObj));
 					try {
