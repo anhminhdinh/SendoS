@@ -62,7 +62,7 @@
 				}
 				viewModel.dataItem(dataItem);
 				viewModel.loadPanelVisible(false);
-			}).fail(function(error){
+			}).fail(function(error) {
 				alert(JSON.stringify(error));
 				viewModel.loadPanelVisible(false);
 			});
