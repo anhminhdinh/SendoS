@@ -34,6 +34,9 @@ body {
 	background:none;
 	box-shadow:none;
 }
+.dx-theme-generic .transparent-button, .dx-theme-generic .transparent-button .dx-state-active {
+	
+}
 .dx-theme-generic .default-button .dx-button-content {
 	border:1px solid #bb3405;
 	border-radius:7px;
