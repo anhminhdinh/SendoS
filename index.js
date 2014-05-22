@@ -61,22 +61,20 @@
 			id : undefined
 		});
 		function exitApp() {
-			if (confirm("Are you sure you want to exit?")) {
-				switch(realDevice.platform) {
-					case "tizen":
-						tizen.application.getCurrentApplication().exit();
-						break;
-					case "android":
-						navigator.app.exitApp();
-						break;
-					case "win8":
-						window.external.Notify("DevExpress.ExitApp");
-						break;
-					default:
-						DevExpress.hardwareBackButton.fire();
-						break;
-				}
-			}
+			// var result = DevExpress.ui.dialog.confirm("Bạn có chắc muốn thoát ứng dụng?", "Sendo");
+			// result.done(function(dialogResult) {
+			// if (dialogResult) {
+				// switch(DevExpress.devices.real().platform) {
+					// case "win8":
+						// window.external.Notify("DevExpress.ExitApp");
+						// break;
+					// default:
+						// navigator.app.exitApp();
+						// break;
+				// }
+			// }
+			// });
+			DevExpress.ui.notify("Nhấn lần nữa sẽ thoát ứng dụng!");
 		};
 
 		var onDeviceReady = function() {
@@ -91,10 +89,10 @@
 			});
 
 			// AppMobi.device.hideSplashScreen();
-			AppMobi.notification.alert("Doing checkPushUser now...", "My Message", "OK");
+			// AppMobi.notification.alert("Doing checkPushUser now...", "My Message", "OK");
 			//See if the push user exists already
 			//We are just using the unique device id, but you can send any unique user id and password.
-			AppMobi.notification.checkPushUser(AppMobi.device.uuid, AppMobi.device.uuid);
+			// AppMobi.notification.checkPushUser(AppMobi.device.uuid, AppMobi.device.uuid);
 		};
 		document.addEventListener("intel.xdk.device.ready", onDeviceReady, false);
 		var didAdd = false;

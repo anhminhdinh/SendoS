@@ -11,35 +11,38 @@
 			<!-- <div data-bind="dxDropDownMenu: { buttonText: 'Change status', dataSource: dropDownMenuData, itemClickAction: processValueChange, disabled: disabled }"></div> -->
 			<h2 style="margin: 10px;">Chi tiết đơn hàng</h2>
 			<div>
-				<table class="products-list" style="background-color: white;width:100%;">
+				<table class="products-list" style="background-color: white;width:100%; border-collapse: collapse;">
 					<tbody>
 						<!-- ko foreach: products -->
-						<tr>
-							<td colspan="5" width="100%" style="white-space: pre-wrap; word-wrap: break-word; text-align: left; font-weight: bold;" data-bind="text: name"></td>
+						<tr style="border: none;">
+							<td colspan="5" width="100%" style="white-space: pre-wrap; word-wrap: break-word; text-align: left; font-size: larger;" data-bind="text: name"></td>
 						</tr>
-						<tr>
-							<td rowspan="5" width="auto"><img width="100" height="100" data-bind="attr: { src: thumbnail }" /></td>
+						<tr style="border-bottom: 1px solid #d2d3d5;">
+							<td rowspan="5" width="auto">
+							<div style="width: 75px; height: 75px;">
+								<img class="product-thumbnail" data-bind="attr: { src: thumbnail }" />
+							</div></td>
 						</tr>
-						<tr>
+						<tr style="border: none;">
 							<td width="auto" class="transparent-button" data-bind="dxButton: {iconSrc: 'images/moneyicon.png'}"></td>
-							<td width="100%" style="white-space: pre-wrap; word-wrap: break-word; text-align: left; color:red" data-bind="text: price +' VND'"></td>
+							<td width="100%" style="white-space: pre-wrap; word-wrap: break-word; text-align: left; color: green;" data-bind="text: price +' VND'"></td>
 						</tr>
-						<tr>
+						<tr style="border: none;">
 							<td width="auto" class="transparent-button" data-bind="dxButton: {iconSrc: 'images/product.png'}"></td>
 							<td width="100%" data-bind="text: quantity"></td>
 						</tr>
-						<tr>
+						<tr style="border: none;">
 							<td width="auto" class="transparent-button" data-bind="dxButton: {iconSrc: 'images/weight.png'}"></td>
-							<td width="100%" style="color: red;" data-bind="text: weight + ' g'"></td>
+							<td width="100%" style="color: #336699;" data-bind="text: weight + ' g'"></td>
 						</tr>
-						<tr>
+						<tr style="border-bottom: 1px solid #d2d3d5;">
 							<td width="auto" class="transparent-button" data-bind="dxButton: {icon: 'cart'}"></td>
 							<td width="100%" data-bind="text: stockAvailabilityDisplay"></td>
 						</tr>
 						<!-- /ko -->
 					</tbody>
 				</table>
-				<table class="products-list" style="background-color: white;width:100%;">
+				<table class="products-list" style="width:100%;">
 					<tbody>
 						<tr>
 							<td width="auto" class="transparent-button" data-bind="dxButton: {iconSrc: 'images/payment.png'}"></td>
@@ -52,7 +55,7 @@
 
 			</div>
 			<div style="text-align: right;margin: 10px;">
-				<span style="font-weight: bold;">Tổng giá: </span><span style="color: red;" data-bind="text:totalAmount() + ' VND'"></span>
+				<span style="font-weight: bold;">Tổng giá: </span><span style="color: green;" data-bind="text:totalAmount() + ' VND'"></span>
 			</div>
 			<div class="order-info dx-fieldset">
 				<div class="dx-field">

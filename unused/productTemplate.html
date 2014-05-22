@@ -1,0 +1,59 @@
+<table class="products-list" style="background-color: white;width:100%">
+	<tbody>
+		<tr>
+			<td rowspan="3" width="auto"><img width="75" height="75" data-bind="attr: { src: thumbnail }" /></td>
+			<td colspan="2" width="100%" style="white-space: pre-wrap; word-wrap: break-word; text-align: left; font-weight: bold;" data-bind="text: name"></td>
+			<td data-bind="dxButton: {icon:'edit', clickAction: function(e) {edit(e, $data);}}"></td>
+		</tr>
+		<tr>
+			<td width="auto" class="transparent-button" data-bind="dxButton: {iconSrc: 'images/moneyicon.png'}"></td>
+			<td width="100%" style="color: red;" data-bind="text: price + ' VND'"></td>
+		</tr>
+		<tr>
+			<td width="auto" class="transparent-button" data-bind="dxButton: {iconSrc: 'images/weight.png'}"></td>
+			<td width="100%" style="color: #336699;" data-bind="text: weight + ' g'"></td>
+		</tr>
+		<tr>
+			<td width="auto" style="text-align: right;"
+			data-bind="dxSwitch:{
+			value:stockAvailability,
+			valueChangeAction: function(e) {
+			changeStockStatus(e,$data);
+			},
+			onText: 'Còn hàng',
+			offText: 'Hết hàng'
+			}"></td>
+		</tr>
+	</tbody>
+</table>
+<table class="products-list" style="background-color: white;width:100%">
+	<tbody>
+		<tr>
+			<td style="width:50%;white-space: pre-wrap; word-wrap: break-word; text-align: left;" data-bind="text: 'Up gần nhất:\n' + upProductDateDisplay"></td>
+			<td class="default-button" style="width:auto;" data-bind="dxButton: {text:'Up ngay', clickAction: function() {upProduct(id);}}"></td>
+		</tr>
+	</tbody>
+</table>
+
+<!-- <div style="display:inline-block; margin: 5px;">
+<img style="margin:5px; width: 50px; height: 50px;" data-bind="attr: { src: thumbnail }"></img>
+</div> -->
+<div style="display:inline-block; margin: 5px;">
+	<p style="font-size:larger;" data-bind="text: name"></p>
+	<p style="color: green" data-bind="text:price + 'VND x ' + quantity"></p>
+	<p style="color: #336699" data-bind="text:weight + 'g'"></p>
+	<!-- ko if:stockAvailability -->
+	<p style="color: green" data-bind="text:stockAvailabilityDisplay"></p>
+	<!-- /ko -->
+	<!-- ko ifnot:stockAvailability -->
+	<p style="color: red" data-bind="text:stockAvailabilityDisplay"></p>
+	<!-- /ko -->
+</div>
+<table style="width:100%">
+	<tbody>
+		<tr>
+			<td style="width:50%;white-space: pre-wrap; word-wrap: break-word; text-align: left;" data-bind="text: 'Up gần nhất:\n' + upProductDateDisplay"></td>
+			<td class="default-button" style="width:auto;" data-bind="dxButton: {text:'Up ngay', clickAction: function() {upProduct(id);}}"></td>
+		</tr>
+	</tbody>
+</table>

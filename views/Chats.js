@@ -57,7 +57,11 @@
 				window.localStorage.setItem("ListCommentTimeStamp", data.TimeStamp);
 				var result = $.map(data.Data, function(item) {
 					// alert("ITEM - BuyerName: " + item.BuyerName + " TotalAmount:" + item.TotalAmount);
-					var date = new Date(item.CommentDate + 'Z');
+					var dateString = item.CommentDate;
+					if (dateString.indexOf("+") == -1)
+						dateString += 'Z';
+					var date = new Date(dateString + 'Z');
+					
 					var dateString = Globalize.format(date, 'dd MM-yy');
 					var name = item.CustomerName.toUpperCase();
 					var message = name + ' (' + dateString + '): ' + item.Message;

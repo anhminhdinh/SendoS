@@ -10,14 +10,11 @@
 		<table class="products-list" style="background-color: white;width:100%">
 			<tbody>
 				<tr>
-					<td width="auto" width="100%">
-					<div class="dx-field-label">
-						<div id="searchBox"
-						data-bind="dxTextBox: {
-						mode: 'search',
-						value: searchString,
-						placeholder: 'Tìm sản phẩm theo tên'}"></div>
-					</div></td>
+					<td width="auto" width="100%"><div id="searchBox"
+					data-bind="dxTextBox: {
+					mode: 'search',
+					value: searchString,
+					placeholder: 'Tìm sản phẩm theo tên'}"></div></td>
 					<td data-bind="dxButton: {icon:'find', clickAction:doLoadProducts}"></td>
 				</tr>
 			</tbody>
@@ -58,13 +55,16 @@
 					<table class="products-list" style="background-color: white;width:100%">
 						<tbody>
 							<tr>
-								<td rowspan="3" width="auto"><img width="75" height="75" data-bind="attr: { src: thumbnail }" /></td>
-								<td colspan="2" width="100%" style="white-space: pre-wrap; word-wrap: break-word; text-align: left; font-weight: bold;" data-bind="text: name"></td>
+								<td rowspan="4" width="auto">
+								<div style="width: 75px; height: 75px;">
+									<img class="product-thumbnail" data-bind="attr: { src: thumbnail }" />
+								</div></td>
+								<td colspan="2" width="100%" style="white-space: pre-wrap; word-wrap: break-word; text-align: left; font-size: larger;" data-bind="text: name"></td>
 								<td data-bind="dxButton: {icon:'edit', clickAction: function(e) {edit(e, $data);}}"></td>
 							</tr>
 							<tr>
 								<td width="auto" class="transparent-button" data-bind="dxButton: {iconSrc: 'images/moneyicon.png'}"></td>
-								<td width="100%" style="color: red;" data-bind="text: price + ' VND'"></td>
+								<td width="100%" style="color: green;" data-bind="text: price + ' VND'"></td>
 							</tr>
 							<tr>
 								<td width="auto" class="transparent-button" data-bind="dxButton: {iconSrc: 'images/weight.png'}"></td>
@@ -72,12 +72,18 @@
 							</tr>
 							<tr>
 								<td width="auto" style="text-align: right;"
-								data-bind="dxSwitch:{
-								value:stockAvailability,
-								valueChangeAction: function(e) {
+								data-bind="dxCheckBox:{
+								checked:stockAvailability,
+								clickAction: function(e) {
 								changeStockStatus(e,$data);
-								}
-								}"></td>
+								}}"></td>
+								<!-- ko if:stockAvailability -->
+								<td style="color: green" data-bind="text:stockAvailabilityDisplay"></td>
+								<!-- /ko -->
+								<!-- ko ifnot:stockAvailability -->
+								<td style="color: red" data-bind="text:stockAvailabilityDisplay"></td>
+								<!-- /ko -->
+
 							</tr>
 						</tbody>
 					</table>

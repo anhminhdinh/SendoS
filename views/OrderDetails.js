@@ -107,7 +107,7 @@
 		popupSplitVisible : ko.observable(false),
 		loadPanelVisible : ko.observable(true),
 	};
-	
+
 	listDataStore = new DevExpress.data.LocalStore({
 		type : "local",
 		name : "OrdersStore",
@@ -115,7 +115,7 @@
 		flushInterval : 1000,
 		// immediate : true,
 	});
-	
+
 	showLoading = function(show) {
 		viewModel.loadPanelVisible(show);
 	};
@@ -158,7 +158,7 @@
 				break;
 			case "Cancel":
 				doCancelOrderByOrderID();
-				break;				
+				break;
 		}
 	};
 
@@ -184,9 +184,17 @@
 			viewModel.buyerName(data.Data.BuyerName);
 			viewModel.buyerAddress(data.Data.BuyerAddress);
 			viewModel.buyerPhone(data.Data.BuyerPhone);
-			var OrderDate = new Date(data.Data.OrderDate + 'Z');
+
+			var dateString = data.Data.OrderDate;
+			if (dateString.indexOf("+") == -1)
+				dateString += 'Z';
+			var OrderDate = new Date(dateString);
 			viewModel.orderDate(Globalize.format(OrderDate, 'dd-MM, yyyy'));
-			var DelayDate = new Date(data.Data.DelayDate + 'Z');
+			
+			var dateString = data.Data.DelayDate;
+			if (dateString.indexOf("+") == -1)
+				dateString += 'Z';
+			var DelayDate = new Date(dateString);
 			viewModel.delayDate(Globalize.format(DelayDate, 'dd-MM, yyyy'));
 			var display = "Mới";
 			switch (data.Data.OrderStatus) {

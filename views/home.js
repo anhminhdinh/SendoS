@@ -53,7 +53,7 @@
 		dateBoxValue : ko.observable(new Date()),
 		popupDelayVisible : ko.observable(false),
 		popupSplitVisible : ko.observable(false),
-		loadPanelVisible : ko.observable(true),
+		loadPanelVisible : ko.observable(false),
 	};
 
 	showLoading = function(show) {
@@ -356,9 +356,15 @@
 				// alert(JSON.stringify(data.Data));
 				window.localStorage.setItem("OrdersTimeStamp" + status, data.TimeStamp);
 				var result = $.map(data.Data, function(item) {
-					var itemOrderDate = new Date(item.OrderDate + 'Z');
+					var dateString = item.OrderDate;
+					if (dateString.indexOf("+") == -1)
+						dateString += 'Z';
+					var itemOrderDate = new Date(dateString);
 					var orderDateString = Globalize.format(itemOrderDate, 'dd/MM/yyyy');
-					var itemDelayDate = new Date(item.DelayDate + 'Z');
+					dateString = item.DelayDate;
+					if (dateString.indexOf("+") == -1)
+						dateString += 'Z';
+					var itemDelayDate = new Date(dateString);
 					var delayDateString = Globalize.format(itemDelayDate, 'dd/MM/yyyy');
 					var itemProducts = $.map(item.Products, function(product) {
 						return {

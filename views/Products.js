@@ -10,7 +10,7 @@
 					root : true
 				});
 			} else {
-				// productsStore.clear();
+				productsStore.clear();
 				doLoadProducts();
 			}
 		},
@@ -75,86 +75,93 @@
 
 	changeStockStatus = function(e, itemData) {
 		// e.jQueryEvent.stopPropagation();
-		if (confirm("Bạn có chắc muốn chuyển trạng thái còn/hết hàng?")) {
-			viewModel.loadPanelVisible(true);
-			// alert(viewModel.id);
-			var tokenId = window.localStorage.getItem("MyTokenId");
-			// alert(itemData.stockAvailability);
-			var dataToSend = {
-				TokenId : tokenId,
-				Id : itemData.id,
-				StockAvailability : !itemData.stockAvailability,
-			};
-			var jsonData = JSON.stringify(dataToSend);
-			// alert(jsonData);
-			return $.ajax({
-				url : "http://180.148.138.140/sellerDev2/api/mobile/UpdateProductStock",
-				type : "POST",
-				data : jsonData,
-				contentType : "application/json; charset=utf-8",
-				dataType : "json"
-			}).done(function(data, textStatus) {
-				productsStore.byKey(itemData.id).done(function(dataItem) {
-					// dataItem.stockAvailability = itemData.stockAvailability;
-					dataItem.stockAvailability = !itemData.stockAvailability;
-					productsStore.remove(itemData.id);
-					productsStore.insert(dataItem);
-					// productsStore.update(id, dataItem);
+		var result = DevExpress.ui.dialog.confirm("Bạn có chắc muốn thoát ứng dụng?", "Sendo");
+		result.done(function(dialogResult) {
+			if (dialogResult) {
+				viewModel.loadPanelVisible(true);
+				// alert(viewModel.id);
+				var tokenId = window.localStorage.getItem("MyTokenId");
+				// alert(itemData.stockAvailability);
+				var dataToSend = {
+					TokenId : tokenId,
+					Id : itemData.id,
+					StockAvailability : !itemData.stockAvailability,
+				};
+				var jsonData = JSON.stringify(dataToSend);
+				// alert(jsonData);
+				return $.ajax({
+					url : "http://180.148.138.140/sellerDev2/api/mobile/UpdateProductStock",
+					type : "POST",
+					data : jsonData,
+					contentType : "application/json; charset=utf-8",
+					dataType : "json"
+				}).done(function(data, textStatus) {
+					productsStore.byKey(itemData.id).done(function(dataItem) {
+						// dataItem.stockAvailability = itemData.stockAvailability;
+						dataItem.stockAvailability = !itemData.stockAvailability;
+						dataItem.stockAvailabilityDisplay = itemData.stockAvailability ? 'Còn hàng' : 'Hết hàng';
+						productsStore.remove(itemData.id);
+						productsStore.insert(dataItem);
+						// productsStore.update(id, dataItem);
+					});
+					doReload();
+					viewModel.loadPanelVisible(false);
+					// doLoadDataByProductID();
+					//textStatus contains the status: success, error, etc
+				}).fail(function(jqxhr, textStatus, error) {
+					viewModel.loadPanelVisible(false);
+					var err = textStatus + ", " + jqxhr.responseText;
+					alert("Get Failed: " + err);
 				});
+			} else {
 				doReload();
-				viewModel.loadPanelVisible(false);
-				// doLoadDataByProductID();
-				//textStatus contains the status: success, error, etc
-			}).fail(function(jqxhr, textStatus, error) {
-				viewModel.loadPanelVisible(false);
-				var err = textStatus + ", " + jqxhr.responseText;
-				alert("Get Failed: " + err);
-			});
-		} else {
-			doReload();
-		}
+			}
+		});
 	};
 
 	changeProductProperties = function() {
-		if (confirm("Are you sure you wanna edit this?")) {
-			viewModel.loadPanelVisible(true);
-			// alert(viewModel.id);
-			var tokenId = window.localStorage.getItem("MyTokenId");
+		var result = DevExpress.ui.dialog.confirm("Bạn có chắc muốn sửa thông tin sản phẩm?", "Sendo");
+		result.done(function(dialogResult) {
+			if (dialogResult) {
+				viewModel.loadPanelVisible(true);
+				// alert(viewModel.id);
+				var tokenId = window.localStorage.getItem("MyTokenId");
 
-			var dataToSend = {
-				TokenId : tokenId,
-				Id : viewModel.dataItem().id,
-				Name : viewModel.editName(),
-				Weight : viewModel.editWeight(),
-				Price : viewModel.editPrice(),
-			};
-			var jsonData = JSON.stringify(dataToSend);
-			// alert(jsonData);
-			return $.ajax({
-				url : "http://180.148.138.140/sellerDev2/api/mobile/UpdateProduct",
-				type : "POST",
-				data : jsonData,
-				contentType : "application/json; charset=utf-8",
-				dataType : "json"
-			}).done(function(data, textStatus) {
-				productsStore.byKey(viewModel.dataItem().id).done(function(dataItem) {
-					dataItem.name = viewModel.editName();
-					dataItem.price = viewModel.editPrice();
-					dataItem.weight = viewModel.editWeight();
-					productsStore.remove(dataItem.id);
-					productsStore.insert(dataItem);
+				var dataToSend = {
+					TokenId : tokenId,
+					Id : viewModel.dataItem().id,
+					Name : viewModel.editName(),
+					Weight : viewModel.editWeight(),
+					Price : viewModel.editPrice(),
+				};
+				var jsonData = JSON.stringify(dataToSend);
+				// alert(jsonData);
+				return $.ajax({
+					url : "http://180.148.138.140/sellerDev2/api/mobile/UpdateProduct",
+					type : "POST",
+					data : jsonData,
+					contentType : "application/json; charset=utf-8",
+					dataType : "json"
+				}).done(function(data, textStatus) {
+					productsStore.byKey(viewModel.dataItem().id).done(function(dataItem) {
+						dataItem.name = viewModel.editName();
+						dataItem.price = viewModel.editPrice();
+						dataItem.weight = viewModel.editWeight();
+						productsStore.remove(dataItem.id);
+						productsStore.insert(dataItem);
+					});
+					doReload();
+					viewModel.loadPanelVisible(false);
+					viewModel.popupEditVisible(false);
+					//textStatus contains the status: success, error, etc
+				}).fail(function(jqxhr, textStatus, error) {
+					viewModel.loadPanelVisible(false);
+					viewModel.popupEditVisible(false);
+					var err = textStatus + ", " + jqxhr.responseText;
+					alert("Get Failed: " + err);
 				});
-				doReload();
-				viewModel.loadPanelVisible(false);
-				viewModel.popupEditVisible(false);
-				//textStatus contains the status: success, error, etc
-			}).fail(function(jqxhr, textStatus, error) {
-				viewModel.loadPanelVisible(false);
-				viewModel.popupEditVisible(false);
-				var err = textStatus + ", " + jqxhr.responseText;
-				alert("Get Failed: " + err);
-			});
-		}
+			}
+		});
 	};
 
 	productsStore = new DevExpress.data.LocalStore({
@@ -194,9 +201,17 @@
 		}).done(function(data, textStatus) {
 			// alert(JSON.stringify(data));
 			var result = $.map(data.Data, function(item) {
-				var UpProductDate = new Date(item.UpProductDate);
+				var dateString = item.UpProductDate;
+				if (dateString.indexOf("+") == -1)
+					dateString += 'Z';
+
+				var UpProductDate = new Date(dateString);
 				UpProductDateDisplay = Globalize.format(UpProductDate, 'dd/MM/yyyy');
-				var UpdatedDate = new Date(item.UpdatedDate);
+
+				dateString = item.UpdatedDate;
+				if (dateString.indexOf("+") == -1)
+					dateString += 'Z';
+				var UpdatedDate = new Date(dateString);
 				UpdatedDateDisplay = Globalize.format(UpdatedDate, 'dd/MM/yyyy');
 				// alert(JSON.stringify(item));
 				return {
@@ -214,6 +229,7 @@
 					upProductDateDisplay : UpProductDateDisplay,
 					updatedDateDisplay : UpdatedDateDisplay,
 					stockAvailability : item.StockAvailability,
+					stockAvailabilityDisplay : item.StockAvailability ? 'Còn hàng' : 'Hết hàng',
 				};
 			});
 			// arrayStore.clear();
@@ -246,59 +262,70 @@
 	};
 
 	upProduct = function(id) {
-		if (confirm("Up sản phẩm ngay?")) {
-			viewModel.loadPanelVisible(true);
-			// alert(viewModel.id);
-			var tokenId = window.localStorage.getItem("MyTokenId");
+		var result = DevExpress.ui.dialog.confirm("Bạn có chắc muốn up sản phẩm?", "Sendo");
+		result.done(function(dialogResult) {
+			if (dialogResult) {
+				viewModel.loadPanelVisible(true);
+				// alert(viewModel.id);
+				var tokenId = window.localStorage.getItem("MyTokenId");
 
-			var dataToSend = {
-				TokenId : tokenId,
-				ProductId : id,
-			};
-			var jsonData = JSON.stringify(dataToSend);
-			// alert(jsonData);
-			return $.ajax({
-				url : "http://180.148.138.140/sellerDev2/api/mobile/UpProduct",
-				type : "POST",
-				data : jsonData,
-				contentType : "application/json; charset=utf-8",
-				dataType : "json"
-			}).done(function(data, textStatus) {
 				var dataToSend = {
 					TokenId : tokenId,
-					Id : id,
+					ProductId : id,
 				};
 				var jsonData = JSON.stringify(dataToSend);
-				$.ajax({
-					url : "http://180.148.138.140/sellerDev2/api/mobile/ProductInfoById",
+				// alert(jsonData);
+				return $.ajax({
+					url : "http://180.148.138.140/sellerDev2/api/mobile/UpProduct",
 					type : "POST",
 					data : jsonData,
 					contentType : "application/json; charset=utf-8",
 					dataType : "json"
 				}).done(function(data, textStatus) {
-					var UpProductDate = new Date(data.Data[0].UpProductDate);
-					UpProductDateDisplay = Globalize.format(UpProductDate, 'dd/MM/yyyy');
-					var UpdatedDate = new Date(data.Data[0].UpdatedDate);
-					UpdatedDateDisplay = Globalize.format(UpdatedDate, 'dd/MM/yyyy');
-					productsStore.byKey(id).done(function(dataItem) {
-						dataItem.upProductDate = UpProductDate;
-						dataItem.upProductDateDisplay = UpProductDateDisplay;
-						dataItem.updatedDate = UpdatedDate;
-						dataItem.updatedDateDisplay = UpdatedDateDisplay;
-						productsStore.remove(id);
-						productsStore.insert(dataItem);
-						// productsStore.update(id, dataItem);
+					var dataToSend = {
+						TokenId : tokenId,
+						Id : id,
+					};
+					var jsonData = JSON.stringify(dataToSend);
+					$.ajax({
+						url : "http://180.148.138.140/sellerDev2/api/mobile/ProductInfoById",
+						type : "POST",
+						data : jsonData,
+						contentType : "application/json; charset=utf-8",
+						dataType : "json"
+					}).done(function(data, textStatus) {
+						var dateString = data.Data[0].UpProductDate;
+						if (dateString.indexOf("+") == -1)
+							dateString += 'Z';
+						var UpProductDate = new Date(dateString);
+						UpProductDateDisplay = Globalize.format(UpProductDate, 'dd/MM/yyyy');
+
+						dateString = data.Data[0].UpdatedDate;
+						if (dateString.indexOf("+") == -1)
+							dateString += 'Z';
+						var UpdatedDate = new Date(dateString);
+						UpdatedDateDisplay = Globalize.format(UpdatedDate, 'dd/MM/yyyy');
+
+						productsStore.byKey(id).done(function(dataItem) {
+							dataItem.upProductDate = UpProductDate;
+							dataItem.upProductDateDisplay = UpProductDateDisplay;
+							dataItem.updatedDate = UpdatedDate;
+							dataItem.updatedDateDisplay = UpdatedDateDisplay;
+							productsStore.remove(id);
+							productsStore.insert(dataItem);
+							// productsStore.update(id, dataItem);
+						});
+						doReload();
+						viewModel.loadPanelVisible(false);
 					});
-					doReload();
+					//textStatus contains the status: success, error, etc
+				}).fail(function(jqxhr, textStatus, error) {
 					viewModel.loadPanelVisible(false);
+					var err = textStatus + ", " + jqxhr.responseText;
+					alert("Get Failed: " + err);
 				});
-				//textStatus contains the status: success, error, etc
-			}).fail(function(jqxhr, textStatus, error) {
-				viewModel.loadPanelVisible(false);
-				var err = textStatus + ", " + jqxhr.responseText;
-				alert("Get Failed: " + err);
-			});
-		}
+			}
+		});
 	};
 
 	doReload = function() {

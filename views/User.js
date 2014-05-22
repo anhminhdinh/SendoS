@@ -6,6 +6,7 @@
 		passMode : "password",
 		isLoggedOut : ko.observable(false),
 		viewShowing : function(redirectParams) {
+			this.loadPanelVisible(false);
 			viewModel.isLoggedOut(window.localStorage.getItem("MyTokenId") == undefined);
 			if (window.localStorage.getItem("UserName") != undefined) {
 				this.username(window.localStorage.getItem("UserName"));
