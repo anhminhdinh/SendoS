@@ -28,8 +28,7 @@ body {
 	font-size: 14px;
 }
 
-.dx-theme-ios.dx-version-major-7 .dx-loadpanel-content,
-.dx-loadpanel-content {
+.dx-theme-ios.dx-version-major-7 .dx-loadpanel-content, .dx-loadpanel-content {
 	border: none;
 	background: none;
 	background-color: none;
@@ -45,11 +44,12 @@ body {
 
 }
 .dx-theme-ios.dx-version-major-7 .default-button .dx-button-content {
-	border: 1px solid #bb3405;
-	border-radius: 7px;
+	/*border: 1px solid #bb3405;
+	 border-radius: 7px;*/
+	padding: 0 10px;
 	background-color: #f34401;
-	background: linear-gradient(to bottom, #f34401, #bb3405);
-	background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#f34401),color-stop(100%,#bb3405));
+	/*background: linear-gradient(to bottom, #f34401, #bb3405);
+	 background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#f34401),color-stop(100%,#bb3405));*/
 	/*box-shadow: 0 1px 5px 0px #f34401, inset 0 0px 2px 0px #bb3405;*/
 	color: white;
 	font-weight: bold;
@@ -58,8 +58,10 @@ body {
 	height: 52px;
 }
 .dx-theme-ios.dx-version-major-7 .default-button .dx-state-active .dx-button-content {
-	background: linear-gradient(to bottom, #f34401, #bb3405);
-	background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#bb3405),color-stop(100%,#f34401));
+	padding: 0 10px;
+	background-color: #f34401;
+	/*background: linear-gradient(to bottom, #f34401, #bb3405);
+	 background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#bb3405),color-stop(100%,#f34401));*/
 	/*box-shadow: 0 1px 5px 0px #f34401, inset 0 0px 2px 0px #bb3405;*/
 	border-color: #bb3405;
 }
@@ -80,10 +82,9 @@ body {
 .dx-theme-ios.dx-version-major-7 .default-button .dx-button-content .dx-button-text {
 	color: white;
 }
-.dx-theme-ios.dx-version-major-7 .transparent-button .dx-button-content .dx-icon
-{
-    width: 24px;
-    height: 24px;
+.dx-theme-ios.dx-version-major-7 .transparent-button .dx-button-content .dx-icon {
+	width: 24px;
+	height: 24px;
 }
 /*profile*/
 .user-photo {
@@ -184,8 +185,8 @@ body {
 	width: 95%;
 }
 /*.dx-theme-ios.dx-version-major-7 .dx-textbox {
-	background: lightgray;
-}*/
+ background: lightgray;
+ }*/
 .dx-theme-ios.dx-version-major-7 .dx-editbox .dx-editbox-input {
 	padding: 10px;
 }
@@ -203,10 +204,22 @@ body {
 	/*background-color: #0e66fb;*/
 	border-radius: 10px;
 	background-color: #14b9d6;
-	background: linear-gradient(to bottom, #28c8df, #14b9d6);
-	background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#28c8df),color-stop(100%,#14b9d6));
+	/*background: linear-gradient(to bottom, #28c8df, #14b9d6);
+	 background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#28c8df),color-stop(100%,#14b9d6));*/
 	/*box-shadow: 0 1px 5px 0px #d7d8d9, inset 0 0px 2px 0px #8ee1ee;*/
 }
+.conversations-message-shop {
+	margin: 0px 10px;
+	width: auto;
+	color: black;
+	/*background-color: #0e66fb;*/
+	border-radius: 10px;
+	background-color: lightgray;
+	/*background: linear-gradient(to bottom, #28c8df, #14b9d6);
+	 background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#28c8df),color-stop(100%,#14b9d6));*/
+	/*box-shadow: 0 1px 5px 0px #d7d8d9, inset 0 0px 2px 0px #8ee1ee;*/
+}
+
 .conversations-title {
 	/*margin: 10px;*/
 	padding: 10px;

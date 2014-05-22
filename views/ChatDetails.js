@@ -3,6 +3,7 @@
 		// title : ko.observable(),
 		chatDetailDataSource : ko.observableArray(),
 		id : params.id,
+		productName : ko.observable(''),
 		loadPanelVisible : ko.observable(false),
 		viewShowing : function() {
 			doLoadChatDetailData();
@@ -25,7 +26,7 @@
 			contentType : "application/json; charset=utf-8",
 			dataType : "json"
 		}).done(function(data, textStatus) {
-			var result = $.map(data.Data, function(item) {
+			var result = $.map(data.Data.Comments, function(item) {
 				// alert("ITEM - BuyerName: " + item.BuyerName + " TotalAmount:" + item.TotalAmount);
 				var today = new Date();
 				var date = new Date(item.CommentDate + 'Z');
@@ -33,7 +34,7 @@
 				var dateString = isSameDay ? Globalize.format(date, 'hh:mm') : Globalize.format(date, 'dd-MM-yy');
 				var name = item.CustomerName.toLowerCase();
 				var message = name.toUpperCase() + ': ' + item.Message;
-				var isShop = name === "anna";
+				var isShop = item.IsShop;
 				//TODO : server response isShop
 				return {
 					name : name,
@@ -44,12 +45,13 @@
 					isShop : isShop
 				};
 			});
+			viewModel.productName(data.Data.ProductName);
 			// alert(JSON.stringify(result));
 			viewModel.chatDetailDataSource(result);
 
-			$("#anna").css("background", "linear-gradient(to bottom, #f1f6f9, #d1d8de)");
-			$("#anna").css("background", "-webkit-gradient(linear,left top,left bottom,color-stop(0%,#f1f6f9),color-stop(100%,#d1d8de))");
-			$("#anna").css("color", "black");
+			// $("#anna").css("background", "linear-gradient(to bottom, #f1f6f9, #d1d8de)");
+			// $("#anna").css("background", "-webkit-gradient(linear,left top,left bottom,color-stop(0%,#f1f6f9),color-stop(100%,#d1d8de))");
+			// $("#anna").css("color", "black");
 			var chatScroll = $("#chatScroll").dxScrollView("instance");
 			var scrollHeight = chatScroll.scrollHeight();
 			$("#chatScroll").dxScrollView("instance").scrollTo(scrollHeight);
@@ -84,6 +86,7 @@
 			contentType : "application/json; charset=utf-8",
 			dataType : "json"
 		}).done(function(data, textStatus) {
+			viewModel.commentToPost('');
 			doLoadChatDetailData();
 		}).fail(function(jqxhr, textStatus, error) {
 			var err = textStatus + ", " + jqxhr.responseText;

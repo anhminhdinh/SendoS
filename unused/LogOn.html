@@ -1,0 +1,29 @@
+﻿<div data-options="dxView : { name: 'LogOnPopup', title: 'Đăng nhập' } " >
+	<div class="button" data-bind="dxButton:{text:'You have to login first', clickAction:showPopup}"></div>
+	<div data-bind="dxLoadPanel:{message: 'Loading...', visible: loadPanelVisible }"></div>
+
+	<div data-bind="dxPopup:{visible:visible, fullScreen:true, title:'Đăng nhập'}">
+		<div data-options="dxTemplate:{name: 'content'}">
+			<img class="user-photo" src="images/logo.jpg" />
+			<div class="dx-fieldset">
+				<div class="dx-field">
+					<!-- <div class="dx-field-label">
+					Tên
+					</div> -->
+					<div id="nameBox" data-bind="
+					dxTextBox: { maxLength: length, placeholder: 'Tên người dùng', value:username }"></div>
+				</div>
+				<div class="dx-field">
+					<!-- <div class="dx-field-label">
+					Mật khẩu
+					</div> -->
+					<div id="passBox" data-bind="
+					dxTextBox: { mode: passMode, placeholder: 'Mật khẩu', value:pass }"></div>
+				</div>
+			</div>
+			<div style="text-align: center;" >
+				<div class="default-button" data-bind="dxButton: { text: 'Đăng nhập', clickAction: dologin, icon: 'key' }"></div>
+			</div>
+		</div>
+	</div>
+</div>

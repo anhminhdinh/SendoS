@@ -17,7 +17,7 @@
 				</div>
 			</div>
 			<div class="footer">
-				<div class="default-button" data-bind="dxButton: { text: 'Hoãn', clickAction: function() {doDelayProcessOrderByOrderID();}, icon:'clock' }"></div>
+				<div class="default-button" data-bind="dxButton: { text: 'Hoãn', clickAction: function() {doDelayOrderByOrderID();}, icon:'clock' }"></div>
 				<div class="default-button" data-bind="dxButton: { text: 'Huỷ hoãn', clickAction: hideDelayPopUp, icon: 'close' }"></div>
 			</div>
 		</div>
@@ -75,15 +75,15 @@
 							<tbody>
 								<!-- ko foreach: products -->
 								<tr>
-									<td rowspan="4" width="auto"><img width="50" height="50" data-bind="attr: { src: thumbnail }" /></td>
+									<td colspan="5" width="100%" style="white-space: pre-wrap; word-wrap: break-word; text-align: left; font-weight: bolder;" data-bind="text: name"></td>
 								</tr>
 								<tr>
-									<td colspan="4" width="100%"><p style="white-space: pre-wrap; word-wrap: break-word; text-align: left; font-weight: bolder;" data-bind="text: name"></p>
+									<td rowspan="3" width="auto"><img width="50" height="50" data-bind="attr: { src: thumbnail }" /></td>
 								</tr>
 								<tr>
-									<td width="auto" class="transparent-button" data-bind="dxButton: {icon: 'money'}"></td>
+									<td width="auto" class="transparent-button" data-bind="dxButton: {iconSrc: 'images/moneyicon.png'}"></td>
 									<td width="50%" style="white-space: pre-wrap; word-wrap: break-word; text-align: left; color:red" data-bind="text: price +' VND'"></td>
-									<td width="auto" class="transparent-button" data-bind="dxButton: {icon: 'product'}"></td>
+									<td width="auto" class="transparent-button" data-bind="dxButton: {iconSrc: 'images/product.png'}"></td>
 									<td width="50%" data-bind="text: quantity"></td>
 								</tr>
 								<tr>
@@ -97,9 +97,9 @@
 							<tbody>
 								<tr>
 								<tr>
-									<td width="auto" class="transparent-button" data-bind="dxButton: {iconSrc: 'images/moneyicon.png'}"></td>
+									<td width="auto" class="transparent-button" data-bind="dxButton: {iconSrc: 'images/payment.png'}"></td>
 									<td width="50%" style="white-space: pre-wrap; word-wrap: break-word; text-align: left; color:green" data-bind="text: paymentMethod"></td>
-									<td width="auto" class="transparent-button" data-bind="dxButton: {icon: 'car'}"></td>
+									<td width="auto" class="transparent-button" data-bind="dxButton: {iconSrc: 'images/transport.png'}"></td>
 									<td width="50%" style="white-space: pre-wrap; word-wrap: break-word; text-align: left; color:green" data-bind="text: shippingMethod"></td>
 								</tr>
 							</tbody>

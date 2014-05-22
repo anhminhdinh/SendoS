@@ -16,9 +16,7 @@
 						data-bind="dxTextBox: {
 						mode: 'search',
 						value: searchString,
-						placeholder: 'Tìm sản phẩm theo tên',
-						<!-- valueUpdateEvent: 'search change keyup', -->
-						height:'44px' }"></div>
+						placeholder: 'Tìm sản phẩm theo tên'}"></div>
 					</div></td>
 					<td data-bind="dxButton: {icon:'find', clickAction:doLoadProducts}"></td>
 				</tr>
@@ -50,21 +48,7 @@
 				<div class="default-button" data-bind="dxButton: { text: 'Huỷ', clickAction: hideEditPopup, icon:'close' }"></div>
 			</div>
 		</div>
-		<!-- <div class="dx-fieldset">
-		<div class="dx-field">
-		<div class="dx-field-label">
-		Sắp xếp:
-		</div>
-		<div class="dx-field-value"
-		data-bind="dxSelectBox: {
-		dataSource: sortTypes,
-		displayExpr: 'name',
-		valueExpr: 'type',
-		value: selectedType,
-		valueChangeAction: processSortTypeChange,
-		placeholder: 'Ngày tạo'}"></div>
-		</div>
-		</div> -->
+
 		<!-- <div style="height:100%;padding-bottom: 56px;height: calc(100% -56px);"> -->
 		<div class="productslist">
 			<div id="productsList" data-bind="dxList: { dataSource: productsDataSource,
@@ -75,16 +59,16 @@
 						<tbody>
 							<tr>
 								<td rowspan="3" width="auto"><img width="75" height="75" data-bind="attr: { src: thumbnail }" /></td>
-								<td colspan="2" width="100%" style="white-space: pre-wrap; word-wrap: break-word; text-align: left;" data-bind="text: name"></td>
+								<td colspan="2" width="100%" style="white-space: pre-wrap; word-wrap: break-word; text-align: left; font-weight: bold;" data-bind="text: name"></td>
 								<td data-bind="dxButton: {icon:'edit', clickAction: function(e) {edit(e, $data);}}"></td>
 							</tr>
 							<tr>
-								<td width="auto" class="transparent-button" data-bind="dxButton: {icon: 'money'}"></td>
+								<td width="auto" class="transparent-button" data-bind="dxButton: {iconSrc: 'images/moneyicon.png'}"></td>
 								<td width="100%" style="color: red;" data-bind="text: price + ' VND'"></td>
 							</tr>
 							<tr>
 								<td width="auto" class="transparent-button" data-bind="dxButton: {iconSrc: 'images/weight.png'}"></td>
-								<td width="100%" style="color: red;" data-bind="text: weight + ' g'"></td>
+								<td width="100%" style="color: #336699;" data-bind="text: weight + ' g'"></td>
 							</tr>
 							<tr>
 								<td width="auto" style="text-align: right;"

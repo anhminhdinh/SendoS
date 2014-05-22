@@ -8,17 +8,22 @@
 				processValueChange("New");
 			}
 		}, {
-			text : "Chờ giao hàng ",
+			text : "Còn hàng",
 			clickAction : function() {
 				processValueChange("Processing");
 			}
 		}, {
-			text : "Hoãn",
+			text : "Hết hàng",
+			clickAction : function() {
+				processValueChange("Cancel");
+			}
+		}, {
+			text : "Hoãn đơn hàng",
 			clickAction : function() {
 				processValueChange("Delay");
 			}
 		}, {
-			text : "Tách",
+			text : "Tách đơn hàng",
 			clickAction : function() {
 				processValueChange("Split");
 			}
@@ -47,9 +52,6 @@
 						break;
 					case "Delayed":
 						viewModel.orderStatus("Đang hoãn");
-						break;
-					case "Splitting":
-						viewModel.orderStatus("Chờ tách");
 						break;
 				}
 
@@ -152,8 +154,11 @@
 				$("#splitList").dxList('instance').option('dataSource', viewModel.productsToSplit());
 				break;
 			case "New":
-				doSwitchNewOrderByOrderID();
+				doNewOrderByOrderID();
 				break;
+			case "Cancel":
+				doCancelOrderByOrderID();
+				break;				
 		}
 	};
 
@@ -222,7 +227,7 @@
 
 	};
 
-	doSwitchNewOrderByOrderID = function() {
+	doNewOrderByOrderID = function() {
 		showLoading(true);
 		var tokenId = window.localStorage.getItem("MyTokenId");
 
@@ -248,10 +253,38 @@
 			var err = textStatus + ", " + jqxhr.responseText;
 			alert("Process Failed: " + err);
 		});
+	};
+
+	doCancelOrderByOrderID = function() {
+		showLoading(true);
+		var tokenId = window.localStorage.getItem("MyTokenId");
+
+		var dataToSend = {
+			TokenId : tokenId,
+			OrderNumber : viewModel.dataItem().orderNumber,
+			Action : "Cancel",
+		};
+		var jsonData = JSON.stringify(dataToSend);
+		return $.ajax({
+			url : "http://180.148.138.140/sellerDev2/api/mobile/ProcessOrder",
+			type : "POST",
+			data : jsonData,
+			contentType : "application/json; charset=utf-8",
+			dataType : "json"
+		}).done(function(data, textStatus) {
+			showLoading(false);
+			viewModel.dataItem().status = "Cancel";
+			listDataStore.update(viewModel.dataItem().orderNumber, viewModel.dataItem());
+			MyApp.app.back();
+		}).fail(function(jqxhr, textStatus, error) {
+			showLoading(false);
+			var err = textStatus + ", " + jqxhr.responseText;
+			alert("Process Failed: " + err);
+		});
 
 	};
 
-	doSwitchProcessOrderByOrderID = function() {
+	doProcessOrderByOrderID = function() {
 		showLoading(true);
 		var tokenId = window.localStorage.getItem("MyTokenId");
 
@@ -316,7 +349,7 @@
 
 	};
 
-	doDelayProcessOrderByOrderID = function() {
+	doDelayOrderByOrderID = function() {
 		showLoading(true);
 		var tokenId = window.localStorage.getItem("MyTokenId");
 		var newDelayDate = new Date(viewModel.dateBoxValue());

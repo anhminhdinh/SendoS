@@ -2,6 +2,7 @@
 	<div data-options="dxContent : { targetPlaceholder: 'content' } " >
 		<div data-bind="dxLoadPanel:{message: '', visible: loadPanelVisible }"></div>
 		<div class="chatscroll">
+			<div style="font-weight: bold; padding: 10px;" data-bind="text:productName"></div>
 			<div id="chatScroll" class="conversations-content" data-bind="dxScrollView: {pullDownAction: function() {doLoadChatDetailData();}}">
 				<div>
 					<table class="conversations-list">
@@ -9,7 +10,7 @@
 							<!-- ko foreach: chatDetailDataSource -->
 							<tr>
 								<!-- ko if:isShop -->
-								<td colspan="2" class="left conversations-message" data-bind="text:msg, attr: {'id':name}"></td>
+								<td colspan="2" class="left conversations-message-shop" data-bind="text:msg, attr: {'id':name}"></td>
 								<td></td>
 								<!-- /ko -->
 								<!-- ko ifnot:isShop -->
@@ -38,7 +39,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="conversations-comment" data-bind="dxTextBox:{value:commentToPost }"></div>		
+		<div class="conversations-comment" data-bind="dxTextBox:{value:commentToPost }"></div>
 		<div class="conversations-comment-button" data-bind="dxButton: { clickAction: postComment, icon: 'comment' }"></div>
 	</div>
 </div>
