@@ -57,15 +57,19 @@
 				window.localStorage.setItem("ListCommentTimeStamp", data.TimeStamp);
 				var result = $.map(data.Data, function(item) {
 					// alert("ITEM - BuyerName: " + item.BuyerName + " TotalAmount:" + item.TotalAmount);
-					var dateString = item.CommentDate;
-					if (dateString.indexOf("+") == -1)
-						dateString += 'Z';
-					var date = new Date(dateString + 'Z');
-					
+					// var dateString = item.CommentDate;
+					// if (dateString.indexOf("+") == -1)
+						// dateString += 'Z';
+					// var date = new Date(dateString + 'Z');
+					var date = convertDate(item.CommentDate);					
 					var dateString = Globalize.format(date, 'dd MM-yy');
+
 					var name = item.CustomerName.toUpperCase();
 					var message = name + ' (' + dateString + '): ' + item.Message;
-					var updatedDate = new Date(item.UpdatedDate);
+
+					// var updatedDate = new Date(item.UpdatedDate);
+					var updatedDate = convertDate(item.UpdatedDate);
+					
 					return {
 						id : item.Id,
 						name : item.ProductName,

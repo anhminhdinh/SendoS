@@ -185,16 +185,18 @@
 			viewModel.buyerAddress(data.Data.BuyerAddress);
 			viewModel.buyerPhone(data.Data.BuyerPhone);
 
-			var dateString = data.Data.OrderDate;
-			if (dateString.indexOf("+") == -1)
-				dateString += 'Z';
-			var OrderDate = new Date(dateString);
+			// var dateString = data.Data.OrderDate;
+			// if (dateString.indexOf("+") == -1)
+				// dateString += 'Z';
+			// var OrderDate = new Date(dateString);
+			var OrderDate = convertDate(data.Data.OrderDate);								
 			viewModel.orderDate(Globalize.format(OrderDate, 'dd-MM, yyyy'));
 			
-			var dateString = data.Data.DelayDate;
-			if (dateString.indexOf("+") == -1)
-				dateString += 'Z';
-			var DelayDate = new Date(dateString);
+			// var dateString = data.Data.DelayDate;
+			// if (dateString.indexOf("+") == -1)
+				// dateString += 'Z';
+			// var DelayDate = new Date(dateString);
+			var DelayDate = convertDate(data.Data.DelayDate);								
 			viewModel.delayDate(Globalize.format(DelayDate, 'dd-MM, yyyy'));
 			var display = "Mới";
 			switch (data.Data.OrderStatus) {

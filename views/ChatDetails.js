@@ -30,10 +30,11 @@
 				// alert("ITEM - BuyerName: " + item.BuyerName + " TotalAmount:" + item.TotalAmount);
 				var today = new Date();
 				
-				var dateString = item.CommentDate;
-					if (dateString.indexOf("+") == -1)
-						dateString += 'Z';					
-				var date = new Date(dateString);
+				// var dateString = item.CommentDate;
+					// if (dateString.indexOf("+") == -1)
+						// dateString += 'Z';					
+				// var date = new Date(dateString);
+				var date = convertDate(item.CommentDate);
 				
 				var isSameDay = (date.getDate() == today.getDate() && date.getMonth() == today.getMonth() && date.getFullYear() == today.getFullYear());
 				var dateString = isSameDay ? Globalize.format(date, 'hh:mm') : Globalize.format(date, 'dd-MM-yy');

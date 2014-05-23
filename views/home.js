@@ -356,15 +356,20 @@
 				// alert(JSON.stringify(data.Data));
 				window.localStorage.setItem("OrdersTimeStamp" + status, data.TimeStamp);
 				var result = $.map(data.Data, function(item) {
-					var dateString = item.OrderDate;
-					if (dateString.indexOf("+") == -1)
-						dateString += 'Z';
-					var itemOrderDate = new Date(dateString);
+					// var dateString = item.OrderDate;
+					// if (dateString.indexOf("+") == -1)
+						// dateString += 'Z';
+					// var itemOrderDate = new Date(dateString);
+					var itemOrderDate = convertDate(item.OrderDate);
 					var orderDateString = Globalize.format(itemOrderDate, 'dd/MM/yyyy');
-					dateString = item.DelayDate;
-					if (dateString.indexOf("+") == -1)
-						dateString += 'Z';
-					var itemDelayDate = new Date(dateString);
+					
+					// dateString = item.DelayDate;
+					// if (dateString.indexOf("+") == -1)
+						// dateString += 'Z';
+					// var itemDelayDate = new Date(dateString);
+					var itemDelayDate = convertDate(item.DelayDate);
+					
+					
 					var delayDateString = Globalize.format(itemDelayDate, 'dd/MM/yyyy');
 					var itemProducts = $.map(item.Products, function(product) {
 						return {
