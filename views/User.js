@@ -10,6 +10,7 @@
 			viewModel.isLoggedOut(window.localStorage.getItem("MyTokenId") == undefined);
 			if (window.localStorage.getItem("UserName") != undefined) {
 				this.username(window.localStorage.getItem("UserName"));
+				registerPush();
 				// var passBox = $("#passBox");
 				// var passBoxInstance = passBox.dxTextBox("instance");  
 				// passBoxInstance.focus();
@@ -38,6 +39,7 @@
 			}).done(function(data, textStatus) {
 				viewModel.loadPanelVisible(false);
 				window.localStorage.setItem("UserName", viewModel.username());
+				registerPush();
 				window.localStorage.setItem("MyTokenId", data.Data);
 				MyApp.app.navigate({
 					view : "home",

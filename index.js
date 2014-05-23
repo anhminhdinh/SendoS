@@ -89,10 +89,6 @@
 			});
 
 			// AppMobi.device.hideSplashScreen();
-			// AppMobi.notification.alert("Doing checkPushUser now...", "My Message", "OK");
-			//See if the push user exists already
-			//We are just using the unique device id, but you can send any unique user id and password.
-			// AppMobi.notification.checkPushUser(AppMobi.device.uuid, AppMobi.device.uuid);
 		};
 		document.addEventListener("intel.xdk.device.ready", onDeviceReady, false);
 		var didAdd = false;
