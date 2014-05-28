@@ -1,5 +1,5 @@
 ﻿<div data-options="dxView : { name: 'order-details', title: 'Đơn hàng' } " >
-	<div data-bind="dxCommand: { id: 'edit', icon: 'edit', action: showActionSheet }" ></div>
+	<!-- <div data-bind="dxCommand: { id: 'edit', icon: 'edit', action: showActionSheet }" ></div> -->
 	<div data-options="dxContent : { targetPlaceholder: 'content' } " >
 		<div data-bind="dxActionSheet: {
 		dataSource: dropDownMenuData,
@@ -11,11 +11,11 @@
 			<!-- <div data-bind="dxDropDownMenu: { buttonText: 'Change status', dataSource: dropDownMenuData, itemClickAction: processValueChange, disabled: disabled }"></div> -->
 			<h2 style="margin: 10px;">Chi tiết đơn hàng</h2>
 			<div>
-				<table class="products-list" style="background-color: white;width:100%; border-collapse: collapse;">
+				<table class="products-list" style="width:100%; border-collapse: collapse;">
 					<tbody>
 						<!-- ko foreach: products -->
 						<tr style="border: none;">
-							<td colspan="5" width="100%" style="white-space: pre-wrap; word-wrap: break-word; text-align: left; font-size: larger;" data-bind="text: name"></td>
+							<td colspan="5" width="100%" style="white-space: pre-wrap; word-wrap: break-word; text-align: left; font-size: larger; padding: 0 10px;" data-bind="text: name"></td>
 						</tr>
 						<tr style="border-bottom: 1px solid #d2d3d5;">
 							<td rowspan="5" width="auto">
@@ -104,7 +104,11 @@
 					</tr>
 				</tbody>
 			</table>
+			<div style="text-align: center;">
+				<div class="default-button" style="margin: 20px;" data-bind="dxButton: {text:'Xử lý đơn hàng', clickAction: function() {showActionSheet();}}">
 
+				</div>
+			</div>
 		</div>
 		<div data-bind="dxLoadPanel:{message: 'Đang xử lý...', visible: loadPanelVisible }"></div>
 		<div class="popup" data-bind="dxPopup:{visible:popupDelayVisible, fullScreen:false, title:'Delay'}">

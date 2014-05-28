@@ -75,7 +75,7 @@
 
 	changeStockStatus = function(e, itemData) {
 		// e.jQueryEvent.stopPropagation();
-		var result = DevExpress.ui.dialog.confirm("Bạn có chắc muốn thoát ứng dụng?", "Sendo");
+		var result = DevExpress.ui.dialog.confirm("Bạn có chắc muốn thay đổi trạng thái còn / hết hàng?", "Sendo");
 		result.done(function(dialogResult) {
 			if (dialogResult) {
 				viewModel.loadPanelVisible(true);
@@ -170,7 +170,10 @@
 	});
 	productsDataSource = new DevExpress.data.DataSource({
 		store : productsStore,
-		sort : 'updatedDate',
+		sort : [{
+			getter : 'updatedDate',
+			desc : true
+		}],
 		// pageSize : 10
 	});
 
@@ -203,16 +206,16 @@
 			var result = $.map(data.Data, function(item) {
 				// var dateString = item.UpProductDate;
 				// if (dateString.indexOf("+") == -1)
-					// dateString += 'Z';
+				// dateString += 'Z';
 				// var UpProductDate = new Date(dateString);
-				var UpProductDate = convertDate(item.UpProductDate);								
+				var UpProductDate = convertDate(item.UpProductDate);
 				UpProductDateDisplay = Globalize.format(UpProductDate, 'dd/MM/yyyy');
 
 				// dateString = item.UpdatedDate;
 				// if (dateString.indexOf("+") == -1)
-					// dateString += 'Z';
+				// dateString += 'Z';
 				// var UpdatedDate = new Date(dateString);
-				var UpdatedDate = convertDate(item.UpdatedDate);								
+				var UpdatedDate = convertDate(item.UpdatedDate);
 				UpdatedDateDisplay = Globalize.format(UpdatedDate, 'dd/MM/yyyy');
 				// alert(JSON.stringify(item));
 				return {
@@ -297,16 +300,16 @@
 					}).done(function(data, textStatus) {
 						// var dateString = data.Data[0].UpProductDate;
 						// if (dateString.indexOf("+") == -1)
-							// dateString += 'Z';
+						// dateString += 'Z';
 						// var UpProductDate = new Date(dateString);
-						var UpProductDate = convertDate(data.Data[0].UpProductDate);								
+						var UpProductDate = convertDate(data.Data[0].UpProductDate);
 						UpProductDateDisplay = Globalize.format(UpProductDate, 'dd/MM/yyyy');
 
 						// dateString = data.Data[0].UpdatedDate;
 						// if (dateString.indexOf("+") == -1)
-							// dateString += 'Z';
+						// dateString += 'Z';
 						// var UpdatedDate = new Date(dateString);
-						var UpdatedDate = convertDate(data.Data[0].UpdatedDate);								
+						var UpdatedDate = convertDate(data.Data[0].UpdatedDate);
 						UpdatedDateDisplay = Globalize.format(UpdatedDate, 'dd/MM/yyyy');
 
 						productsStore.byKey(id).done(function(dataItem) {

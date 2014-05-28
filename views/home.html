@@ -56,10 +56,10 @@
 	<div data-bind="dxPivot: { dataSource: items }">
 		<div data-options="dxTemplate : { name: 'item' } ">
 			<div data-bind="dxList: { dataSource: listItems,
-			autoPagingEnabled: true,
-			pullRefreshEnabled: true,
-			pullRefreshAction: function() { doLoadDataByOrderStatus(dataName); },
 			noDataText: 'Không có đơn hàng nào ở mục này' }">
+				<!-- autoPagingEnabled: true,
+				pullRefreshEnabled: true,
+				pullRefreshAction: function() { doLoadDataByOrderStatus(dataName); }, -->
 				<div data-options="dxTemplate : { name: 'item' }">
 					<div class="order-number-fieldset">
 						<div class="dx-fieldset">
@@ -87,30 +87,47 @@
 						</div>
 					</div>
 					<!-- /ko -->
-					<div class="order-info">
-						<div class="dx-fieldset">
-							<div class="dx-field">
-								<div class="dx-field-label" style="font-size: 18px; font-weight: bold; width: 70%;">
-									<a data-bind="attr: {href:'tel:'+buyerPhone}, text:buyerPhone"></a>
-								</div>
-								<div class="dx-field-value" style="text-align: right; width: 30%;" >
-									Tổng tiền
-								</div>
-							</div>
-							<div class="dx-field">
-								<div class="dx-field-label" data-bind="text:buyerName"></div>
-								<div class="dx-field-value" style="text-align: right; color: green;" data-bind="text:totalAmount + 'VND'"></div>
-							</div>
-						</div>
-					</div>
-					<table style="width:100%;">
+					<table>
 						<tbody>
 							<tr>
-								<td colspan="2" style="text-align: center;"><div class="default-button" style="display: inline-block;padding: 20px;" data-bind="dxButton: {text:'Xử lý ngay', clickAction:function() {showActionSheet(orderNumber);}}"></div><div class="default-button" style="display: inline-block;padding: 20px;" data-bind="dxButton: {text:'Xem chi tiết', clickAction: function() {showDetail(orderNumber);}}"></div></td>
+								<td width="auto" class="transparent-button"><a style="font-size: 18px; font-weight: bold;" data-bind="attr: {href:'tel:'+buyerPhone}, text:buyerPhone"></a></td>
+								<td width="auto" class="transparent-button" data-bind="dxButton: {icon:'tel', clickAction:'tel:'+buyerPhone}"></td>
 							</tr>
 						</tbody>
 					</table>
+					<div class="order-info">
+						<div class="dx-fieldset">
+							<!-- <div class="dx-field">
+							<div class="dx-field-label" style="font-size: 18px; font-weight: bold; width: 70%;">
+							<a data-bind="attr: {href:'tel:'+buyerPhone}, text:buyerPhone"></a>								</div>
+							<div class="dx-field-value" style="text-align: right; width: 30%;" >
+							Tổng tiền
+							</div>
+							</div> -->
+							<div class="dx-field">
+								<div class="dx-field-label" data-bind="text:buyerName" style="width: 70%;"></div>
+								<div class="dx-field-value" style="text-align: right; color: green; width: 30%;" data-bind="text:totalAmount + 'VND'"></div>
+							</div>
+							<!-- <div class="dx-field">
+							<div class="dx-field-label" data-bind="dxButton: {text:'Xử lý ngay', clickAction:function() {showActionSheet(orderNumber);}}" style="text-align: left; width: 50%;"></div>
+							<div class="dx-field-value" style="text-align: right; width: 50%;" data-bind="dxButton: {text:'Xem chi tiết', clickAction: function() {showDetail(orderNumber);}}"></div>
+							</div> -->
+						</div>
+					</div>
 
+					<table style="width:100%;">
+						<tbody>
+							<tr>
+								<td style="text-align: center;">
+								<div style="display: inline-block;padding: 5px;">
+									<div class="default-button" data-bind="dxButton: {text:'Xử lý ngay', clickAction:function() {showActionSheet(orderNumber);}}"></div>
+								</div>
+								<div style="display: inline-block;padding: 5px;">
+									<div class="default-button" data-bind="dxButton: {text:'Xem chi tiết', clickAction: function() {showDetail(orderNumber);}}"></div>
+								</div></td>
+							</tr>
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</div>

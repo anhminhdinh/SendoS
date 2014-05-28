@@ -39,7 +39,6 @@
 			}).done(function(data, textStatus) {
 				viewModel.loadPanelVisible(false);
 				window.localStorage.setItem("UserName", viewModel.username());
-				registerPush();
 				window.localStorage.setItem("MyTokenId", data.Data);
 				MyApp.app.navigate({
 					view : "home",
@@ -47,6 +46,7 @@
 				}, {
 					root : true
 				});
+				registerPush();
 				//textStatus contains the status: success, error, etc
 			}).fail(function(jqxhr, textStatus, error) {
 				var err = textStatus + ", " + jqxhr.responseText;
