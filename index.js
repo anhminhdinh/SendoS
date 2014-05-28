@@ -27,6 +27,10 @@
 				title : 'Người dùng',
 				action : "#user",
 				icon : "user"
+			}, {
+				title : 'Thông tin',
+				action : "#about",
+				icon : "info"
 			}],
 			commandMapping : {
 				"ios-header-toolbar" : {

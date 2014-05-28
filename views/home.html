@@ -64,33 +64,36 @@
 					<div class="order-number-fieldset">
 						<div class="dx-fieldset">
 							<div class="dx-field">
-								<div class="dx-field-label" data-bind="text:'#'+orderNumber"></div>
+								<div class="dx-field-label" style="color: #7ce9f0;" data-bind="text:'#'+orderNumber"></div>
 								<div class="dx-field-value" style="text-align: right;" data-bind="text:orderDateDisplay"></div>
 							</div>
 						</div>
 					</div>
 					<!-- ko foreach: products -->
-					<div>
-						<div style="display:inline-block; margin: 5px; width: 50px; height: 50px;">
-							<img class="product-thumbnail" data-bind="attr: { src: thumbnail }"></img>
-						</div>
-						<div style="display:inline-block; margin: 5px;">
-							<p style="font-size:larger;" data-bind="text: name"></p>
-							<p style="color: green" data-bind="text:price + 'VND x ' + quantity"></p>
-							<p style="color: #336699" data-bind="text:weight + 'g'"></p>
-							<!-- ko if:stockAvailability -->
-							<p style="color: green" data-bind="text:stockAvailabilityDisplay"></p>
-							<!-- /ko -->
-							<!-- ko ifnot:stockAvailability -->
-							<p style="color: red" data-bind="text:stockAvailabilityDisplay"></p>
-							<!-- /ko -->
-						</div>
-					</div>
+					<table style="background-color: #3f3f3f; border-bottom: 2px solid #131519; width: 100%; margin: 2px;" cellspacing="2px;">
+						<tbody style="">
+							<tr>
+								<td rowspan="5" style="text-align: center; vertical-align: middle; width: 80px;"><img class="product-thumbnail" style="height: 75px; width: auto;" data-bind="attr: { src: thumbnail }"></img></td>
+							</tr>
+							<tr>
+								<td style="font-size:larger;" data-bind="text: name"></td>
+							</tr>
+							<tr>
+								<td style="color: white" data-bind="text:'Màu xanh Cỡ L'"></td>
+							</tr>
+							<tr>
+								<td style="color: white" data-bind="text:weight + 'g'"></td>
+							</tr>
+							<tr>
+								<td style="color: #ff6600" data-bind="text:price + 'VND x ' + quantity"></td>
+							</tr>
+						</tbody>
+					</table>
 					<!-- /ko -->
 					<table>
 						<tbody>
 							<tr>
-								<td width="auto" class="transparent-button"><a style="font-size: 18px; font-weight: bold;" data-bind="attr: {href:'tel:'+buyerPhone}, text:buyerPhone"></a></td>
+								<td width="auto" class="transparent-button"><a style="font-size: 18px; font-weight: bold; color: white;" data-bind="attr: {href:'tel:'+buyerPhone}, text:buyerPhone"></a></td>
 								<td width="auto" class="transparent-button" data-bind="dxButton: {icon:'tel', clickAction:'tel:'+buyerPhone}"></td>
 							</tr>
 						</tbody>
@@ -106,7 +109,7 @@
 							</div> -->
 							<div class="dx-field">
 								<div class="dx-field-label" data-bind="text:buyerName" style="width: 70%;"></div>
-								<div class="dx-field-value" style="text-align: right; color: green; width: 30%;" data-bind="text:totalAmount + 'VND'"></div>
+								<div class="dx-field-value" style="text-align: right; color: #ff6600; width: 30%; font-weight: bold;" data-bind="text:totalAmount + 'VND'"></div>
 							</div>
 							<!-- <div class="dx-field">
 							<div class="dx-field-label" data-bind="dxButton: {text:'Xử lý ngay', clickAction:function() {showActionSheet(orderNumber);}}" style="text-align: left; width: 50%;"></div>

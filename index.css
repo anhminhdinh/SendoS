@@ -50,7 +50,7 @@ body {
 	/*border: 1px solid #bb3405;
 	 border-radius: 7px;*/
 	padding: 0 10px;
-	background-color: #f34401;
+	background-color: #ee2d24;
 	/*background: linear-gradient(to bottom, #f34401, #bb3405);
 	 background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#f34401),color-stop(100%,#bb3405));*/
 	/*box-shadow: 0 1px 5px 0px #f34401, inset 0 0px 2px 0px #bb3405;*/
@@ -62,22 +62,22 @@ body {
 }
 .dx-theme-android .default-button .dx-state-active .dx-button-content {
 	padding: 0 10px;
-	background-color: #f34401;
+	background-color: #ee2d24;
 	/*background: linear-gradient(to bottom, #f34401, #bb3405);
 	 background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#bb3405),color-stop(100%,#f34401));*/
 	/*box-shadow: 0 1px 5px 0px #f34401, inset 0 0px 2px 0px #bb3405;*/
-	border-color: #bb3405;
+	border-color: #ee2d24;
 }
 .dx-theme-android .default-button .dx-button-content .dx-button-text {
 	font-size: 18px;
-	-webkit-text-shadow: 0px -1px 0px #bb3405;
-	text-shadow: 0px -1px 0px #bb3405;
+	-webkit-text-shadow: 0px -1px 0px #ee2d24;
+	text-shadow: 0px -1px 0px #ee2d24;
 }
 .dx-theme-android .dx-toolbar .default-button .dx-button-content {
 	border: none;
 	background: none;
 	box-shadow: none;
-	color: #323a45;
+	color: #ee2d24;
 }
 .dx-theme-android .dx-toolbar .default-button .dx-state-active .dx-button-content {
 	background: none;

@@ -52,23 +52,20 @@
 			pullRefreshEnabled: true,
 			pullRefreshAction: function() { doLoadProducts(); } }">
 				<div data-options="dxTemplate : { name: 'item' }">
-					<table class="products-list" style="width:100%">
+					<table class="products-list" style="background-color: #3f3f3f; border-bottom: 2px solid #131519; width: 100%; margin: 2px; cellspacing=2px;">
 						<tbody>
 							<tr>
-								<td rowspan="4" width="auto">
-								<div style="width: 75px; height: 75px;">
-									<img class="product-thumbnail" data-bind="attr: { src: thumbnail }" />
-								</div></td>
-								<td colspan="2" width="100%" style="white-space: pre-wrap; word-wrap: break-word; text-align: left; font-size: larger;" data-bind="text: name"></td>
+								<td rowspan="4" style="text-align: center; vertical-align: middle; width: 80px;"><img class="product-thumbnail" style="height: 75px; width: auto;" data-bind="attr: { src: thumbnail }"><img></td>
+								<td colspan="2" width="auto" style="white-space: pre-wrap; word-wrap: break-word; text-align: left; font-size: larger;" data-bind="text: name"></td>
 								<td data-bind="dxButton: {icon:'edit', clickAction: function(e) {edit(e, $data);}}"></td>
 							</tr>
 							<tr>
 								<td width="auto" class="transparent-button" data-bind="dxButton: {iconSrc: 'images/moneyicon.png'}"></td>
-								<td width="100%" style="color: green;" data-bind="text: price + ' VND'"></td>
+								<td style="color: #ff6600;" data-bind="text: price + ' VND'"></td>
 							</tr>
 							<tr>
 								<td width="auto" class="transparent-button" data-bind="dxButton: {iconSrc: 'images/weight.png'}"></td>
-								<td width="100%" style="color: #336699;" data-bind="text: weight + ' g'"></td>
+								<td style="color: white;" data-bind="text: weight + ' g'"></td>
 							</tr>
 							<tr>
 								<td width="auto" style="text-align: right;"
@@ -78,10 +75,10 @@
 								changeStockStatus(e,$data);
 								}}"></td>
 								<!-- ko if:stockAvailability -->
-								<td style="color: green" data-bind="text:stockAvailabilityDisplay"></td>
+								<td style="color: #00ff00;" data-bind="text:stockAvailabilityDisplay"></td>
 								<!-- /ko -->
 								<!-- ko ifnot:stockAvailability -->
-								<td style="color: red" data-bind="text:stockAvailabilityDisplay"></td>
+								<td style="color: red;" data-bind="text:stockAvailabilityDisplay"></td>
 								<!-- /ko -->
 
 							</tr>
@@ -90,7 +87,7 @@
 					<table class="products-list" style="width:100%">
 						<tbody>
 							<tr>
-								<td style="width:50%;white-space: pre-wrap; word-wrap: break-word; text-align: left;" data-bind="text: 'Up gần nhất:\n' + upProductDateDisplay"></td>
+								<td style="width:100%;white-space: pre-wrap; word-wrap: break-word; text-align: left;" data-bind="text: 'Up gần nhất:\n' + upProductDateDisplay"></td>
 								<td class="default-button" style="width:auto;" data-bind="dxButton: {text:'Up ngay', clickAction: function() {upProduct(id);}}"></td>
 							</tr>
 						</tbody>
