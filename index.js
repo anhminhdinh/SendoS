@@ -92,7 +92,9 @@
 					exitApp();
 				}
 			});
-
+			$.ajaxSetup({
+				contentType : "application/json; charset=utf-8"
+			});
 			// AppMobi.device.hideSplashScreen();
 		};
 		document.addEventListener("intel.xdk.device.ready", onDeviceReady, false);

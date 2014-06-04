@@ -30,13 +30,14 @@
 			};
 			var jsonData = JSON.stringify(dataToSend);
 			// alert(jsonData);
-			$.ajax({
+			var request = $.ajax({
 				url : "http://180.148.138.140/SellerTest2/api/mobile/login",
 				type : "POST",
 				data : jsonData,
 				contentType : "application/json; charset=utf-8",
 				dataType : "json"
-			}).done(function(data, textStatus) {
+			});
+			request.done(function(data, textStatus) {
 				viewModel.loadPanelVisible(false);
 				window.localStorage.setItem("UserName", viewModel.username());
 				window.localStorage.setItem("MyTokenId", data.Data);
@@ -48,15 +49,19 @@
 				});
 				registerPush();
 				//textStatus contains the status: success, error, etc
-			}).fail(function(jqxhr, textStatus, error) {
+			});
+			request.fail(function(jqxhr, textStatus, error) {
 				var err = textStatus + ", " + jqxhr.responseText;
 				alert("Login Failed: " + err);
 				viewModel.loadPanelVisible(false);
 			});
 		},
 		dologout : function() {
-			this.loadPanelVisible(true);				
-			var jsonData = JSON.stringify(window.localStorage.getItem("MyTokenId"));
+			this.loadPanelVisible(true);
+			var dataToSend = {
+				TokenId : window.localStorage.getItem("MyTokenId")
+			};				
+			var jsonData = JSON.stringify(dataToSend);
 			// alert(jsonData);
 			$.ajax({
 				url : "http://180.148.138.140/SellerTest2/api/mobile/logout",
