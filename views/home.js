@@ -102,7 +102,7 @@
 		};
 		var jsonData = JSON.stringify(dataToSend);
 		return $.ajax({
-			url : "http://180.148.138.140/SellerDev2/api/mobile/ProcessOrder",
+			url : "http://180.148.138.140/SellerTest2/api/mobile/ProcessOrder",
 			type : "POST",
 			data : jsonData,
 			contentType : "application/json; charset=utf-8",
@@ -133,7 +133,7 @@
 		};
 		var jsonData = JSON.stringify(dataToSend);
 		return $.ajax({
-			url : "http://180.148.138.140/SellerDev2/api/mobile/ProcessOrder",
+			url : "http://180.148.138.140/SellerTest2/api/mobile/ProcessOrder",
 			type : "POST",
 			data : jsonData,
 			contentType : "application/json; charset=utf-8",
@@ -163,7 +163,7 @@
 		};
 		var jsonData = JSON.stringify(dataToSend);
 		return $.ajax({
-			url : "http://180.148.138.140/SellerDev2/api/mobile/ProcessOrder",
+			url : "http://180.148.138.140/SellerTest2/api/mobile/ProcessOrder",
 			type : "POST",
 			data : jsonData,
 			contentType : "application/json; charset=utf-8",
@@ -202,7 +202,7 @@
 		};
 		var jsonData = JSON.stringify(dataToSend);
 		return $.ajax({
-			url : "http://180.148.138.140/SellerDev2/api/mobile/ProcessOrder",
+			url : "http://180.148.138.140/SellerTest2/api/mobile/ProcessOrder",
 			type : "POST",
 			data : jsonData,
 			contentType : "application/json; charset=utf-8",
@@ -233,7 +233,7 @@
 		var jsonData = JSON.stringify(dataToSend);
 		// alert(jsonData);
 		return $.ajax({
-			url : "http://180.148.138.140/SellerDev2/api/mobile/ProcessOrder",
+			url : "http://180.148.138.140/SellerTest2/api/mobile/ProcessOrder",
 			type : "POST",
 			data : jsonData,
 			contentType : "application/json; charset=utf-8",
@@ -342,7 +342,7 @@
 		var jsonData = JSON.stringify(dataToSend);
 		// alert(jsonData);
 		return $.ajax({
-			url : "http://180.148.138.140/SellerDev2/api/mobile/ListSalesOrderByStatus",
+			url : "http://180.148.138.140/SellerTest2/api/mobile/ListSalesOrderByStatus",
 			type : "POST",
 			data : jsonData,
 			contentType : "application/json; charset=utf-8",

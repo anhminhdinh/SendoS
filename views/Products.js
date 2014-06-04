@@ -90,7 +90,7 @@
 				var jsonData = JSON.stringify(dataToSend);
 				// alert(jsonData);
 				return $.ajax({
-					url : "http://180.148.138.140/SellerDev2/api/mobile/UpdateProductStock",
+					url : "http://180.148.138.140/SellerTest2/api/mobile/UpdateProductStock",
 					type : "POST",
 					data : jsonData,
 					contentType : "application/json; charset=utf-8",
@@ -137,7 +137,7 @@
 				var jsonData = JSON.stringify(dataToSend);
 				// alert(jsonData);
 				return $.ajax({
-					url : "http://180.148.138.140/SellerDev2/api/mobile/UpdateProduct",
+					url : "http://180.148.138.140/SellerTest2/api/mobile/UpdateProduct",
 					type : "POST",
 					data : jsonData,
 					contentType : "application/json; charset=utf-8",
@@ -199,7 +199,7 @@
 		var jsonData = JSON.stringify(dataToSend);
 		// alert(jsonData);
 		return $.ajax({
-			url : "http://180.148.138.140/SellerDev2/api/mobile/SearchProductByName",
+			url : "http://180.148.138.140/SellerTest2/api/mobile/SearchProductByName",
 			type : "POST",
 			data : jsonData,
 			contentType : "application/json; charset=utf-8",
@@ -283,7 +283,7 @@
 				var jsonData = JSON.stringify(dataToSend);
 				// alert(jsonData);
 				return $.ajax({
-					url : "http://180.148.138.140/SellerDev2/api/mobile/UpProduct",
+					url : "http://180.148.138.140/SellerTest2/api/mobile/UpProduct",
 					type : "POST",
 					data : jsonData,
 					contentType : "application/json; charset=utf-8",
@@ -295,7 +295,7 @@
 					};
 					var jsonData = JSON.stringify(dataToSend);
 					$.ajax({
-						url : "http://180.148.138.140/SellerDev2/api/mobile/ProductInfoById",
+						url : "http://180.148.138.140/SellerTest2/api/mobile/ProductInfoById",
 						type : "POST",
 						data : jsonData,
 						contentType : "application/json; charset=utf-8",
