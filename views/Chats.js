@@ -9,8 +9,10 @@
 				}, {
 					root : true
 				});
-			} else
+			} else {
+				// chatIdsStore.clear();
 				doLoadChatIdsData();
+			}
 		},
 		loadPanelVisible : ko.observable(false),
 	};
@@ -47,7 +49,7 @@
 		var jsonData = JSON.stringify(dataToSend);
 		// alert(jsonData);
 		return $.ajax({
-			url : "http://180.148.138.140/sellerDev2/api/mobile/ListComment",
+			url : "http://180.148.138.140/SellerDev2/api/mobile/ListComment",
 			type : "POST",
 			data : jsonData,
 			contentType : "application/json; charset=utf-8",

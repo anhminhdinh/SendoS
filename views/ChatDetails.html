@@ -1,43 +1,22 @@
 ﻿<div data-options="dxView : { name: 'chatdetails', title: 'Hỏi & đáp', secure: true } " >
 	<div data-options="dxContent : { targetPlaceholder: 'content' } " >
 		<div data-bind="dxLoadPanel:{message: '', visible: loadPanelVisible }"></div>
-		<div class="chatscroll">
-			<div style="font-weight: bold; padding: 10px;" data-bind="text:productName"></div>
-			<div id="chatScroll" class="conversations-content" data-bind="dxScrollView: {pullDownAction: function() {doLoadChatDetailData();}}">
-				<div>
-					<table class="conversations-list">
-						<tbody>
-							<!-- ko foreach: chatDetailDataSource -->
-							<tr>
-								<!-- ko if:isShop -->
-								<td colspan="2" class="left conversations-message-shop" data-bind="text:msg, attr: {'id':name}"></td>
-								<td></td>
-								<!-- /ko -->
-								<!-- ko ifnot:isShop -->
-								<td></td>
-								<td colspan="2" class="left conversations-message" data-bind="text:msg, attr: {'id':name}"></td>
-								<!-- /ko -->
-							</tr>
-							<tr>
-								<!-- ko if:isShop -->
-								<td class="left conversations-date" data-bind="text: date"></td>
-								<!-- /ko -->
-								<!-- ko ifnot:isShop -->
-								<td></td>
-								<!-- /ko -->
-								<td></td>
-								<!-- ko ifnot:isShop -->
-								<td class="left conversations-date" data-bind="text: date"></td>
-								<!-- /ko -->
-								<!-- ko if:isShop -->
-								<td></td>
-								<!-- /ko -->
-							</tr>
-							<!-- /ko -->
-						</tbody>
-					</table>
-				</div>
-			</div>
+		<div style="font-weight: bold; padding: 10px;" data-bind="text:productName"></div>
+		<div id="chatScroll" class="conversations-content" data-bind="dxScrollView: {pullDownAction: function() {doLoadChatDetailData();}}">
+			<!-- ko foreach: chatDetailDataSource -->
+			<!-- ko if:isShop -->
+			<div class="conversations-date-shop" data-bind="text: date"></div>
+			<!-- /ko -->
+			<!-- ko ifnot:isShop -->
+			<div class="conversations-date" data-bind="text: date"></div>
+			<!-- /ko -->
+			<!-- ko if:isShop -->
+			<div class="conversations-message-shop" data-bind="text:msg, attr: {'id':name}"></div>
+			<!-- /ko -->
+			<!-- ko ifnot:isShop -->
+			<div class="conversations-message" data-bind="text:msg, attr: {'id':name}"></div>
+			<!-- /ko -->
+			<!-- /ko -->
 		</div>
 		<div class="conversations-comment" data-bind="dxTextBox:{value:commentToPost, placeholder:'Trả lời khách hàng' }"></div>
 		<div class="conversations-comment-button" data-bind="dxButton: { clickAction: postComment, icon: 'comment' }"></div>

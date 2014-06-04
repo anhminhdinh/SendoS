@@ -4,7 +4,7 @@
 		<div data-bind="dxActionSheet: {
 		dataSource: dropDownMenuData,
 		visible: actionSheetVisible,
-		title: 'Sắp xếp sản phẩm theo',
+		title: 'Sắp xếp sản phẩm theo thời gian',
 		cancelText: 'Bỏ qua'
 		}"></div>
 		<table class="products-list" style="width:100%">
@@ -52,35 +52,31 @@
 			pullRefreshEnabled: true,
 			pullRefreshAction: function() { doLoadProducts(); } }">
 				<div data-options="dxTemplate : { name: 'item' }">
-					<table class="products-list" style="background-color: #3f3f3f; border-bottom: 2px solid #131519; width: 100%; margin: 2px; cellspacing=2px;">
+					<table class="products-info" cellspacing="2px;">
 						<tbody>
 							<tr>
-								<td rowspan="4" style="text-align: center; vertical-align: middle; width: 80px;"><img class="product-thumbnail" style="height: 75px; width: auto;" data-bind="attr: { src: thumbnail }"><img></td>
+								<td rowspan="4" align=center valign=middle width="80px"><img class="product-thumbnail" data-bind="attr: { src: thumbnail }"><img></td>
 								<td colspan="2" width="auto" style="white-space: pre-wrap; word-wrap: break-word; text-align: left; font-size: larger;" data-bind="text: name"></td>
-								<td data-bind="dxButton: {icon:'edit', clickAction: function(e) {edit(e, $data);}}"></td>
+								<td class="transparent-button" data-bind="dxButton: {icon:'edit', clickAction: function(e) {edit(e, $data);}}"></td>
 							</tr>
 							<tr>
-								<td width="auto" class="transparent-button" data-bind="dxButton: {iconSrc: 'images/moneyicon.png'}"></td>
-								<td style="color: #ff6600;" data-bind="text: price + ' VND'"></td>
+								<!-- <td width="auto" class="transparent-button" data-bind="dxButton: {iconSrc: 'images/moneyicon.png'}"></td> -->
+								<td style="color: #d45e14;" data-bind="text: price + ' VND'"></td>
 							</tr>
 							<tr>
-								<td width="auto" class="transparent-button" data-bind="dxButton: {iconSrc: 'images/weight.png'}"></td>
+								<!-- <td width="auto" class="transparent-button" data-bind="dxButton: {iconSrc: 'images/weight.png'}"></td> -->
 								<td style="color: white;" data-bind="text: weight + ' g'"></td>
 							</tr>
 							<tr>
 								<td width="auto" style="text-align: right;"
-								data-bind="dxCheckBox:{
-								checked:stockAvailability,
-								clickAction: function(e) {
+								data-bind="dxSwitch:{
+								value:stockAvailability,
+								valueChangeAction: function(e) {
 								changeStockStatus(e,$data);
-								}}"></td>
-								<!-- ko if:stockAvailability -->
-								<td style="color: #00ff00;" data-bind="text:stockAvailabilityDisplay"></td>
-								<!-- /ko -->
-								<!-- ko ifnot:stockAvailability -->
-								<td style="color: red;" data-bind="text:stockAvailabilityDisplay"></td>
-								<!-- /ko -->
-
+								},
+								onText: 'Còn hàng',
+								offText: 'Hết hàng',
+								}"></td>
 							</tr>
 						</tbody>
 					</table>

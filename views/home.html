@@ -70,10 +70,10 @@
 						</div>
 					</div>
 					<!-- ko foreach: products -->
-					<table style="background-color: #3f3f3f; border-bottom: 2px solid #131519; width: 100%; margin: 2px;" cellspacing="2px;">
-						<tbody style="">
+					<table class="products-info" cellspacing="2px;">
+						<tbody>
 							<tr>
-								<td rowspan="5" style="text-align: center; vertical-align: middle; width: 80px;"><img class="product-thumbnail" style="height: 75px; width: auto;" data-bind="attr: { src: thumbnail }"></img></td>
+								<td rowspan="5" align=center valign=middle width="80px"><img class="product-thumbnail" data-bind="attr: { src: thumbnail }"><img></td>
 							</tr>
 							<tr>
 								<td style="font-size:larger;" data-bind="text: name"></td>
@@ -85,7 +85,7 @@
 								<td style="color: white" data-bind="text:weight + 'g'"></td>
 							</tr>
 							<tr>
-								<td style="color: #ff6600" data-bind="text:price + 'VND x ' + quantity"></td>
+								<td style="color: #d45e14" data-bind="text:price + 'VND x ' + quantity"></td>
 							</tr>
 						</tbody>
 					</table>
@@ -109,7 +109,7 @@
 							</div> -->
 							<div class="dx-field">
 								<div class="dx-field-label" data-bind="text:buyerName" style="width: 70%;"></div>
-								<div class="dx-field-value" style="text-align: right; color: #ff6600; width: 30%; font-weight: bold;" data-bind="text:totalAmount + 'VND'"></div>
+								<div class="dx-field-value" style="text-align: right; color: #d45e14; width: 30%; font-weight: bold;" data-bind="text:totalAmount + 'VND'"></div>
 							</div>
 							<!-- <div class="dx-field">
 							<div class="dx-field-label" data-bind="dxButton: {text:'Xử lý ngay', clickAction:function() {showActionSheet(orderNumber);}}" style="text-align: left; width: 50%;"></div>

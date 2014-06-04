@@ -14,19 +14,19 @@
 			navigation : [{
 				title : 'Đơn hàng',
 				action : "#home",
-				icon : "cart"
+				icon : "order"
 			}, {
 				title : 'Sản Phẩm',
 				action : "#products",
-				icon : "product"
+				icon : "products"
 			}, {
 				title : 'Hỏi & đáp',
 				action : "#chats",
-				icon : "comment"
+				icon : "qa"
 			}, {
 				title : 'Người dùng',
 				action : "#user",
-				icon : "user"
+				icon : "profile"
 			}, {
 				title : 'Thông tin',
 				action : "#about",

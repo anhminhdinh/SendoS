@@ -10,7 +10,7 @@
 					root : true
 				});
 			} else {
-				productsStore.clear();
+				// productsStore.clear();
 				doLoadProducts();
 			}
 		},
@@ -34,23 +34,23 @@
 
 		processSortTypeChange : function() {
 			// alert(viewModel.selectedType());
-			doReload();
+			doReload(true);
 		},
 		showSortOptions : function() {
 			this.actionSheetVisible(true);
 		},
 		actionSheetVisible : ko.observable(false),
 		dropDownMenuData : [{
-			text : "Ngày tạo",
+			text : "Mới nhất",
 			clickAction : function() {
-				viewModel.selectedType("updatedDate");
-				doReload();
+				// viewModel.selectedType("updatedDate");
+				doReload(true);
 			}
 		}, {
-			text : "Up gần nhất",
+			text : "Cũ nhất",
 			clickAction : function() {
-				viewModel.selectedType("upProductDate");
-				doReload();
+				// viewModel.selectedType("upProductDate");
+				doReload(false);
 			}
 		}],
 		dataItem : ko.observable(),
@@ -90,7 +90,7 @@
 				var jsonData = JSON.stringify(dataToSend);
 				// alert(jsonData);
 				return $.ajax({
-					url : "http://180.148.138.140/sellerDev2/api/mobile/UpdateProductStock",
+					url : "http://180.148.138.140/SellerDev2/api/mobile/UpdateProductStock",
 					type : "POST",
 					data : jsonData,
 					contentType : "application/json; charset=utf-8",
@@ -104,7 +104,7 @@
 						productsStore.insert(dataItem);
 						// productsStore.update(id, dataItem);
 					});
-					doReload();
+					doReload(true);
 					viewModel.loadPanelVisible(false);
 					// doLoadDataByProductID();
 					//textStatus contains the status: success, error, etc
@@ -114,7 +114,7 @@
 					alert("Get Failed: " + err);
 				});
 			} else {
-				doReload();
+				doReload(true);
 			}
 		});
 	};
@@ -137,7 +137,7 @@
 				var jsonData = JSON.stringify(dataToSend);
 				// alert(jsonData);
 				return $.ajax({
-					url : "http://180.148.138.140/sellerDev2/api/mobile/UpdateProduct",
+					url : "http://180.148.138.140/SellerDev2/api/mobile/UpdateProduct",
 					type : "POST",
 					data : jsonData,
 					contentType : "application/json; charset=utf-8",
@@ -150,7 +150,7 @@
 						productsStore.remove(dataItem.id);
 						productsStore.insert(dataItem);
 					});
-					doReload();
+					doReload(true);
 					viewModel.loadPanelVisible(false);
 					viewModel.popupEditVisible(false);
 					//textStatus contains the status: success, error, etc
@@ -171,6 +171,9 @@
 	productsDataSource = new DevExpress.data.DataSource({
 		store : productsStore,
 		sort : [{
+			getter : 'upProductDate',
+			desc : true
+		}, {
 			getter : 'updatedDate',
 			desc : true
 		}],
@@ -196,7 +199,7 @@
 		var jsonData = JSON.stringify(dataToSend);
 		// alert(jsonData);
 		return $.ajax({
-			url : "http://180.148.138.140/sellerDev2/api/mobile/SearchProductByName",
+			url : "http://180.148.138.140/SellerDev2/api/mobile/SearchProductByName",
 			type : "POST",
 			data : jsonData,
 			contentType : "application/json; charset=utf-8",
@@ -248,7 +251,7 @@
 				});
 				// alert(JSON.stringify(result[i]));
 			}
-			doReload();
+			doReload(true);
 			// alert(JSON.stringify(result));
 			// viewModel.dataSource(result);
 			viewModel.loadPanelVisible(false);
@@ -280,7 +283,7 @@
 				var jsonData = JSON.stringify(dataToSend);
 				// alert(jsonData);
 				return $.ajax({
-					url : "http://180.148.138.140/sellerDev2/api/mobile/UpProduct",
+					url : "http://180.148.138.140/SellerDev2/api/mobile/UpProduct",
 					type : "POST",
 					data : jsonData,
 					contentType : "application/json; charset=utf-8",
@@ -292,7 +295,7 @@
 					};
 					var jsonData = JSON.stringify(dataToSend);
 					$.ajax({
-						url : "http://180.148.138.140/sellerDev2/api/mobile/ProductInfoById",
+						url : "http://180.148.138.140/SellerDev2/api/mobile/ProductInfoById",
 						type : "POST",
 						data : jsonData,
 						contentType : "application/json; charset=utf-8",
@@ -321,7 +324,7 @@
 							productsStore.insert(dataItem);
 							// productsStore.update(id, dataItem);
 						});
-						doReload();
+						doReload(true);
 						viewModel.loadPanelVisible(false);
 					});
 					//textStatus contains the status: success, error, etc
@@ -334,12 +337,15 @@
 		});
 	};
 
-	doReload = function() {
+	doReload = function(sortType) {
 		productsStore.load();
-		productsDataSource.sort({
-			getter : viewModel.selectedType(),
-			desc : true
-		});
+			productsDataSource.sort([{
+				getter : 'upProductDate',
+				desc : sortType
+			}, {
+				getter : 'updatedDate',
+				desc : sortType
+			}]);
 
 		// if (viewModel.searchString() !== '') {
 		// DevExpress.ui.notify("search by " + viewModel.searchString(), "info", 3000);

@@ -20,7 +20,7 @@
 		var jsonData = JSON.stringify(dataToSend);
 		// alert(jsonData);
 		return $.ajax({
-			url : "http://180.148.138.140/sellerDev2/api/mobile/ListCommentById",
+			url : "http://180.148.138.140/SellerDev2/api/mobile/ListCommentById",
 			type : "POST",
 			data : jsonData,
 			contentType : "application/json; charset=utf-8",
@@ -29,17 +29,12 @@
 			var result = $.map(data.Data.Comments, function(item) {
 				// alert("ITEM - BuyerName: " + item.BuyerName + " TotalAmount:" + item.TotalAmount);
 				var today = new Date();
-				
-				// var dateString = item.CommentDate;
-					// if (dateString.indexOf("+") == -1)
-						// dateString += 'Z';					
-				// var date = new Date(dateString);
-				var date = convertDate(item.CommentDate);
-				
+				var date = convertDate(item.CommentDate);				
 				var isSameDay = (date.getDate() == today.getDate() && date.getMonth() == today.getMonth() && date.getFullYear() == today.getFullYear());
 				var dateString = isSameDay ? Globalize.format(date, 'hh:mm') : Globalize.format(date, 'dd-MM-yy');
-				var name = item.CustomerName.toLowerCase();
-				var message = name.toUpperCase() + ': ' + item.Message;
+				var name = item.CustomerName;
+				dateString = name + ' | ' + dateString;
+				var message = item.Message;
 				var isShop = item.IsShop;
 				//TODO : server response isShop
 				return {
@@ -86,7 +81,7 @@
 		var jsonData = JSON.stringify(dataToSend);
 		// alert(jsonData);
 		return $.ajax({
-			url : "http://180.148.138.140/sellerDev2/api/mobile/SendComment",
+			url : "http://180.148.138.140/SellerDev2/api/mobile/SendComment",
 			type : "POST",
 			data : jsonData,
 			contentType : "application/json; charset=utf-8",

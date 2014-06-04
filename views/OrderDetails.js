@@ -145,7 +145,6 @@
 						name : viewModel.products()[i].name,
 						id : viewModel.products()[i].id,
 						thumbnail : viewModel.products()[i].thumbnail,
-						stockAvailability : viewModel.products()[i].stockAvailabilityDisplay
 					};
 					viewModel.productsToSplit().push(product);
 				}
@@ -172,7 +171,7 @@
 		};
 		var jsonData = JSON.stringify(dataToSend);
 		return $.ajax({
-			url : "http://180.148.138.140/sellerDev2/api/mobile/SalesOrderInfoByOrderNumber",
+			url : "http://180.148.138.140/SellerDev2/api/mobile/SalesOrderInfoByOrderNumber",
 			type : "POST",
 			data : jsonData,
 			contentType : "application/json; charset=utf-8",
@@ -224,7 +223,6 @@
 					thumnail : item.Thumnail,
 					price : item.Price,
 					weight : item.Weight,
-					stockAvailability : (item.StockAvailability) ? 'Còn hàng' : 'Hết hàng',
 					upProductDate : new Date(item.UpProductDate),
 				};
 			});
@@ -248,7 +246,7 @@
 		};
 		var jsonData = JSON.stringify(dataToSend);
 		return $.ajax({
-			url : "http://180.148.138.140/sellerDev2/api/mobile/ProcessOrder",
+			url : "http://180.148.138.140/SellerDev2/api/mobile/ProcessOrder",
 			type : "POST",
 			data : jsonData,
 			contentType : "application/json; charset=utf-8",
@@ -276,7 +274,7 @@
 		};
 		var jsonData = JSON.stringify(dataToSend);
 		return $.ajax({
-			url : "http://180.148.138.140/sellerDev2/api/mobile/ProcessOrder",
+			url : "http://180.148.138.140/SellerDev2/api/mobile/ProcessOrder",
 			type : "POST",
 			data : jsonData,
 			contentType : "application/json; charset=utf-8",
@@ -305,7 +303,7 @@
 		};
 		var jsonData = JSON.stringify(dataToSend);
 		return $.ajax({
-			url : "http://180.148.138.140/sellerDev2/api/mobile/ProcessOrder",
+			url : "http://180.148.138.140/SellerDev2/api/mobile/ProcessOrder",
 			type : "POST",
 			data : jsonData,
 			contentType : "application/json; charset=utf-8",
@@ -341,7 +339,7 @@
 		};
 		var jsonData = JSON.stringify(dataToSend);
 		return $.ajax({
-			url : "http://180.148.138.140/sellerDev2/api/mobile/ProcessOrder",
+			url : "http://180.148.138.140/SellerDev2/api/mobile/ProcessOrder",
 			type : "POST",
 			data : jsonData,
 			contentType : "application/json; charset=utf-8",
@@ -372,7 +370,7 @@
 		var jsonData = JSON.stringify(dataToSend);
 		// alert(jsonData);
 		return $.ajax({
-			url : "http://180.148.138.140/sellerDev2/api/mobile/ProcessOrder",
+			url : "http://180.148.138.140/SellerDev2/api/mobile/ProcessOrder",
 			type : "POST",
 			data : jsonData,
 			contentType : "application/json; charset=utf-8",
