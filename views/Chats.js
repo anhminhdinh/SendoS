@@ -55,31 +55,25 @@
 			contentType : "application/json; charset=utf-8",
 			dataType : "json"
 		}).done(function(data, textStatus) {
-			if (data.Data.length > 0) {
+			if (data.Data.data.length > 0) {
 				window.localStorage.setItem("ListCommentTimeStamp", data.TimeStamp);
-				var result = $.map(data.Data, function(item) {
-					// alert("ITEM - BuyerName: " + item.BuyerName + " TotalAmount:" + item.TotalAmount);
-					// var dateString = item.CommentDate;
-					// if (dateString.indexOf("+") == -1)
-						// dateString += 'Z';
-					// var date = new Date(dateString + 'Z');
-					var date = convertDate(item.CommentDate);					
-					var dateString = Globalize.format(date, 'dd MM-yy');
-
-					var name = item.CustomerName.toUpperCase();
-					var message = name + ' (' + dateString + '): ' + item.Message;
-
-					// var updatedDate = new Date(item.UpdatedDate);
-					var updatedDate = convertDate(item.UpdatedDate);
+				var result = $.map(data.Data.data, function(item) {
+					var date = convertDate(item.Time);
+					var dateString = Globalize.format(date, 'dd-MM-yy');
+					var name = item.Customer_name.toUpperCase();
+					var message = name + ' (' + dateString + '): ' + item.Content;
+					var updatedDate = convertDate(item.Time_update);
+					var totalComment = item.SubLength + ' ';
 					
 					return {
 						id : item.Id,
-						name : item.ProductName,
-						thumbnail : item.Thumnail,
+						name : item.Product_Name,
+						thumbnail : item.Product_thumb,
 						msg : message,
-						isParent : item.IsParent,
+						// isParent : item.IsParent,
 						updatedDate : updatedDate,
 						createdDate : date,
+						totalComment : totalComment,
 					};
 				});
 				for (var i = 0; i < result.length; i++) {

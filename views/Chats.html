@@ -12,8 +12,11 @@
 				<table class="products-list" style="width:100%">
 					<tbody>
 						<tr>
-							<td rowspan="2" align=center valign=middle width="80px"><img class="product-thumbnail" data-bind="attr: { src: thumbnail }"><img></td>
+							<td rowspan="3" align=center valign=middle width="80px"><img class="product-thumbnail" data-bind="attr: { src: thumbnail }"><img></td>
 							<td style="font-weight: bold;" data-bind="text:name"></td>
+						</tr>
+						<tr>
+							<td width="auto" class="transparent-button" data-bind="dxButton: {icon:'qa', text: totalComment}"></td>
 						</tr>
 						<tr>
 							<td><div class="left conversations-title" data-bind="text:msg" style="white-space: pre-wrap; word-wrap: break-word;"></div></td>

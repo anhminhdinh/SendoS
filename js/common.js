@@ -1,4 +1,6 @@
 convertDate = function(inputDateString) {
+	if (inputDateString === null)
+	return null;
 	var dateString = inputDateString;
 	if ((dateString.indexOf("+") == -1) && (dateString.indexOf("Z") == -1))
 		dateString += 'Z';

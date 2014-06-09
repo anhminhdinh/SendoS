@@ -26,16 +26,16 @@
 			contentType : "application/json; charset=utf-8",
 			dataType : "json"
 		}).done(function(data, textStatus) {
-			var result = $.map(data.Data.Comments, function(item) {
+			var result = $.map(data.Data.data, function(item) {
 				// alert("ITEM - BuyerName: " + item.BuyerName + " TotalAmount:" + item.TotalAmount);
 				var today = new Date();
-				var date = convertDate(item.CommentDate);				
+				var date = convertDate(item.Time_update);				
 				var isSameDay = (date.getDate() == today.getDate() && date.getMonth() == today.getMonth() && date.getFullYear() == today.getFullYear());
 				var dateString = isSameDay ? Globalize.format(date, 'hh:mm') : Globalize.format(date, 'dd-MM-yy');
-				var name = item.CustomerName;
+				var name = item.Customer_name;
 				dateString = name + ' | ' + dateString;
-				var message = item.Message;
-				var isShop = item.IsShop;
+				var message = item.Content;
+				var isShop = item.Customer_type === "2";
 				//TODO : server response isShop
 				return {
 					name : name,
