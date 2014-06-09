@@ -10,7 +10,8 @@
 	$(function() {
 		MyApp.app = new DevExpress.framework.html.HtmlApplication({
 			namespace : MyApp,
-			navigationType : "slideout",
+			// navigationType : "slideout",
+			layoutSet : DevExpress.framework.html.layoutSets["slideout"],
 			navigation : [{
 				title : 'Đơn hàng',
 				action : "#home",
@@ -65,31 +66,40 @@
 			view : "user",
 			id : undefined
 		});
+
+		function onBackButton() {
+			DevExpress.hardwareBackButton.fire();
+		}
+
 		function exitApp() {
-			// var result = DevExpress.ui.dialog.confirm("Bạn có chắc muốn thoát ứng dụng?", "Sendo");
-			// result.done(function(dialogResult) {
-			// if (dialogResult) {
-			// switch(DevExpress.devices.real().platform) {
-			// case "win8":
-			// window.external.Notify("DevExpress.ExitApp");
-			// break;
-			// default:
-			// navigator.app.exitApp();
-			// break;
-			// }
-			// }
-			// });
-			DevExpress.ui.notify("Nhấn lần nữa sẽ thoát ứng dụng!");
-		};
+			if (confirm("Bạn có chắc muốn thoát ứng dụng?")) {
+				switch(DevExpress.devices.real().platform) {
+					case "win8":
+						window.external.Notify("DevExpress.ExitApp");
+						break;
+					default:
+						navigator.app.exitApp();
+						break;
+				}
+			}
+			// DevExpress.ui.notify("Nhấn lần nữa sẽ thoát ứng dụng!");unction onBackButton() {
+		}
 
 		var onDeviceReady = function() {
 			//hide splash screen
+			// alert("ready");
 			intel.xdk.device.hideSplashScreen();
 			intel.xdk.device.setRotateOrientation("portrait");
 			intel.xdk.device.setAutoRotate(false);
-			MyApp.app.navigatingBack.add(function() {
+			document.addEventListener("backbutton", onBackButton, false);
+			MyApp.app.navigatingBack.add(function(e) {
+				// alert("back");
 				if (!MyApp.app.canBack()) {
-					exitApp();
+					// alert("quit");
+					e.cancel = true;
+					if (window.cordova) {
+						exitApp();
+					}
 				}
 			});
 			$.ajaxSetup({
@@ -156,25 +166,6 @@
 		};
 		document.addEventListener("appMobi.notification.push.receive", receivedPush, false);
 
-		// MyApp.app.initialized.add(function() {
-		// var $view = MyApp.app.getViewTemplate("LogOnPopup");
-		// $view.appendTo(".dx-viewport");
-		// MyApp.logOnPopupViewModel = MyApp.LogOnPopup();
-		//
-		// ko.applyBindings(MyApp.logOnPopupViewModel, $view[0]);
-		// });
-		//
-		// MyApp.app.navigating.add(function(e) {
-		// var params = MyApp.app.router.parse(e.uri), viewInfo = MyApp.app.getViewTemplateInfo(params.view);
-		// var localTokenId = window.localStorage.getItem("MyTokenId");
-		// if (viewInfo.secure && localTokenId == null) {
-		// // DevExpress.ui.notify("show logon", "info", 1000);
-		// e.cancel = true;
-		// MyApp.logOnPopupViewModel.show(e);
-		// }
-		// // else
-		// // DevExpress.ui.notify(localTokenId, "info", 1000);
-		// });
 		MyApp.app.navigate();
 	});
 })();
