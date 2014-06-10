@@ -382,6 +382,7 @@
 							weight : product.Weight,
 							upProductDate : product.UpProductDate + 'Z',
 							updatedDate : product.UpdatedDate + 'Z',
+							description : product.Description,
 						};
 					});
 					return {

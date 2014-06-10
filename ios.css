@@ -1,0 +1,94 @@
+.type-block .dx-fieldset {
+	margin-top: 0;
+	padding: 10;
+	min-height: 0;
+	border-bottom: 0;
+}
+.order-info-fieldset .dx-fieldset, .order-number-fieldset .dx-fieldset, .order-number-fieldset .dx-fieldset .dx-field, .order-number-fieldset .dx-fieldset .dx-field .dx-field-value, .order-number-fieldset .dx-fieldset .dx-field .dx-field-label {
+	margin: 0;
+	padding: 0;
+	min-height: 0;
+	border-bottom: 0;
+}
+/* .order-info .dx-fieldset, */
+.order-info .dx-field, .order-info .dx-field .dx-field-value, .order-info .dx-field .dx-field-label {
+	padding: 5px 0;
+	margin: 0;
+	min-height: 0;
+	border: 0;
+}
+.dx-list .dx-scrollable-content {
+	margin: 0 5px;
+}
+.dx-pivottabs .dx-pivottabs-tab.dx-pivottabs-tab-selected, .dx-pivottabs .dx-pivottabs-ghosttab.dx-pivottabs-tab-selected {
+	box-shadow: inset 0 -2px #336699, inset 0 -8px #09c;
+}
+/* button widget */
+.default-button, .default-button .dx-state-active, .conversations-comment-button, .conversations-comment-button .dx-state-active, .transparent-button, .transparent-button .dx-state-active {
+	padding: 0;
+	border: none;
+	background: none;
+	box-shadow: none;
+}
+.transparent-button, .transparent-button .dx-state-active {
+
+}
+.default-button .dx-button-content {
+	/*border: 1px solid #bb3405;
+	 border-radius: 7px;*/
+	padding: 0 10px;
+	background-color: #ee2d24;
+	/*background: linear-gradient(to bottom, #f34401, #bb3405);
+	 background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#f34401),color-stop(100%,#bb3405));*/
+	/*box-shadow: 0 1px 5px 0px #f34401, inset 0 0px 2px 0px #bb3405;*/
+	color: white;
+	font-weight: bold;
+	font-size: 18px;
+	line-height: 43px;
+	height: 52px;
+}
+.default-button .dx-state-active .dx-button-content {
+	padding: 0 10px;
+	background-color: #ee2d24;
+	/*background: linear-gradient(to bottom, #f34401, #bb3405);
+	 background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#bb3405),color-stop(100%,#f34401));*/
+	/*box-shadow: 0 1px 5px 0px #f34401, inset 0 0px 2px 0px #bb3405;*/
+	border-color: #ee2d24;
+}
+.default-button .dx-button-content .dx-button-text {
+	font-size: 18px;
+	-webkit-text-shadow: 0px -1px 0px #ee2d24;
+	text-shadow: 0px -1px 0px #ee2d24;
+}
+.dx-toolbar .default-button .dx-button-content {
+	border: none;
+	background: none;
+	box-shadow: none;
+	color: #ee2d24;
+}
+.dx-toolbar .default-button .dx-state-active .dx-button-content {
+	background: none;
+}
+.default-button .dx-button-content .dx-button-text {
+	color: white;
+}
+.transparent-button .dx-button-content .dx-icon {
+	width: 24px;
+	height: 24px;
+}
+.dx-pivottabs {
+	height: 44px;
+}
+.dx-pivottabs .dx-pivottabs-tab, .dx-pivottabs .dx-pivottabs-ghosttab {
+	padding: 0px 10px;
+	font-size: 20px;
+}
+.dx-pivot .dx-pivot-itemcontainer {
+	top: 44px;
+}
+.dx-list .dx-scrollable-container {
+	padding: 0;
+}
+.dx-list .dx-list-item {
+	font-size: 14px;
+}
