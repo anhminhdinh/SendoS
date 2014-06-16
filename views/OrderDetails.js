@@ -40,7 +40,7 @@
 				viewModel.updatedDate(dataItem.updatedDate);
 				viewModel.orderDateDisplay(dataItem.orderDateDisplay);
 				viewModel.delayDateDisplay(dataItem.delayDateDisplay);
-				viewModel.paymentMethod(dataItem.paymentMethod);
+				viewModel.paymentMethod = dataItem.paymentMethod === 2 ? 'Senpay' : 'COD';
 				viewModel.shippingMethod(dataItem.shippingMethod);
 				switch (dataItem.status) {
 					case "New":
