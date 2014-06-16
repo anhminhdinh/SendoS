@@ -3,30 +3,29 @@
 	var viewModel = {
 		title : ko.observable('Orders'),
 		dropDownMenuData : [{
-			text : "Mới",
-			clickAction : function() {
-				processValueChange("New");
-			}
-		}, {
 			text : "Còn hàng",
 			clickAction : function() {
 				processValueChange("Processing");
-			}
-		}, {
-			text : "Hết hàng",
-			clickAction : function() {
-				processValueChange("Cancel");
-			}
+			},
+			disabled : ko.observable(true),
 		}, {
 			text : "Hoãn đơn hàng",
 			clickAction : function() {
 				processValueChange("Delay");
-			}
+			},
+			disabled : ko.observable(true),
 		}, {
 			text : "Tách đơn hàng",
 			clickAction : function() {
 				processValueChange("Split");
-			}
+			},
+			disabled : ko.observable(true),
+		}, {
+			text : "Hết hàng",
+			clickAction : function() {
+				processValueChange("Cancel");
+			},
+			disabled : ko.observable(true),
 		}],
 		viewShown : function(e) {
 			this.title("Đơn hàng " + this.id);
@@ -56,6 +55,9 @@
 				}
 
 				viewModel.note(dataItem.note);
+				if ((dataItem.note === null) || (dataItem.note === undefined) || (dataItem.note === '')) {
+					$("#noteField").hide();
+				}
 				viewModel.products(dataItem.products);
 				viewModel.canDelay(dataItem.canDelay);
 				viewModel.canCancel(dataItem.canCancel);
@@ -97,10 +99,11 @@
 		selectedType : ko.observable(''),
 		actionSheetVisible : ko.observable(false),
 		showActionSheet : function() {
-			this.actionSheetVisible(true);
-			viewModel.dropDownMenuData[1].disabled(!viewModel.dataItem().canProcess);
-			viewModel.dropDownMenuData[2].disabled(!viewModel.dataItem().canDelay);
-			viewModel.dropDownMenuData[3].disabled(!viewModel.dataItem().canSplit);
+			viewModel.dropDownMenuData[0].disabled(!viewModel.dataItem().canProcess);
+			viewModel.dropDownMenuData[1].disabled(!viewModel.dataItem().canDelay);
+			viewModel.dropDownMenuData[2].disabled(!viewModel.dataItem().canSplit);
+			viewModel.dropDownMenuData[3].disabled(!viewModel.dataItem().canCancel);
+			viewModel.actionSheetVisible(true);
 		},
 		dateBoxValue : ko.observable(new Date()),
 		popupDelayVisible : ko.observable(false),
@@ -186,16 +189,16 @@
 
 			// var dateString = data.Data.OrderDate;
 			// if (dateString.indexOf("+") == -1)
-				// dateString += 'Z';
+			// dateString += 'Z';
 			// var OrderDate = new Date(dateString);
-			var OrderDate = convertDate(data.Data.OrderDate);								
+			var OrderDate = convertDate(data.Data.OrderDate);
 			viewModel.orderDate(Globalize.format(OrderDate, 'dd-MM, yyyy'));
-			
+
 			// var dateString = data.Data.DelayDate;
 			// if (dateString.indexOf("+") == -1)
-				// dateString += 'Z';
+			// dateString += 'Z';
 			// var DelayDate = new Date(dateString);
-			var DelayDate = convertDate(data.Data.DelayDate);								
+			var DelayDate = convertDate(data.Data.DelayDate);
 			viewModel.delayDate(Globalize.format(DelayDate, 'dd-MM, yyyy'));
 			var display = "Mới";
 			switch (data.Data.OrderStatus) {

@@ -2,3 +2,19 @@
 .home-view p {
 	padding: 5px;
 }
+.product-property {
+	/*color: white;*/
+}
+.product-price {
+	color: #d45e14;
+}
+.order-total-amount {
+	text-align: right;
+	color: #d45e14;
+	font-weight: bold;
+}
+.products-info {
+	background-color: #e8e8e8;
+	width: 100%;
+	margin: 2px;
+}

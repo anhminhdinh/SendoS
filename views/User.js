@@ -5,23 +5,25 @@
 		loadPanelVisible : ko.observable(false),
 		passMode : "password",
 		isLoggedOut : ko.observable(false),
-		viewShowing : function(redirectParams) {
-			this.loadPanelVisible(false);
-			viewModel.isLoggedOut(window.localStorage.getItem("MyTokenId") == undefined);
+		viewShowing : function() {
+			viewModel.loadPanelVisible(false);
 			if (window.localStorage.getItem("UserName") != undefined) {
-				this.username(window.localStorage.getItem("UserName"));
-				registerPush();
-				// var passBox = $("#passBox");
-				// var passBoxInstance = passBox.dxTextBox("instance");  
-				// passBoxInstance.focus();
+				viewModel.username(window.localStorage.getItem("UserName"));
+			}
+			var tokenId = window.localStorage.getItem("MyTokenId");
+			var isLoggedOut = tokenId === null;
+			viewModel.isLoggedOut(isLoggedOut);
+			if (isLoggedOut) {
+				viewModel.toggleNavs(false);
 			} else {
-				// $("#nameBox").dxTextBox('instance').focus();
+				viewModel.dologout();
 			}
 		},
-		close : function() {
-			delete this.redirectParams;
+		toggleNavs : function(onOff) {
+			MyApp.app.navigation[0].option('visible', onOff);
+			MyApp.app.navigation[1].option('visible', onOff);
+			MyApp.app.navigation[2].option('visible', onOff);
 		},
-		
 		dologin : function() {
 			this.loadPanelVisible(true);
 			var dataToSend = {
@@ -41,6 +43,8 @@
 				viewModel.loadPanelVisible(false);
 				window.localStorage.setItem("UserName", viewModel.username());
 				window.localStorage.setItem("MyTokenId", data.Data);
+				viewModel.toggleNavs(true);
+				MyApp.app.navigation[3].option('title', 'Đăng xuất');
 				MyApp.app.navigate({
 					view : "home",
 					id : undefined
@@ -57,27 +61,34 @@
 			});
 		},
 		dologout : function() {
-			this.loadPanelVisible(true);
-			var dataToSend = {
-				TokenId : window.localStorage.getItem("MyTokenId")
-			};				
-			var jsonData = JSON.stringify(dataToSend);
-			// alert(jsonData);
-			$.ajax({
-				url : "http://180.148.138.140/SellerTest2/api/mobile/logout",
-				type : "POST",
-				data : jsonData,
-				contentType : "application/json; charset=utf-8",
-				dataType : "json"
-			}).done(function(data, textStatus) {
-				viewModel.loadPanelVisible(false);
-				window.localStorage.removeItem("MyTokenId");
-				viewModel.isLoggedOut(true);
-				//textStatus contains the status: success, error, etc
-			}).fail(function(jqxhr, textStatus, error) {
-				var err = textStatus + ", " + jqxhr.responseText;
-				alert("Logout Failed: " + err);
-				viewModel.loadPanelVisible(false);
+			var result = DevExpress.ui.dialog.confirm("Bạn có chắc muốn đăng xuất?", "Sendo.vn");
+			result.done(function(dialogResult) {
+				if (dialogResult) {
+					viewModel.loadPanelVisible(true);
+					var dataToSend = {
+						TokenId : window.localStorage.getItem("MyTokenId")
+					};
+					var jsonData = JSON.stringify(dataToSend);
+					// alert(jsonData);
+					$.ajax({
+						url : "http://180.148.138.140/SellerTest2/api/mobile/logout",
+						type : "POST",
+						data : jsonData,
+						contentType : "application/json; charset=utf-8",
+						dataType : "json"
+					}).done(function(data, textStatus) {
+						viewModel.loadPanelVisible(false);
+						window.localStorage.removeItem("MyTokenId");
+						viewModel.isLoggedOut(true);
+						viewModel.toggleNavs(false);
+						MyApp.app.navigation[3].option('title', 'Đăng nhập');
+						//textStatus contains the status: success, error, etc
+					}).fail(function(jqxhr, textStatus, error) {
+						var err = textStatus + ", " + jqxhr.responseText;
+						alert("Logout Failed: " + err);
+						viewModel.loadPanelVisible(false);
+					});
+				}
 			});
 		},
 	};

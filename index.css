@@ -11,7 +11,7 @@ body {
 .button-center {
 	margin: auto;
 }
-.dx-overlay-shader {
+.dx-overlay-shader, .dx-loadpanel-wrapper.dx-overlay-shader {
 	background-color: rgba(0, 0, 0, .8);
 }
 /*.dx-theme-android .dx-loadpanel-content, .dx-loadpanel-content {
@@ -27,21 +27,25 @@ body {
 	display: block;
 	margin-right: auto;
 	margin-left: auto;
-	border: 1px solid #d2d3d5;
+	/*border: 1px solid #d2d3d5;*/
 	/*border-radius:50%;*/
 }
 .product-thumbnail {
 	vertical-align: middle;
-	width: auto;
-	height: 65px;
+	width: 80px;
+	height: auto;
+	padding: 5px;
 }
 .logout-block .dx-button {
 	width: 100%;
 }
 
 /* orders */
-.orders-partial-content .dx-scrollview-content > div {
-	padding-right: 10px;
+.dx-device-android .dx-list .dx-scrollview-top-pocket {
+	margin: 0;
+}
+.dx-list-item.dx-state-active {
+	background: rgba(44,159,201,0);
 }
 .conversations-list, .orders-list {
 	width: 100%;
@@ -58,7 +62,6 @@ body {
 	border-collapse: separate;
 }
 .products-info {
-	background-color: #3f3f3f;
 	width: 100%;
 	margin: 2px;
 }
@@ -190,7 +193,7 @@ body {
 	position: absolute;
 	bottom: 0;
 	width: 100%;
-	padding-right: 44px;
+	padding-right: 66px;
 	box-sizing: border-box;
 }
 .conversations-comment-button {

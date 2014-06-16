@@ -221,12 +221,14 @@
 				var UpdatedDate = convertDate(item.UpdatedDate);
 				UpdatedDateDisplay = Globalize.format(UpdatedDate, 'dd/MM/yyyy');
 				// alert(JSON.stringify(item));
+				var price = numberWithCommas(item.Price);
+
 				return {
 					id : item.Id,
 					// stockAvailabilityDisplay : ko.observable(item.StockAvailability),
 					name : item.Name,
 					thumbnail : item.Thumnail,
-					price : item.Price,
+					price : price,
 					storeSKU : item.StoreSku,
 					quantity : item.Quantity,
 					weight : item.Weight,
@@ -288,7 +290,7 @@
 					data : jsonData,
 					contentType : "application/json; charset=utf-8",
 					dataType : "json"
-				}).done(function(data, textStatus) {
+				}).done(function(upData, upTextStatus) {
 					var dataToSend = {
 						TokenId : tokenId,
 						Id : id,
@@ -305,14 +307,14 @@
 						// if (dateString.indexOf("+") == -1)
 						// dateString += 'Z';
 						// var UpProductDate = new Date(dateString);
-						var UpProductDate = convertDate(data.Data[0].UpProductDate);
+						var UpProductDate = convertDate(data.Data.UpProductDate);
 						UpProductDateDisplay = Globalize.format(UpProductDate, 'dd/MM/yyyy');
 
 						// dateString = data.Data[0].UpdatedDate;
 						// if (dateString.indexOf("+") == -1)
 						// dateString += 'Z';
 						// var UpdatedDate = new Date(dateString);
-						var UpdatedDate = convertDate(data.Data[0].UpdatedDate);
+						var UpdatedDate = convertDate(data.Data.UpdatedDate);
 						UpdatedDateDisplay = Globalize.format(UpdatedDate, 'dd/MM/yyyy');
 
 						productsStore.byKey(id).done(function(dataItem) {
@@ -339,13 +341,13 @@
 
 	doReload = function(sortType) {
 		productsStore.load();
-			productsDataSource.sort([{
-				getter : 'upProductDate',
-				desc : sortType
-			}, {
-				getter : 'updatedDate',
-				desc : sortType
-			}]);
+		productsDataSource.sort([{
+			getter : 'upProductDate',
+			desc : sortType
+		}, {
+			getter : 'updatedDate',
+			desc : sortType
+		}]);
 
 		// if (viewModel.searchString() !== '') {
 		// DevExpress.ui.notify("search by " + viewModel.searchString(), "info", 3000);

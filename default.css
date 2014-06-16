@@ -80,7 +80,7 @@
 	height: 44px;
 }
 .dx-pivottabs .dx-pivottabs-tab, .dx-pivottabs .dx-pivottabs-ghosttab {
-	padding: 0px 10px;
+	/*padding: 0px 10px;*/
 	font-size: 20px;
 }
 .dx-pivot .dx-pivot-itemcontainer {
@@ -91,4 +91,8 @@
 }
 .dx-list .dx-list-item {
 	font-size: 14px;
+}
+.dx-switch-off, .dx-switch-on {
+	vertical-align: middle;
+	font-size: 11px;
 }

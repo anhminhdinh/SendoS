@@ -1,5 +1,6 @@
 ﻿<div data-options="dxView : { name: 'products', title: 'Sản Phẩm', secure: true } " >
-	<div data-bind="dxCommand: { id: 'sort', icon: 'arrowdown', action: showSortOptions }" ></div>
+	<!-- <div data-bind="dxCommand: { id: 'sort', action: showSortOptions }" ></div> -->
+	<div data-bind="dxCommand: { id: 'refresh', icon: 'refresh', action: function() { doLoadProducts(); } }" ></div>
 	<div data-options="dxContent : { targetPlaceholder: 'content' } " >
 		<div data-bind="dxActionSheet: {
 		dataSource: dropDownMenuData,
@@ -50,18 +51,20 @@
 		<div class="productslist">
 			<div id="productsList" data-bind="dxList: { dataSource: productsDataSource,
 			pullRefreshEnabled: true,
-			pullRefreshAction: function() { doLoadProducts(); } }">
+			pullRefreshAction: function() { doLoadProducts(); },
+			pulledDownText: 'Thả để tải lại...',
+			pullingDownText: 'Kéo để tải lại...'  }">
 				<div data-options="dxTemplate : { name: 'item' }">
 					<table class="products-info" cellspacing="2px;">
 						<tbody>
 							<tr>
 								<td rowspan="4" align=center valign=middle width="80px"><img class="product-thumbnail" data-bind="attr: { src: thumbnail }"><img></td>
-								<td colspan="2" width="auto" style="white-space: pre-wrap; word-wrap: break-word; text-align: left; font-size: larger;" data-bind="text: name"></td>
-								<td class="transparent-button" data-bind="dxButton: {icon:'edit', clickAction: function(e) {edit(e, $data);}}"></td>
+								<td colspan="2" width="100%" style="white-space: pre-wrap; word-wrap: break-word; text-align: left; font-size: larger;" data-bind="text: name"></td>
+								<td class="default-button" data-bind="dxButton: {icon:'edit', clickAction: function(e) {edit(e, $data);}}"></td>
 							</tr>
 							<tr>
 								<!-- <td width="auto" class="transparent-button" data-bind="dxButton: {iconSrc: 'images/moneyicon.png'}"></td> -->
-								<td style="color: #d45e14;" data-bind="text: price + ' VND'"></td>
+								<td style="color: #d45e14;" data-bind="text: price + ' VNĐ'"></td>
 							</tr>
 							<tr>
 								<!-- <td width="auto" class="transparent-button" data-bind="dxButton: {iconSrc: 'images/weight.png'}"></td> -->

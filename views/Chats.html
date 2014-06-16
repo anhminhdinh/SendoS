@@ -1,4 +1,5 @@
 ﻿<div data-options="dxView : { name: 'chats', title: 'Hỏi & đáp', secure: true } " >
+	<div data-bind="dxCommand: { id: 'refresh', icon: 'refresh', action: function() { doLoadChatIdsData(); } }" ></div>
 	<div data-options="dxContent : { targetPlaceholder: 'content' } " >
 		<div data-bind="dxLoadPanel:{message: '', visible: loadPanelVisible }"></div>
 		<div data-bind="dxList:
@@ -6,7 +7,9 @@
 		autoPagingEnabled: true,
 		pullRefreshEnabled: true,
 		pullRefreshAction: function() { doLoadChatIdsData(); },
-		noDataText: 'Chưa có câu hỏi nào' }">
+		noDataText: 'Chưa có câu hỏi nào',
+		pulledDownText: 'Thả để tải lại...',
+		pullingDownText: 'Kéo để tải lại...'  }">
 			<div data-options="dxTemplate : { name: 'item' } " data-bind="dxAction: '#chatdetails/{id}'">
 				<!-- <div class="left conversations-title" data-bind="text:msg" style="white-space: pre-wrap; word-wrap: break-word;"></div> -->
 				<table class="products-list" style="width:100%">

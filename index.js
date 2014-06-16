@@ -25,7 +25,7 @@
 				action : "#chats",
 				icon : "qa"
 			}, {
-				title : 'Người dùng',
+				title : 'Đăng nhập',
 				action : "#user",
 				icon : "profile"
 			}, {
@@ -43,16 +43,24 @@
 						id : "edit",
 						location : 'right',
 						showText : false
+					}, {
+						id : "refresh",
+						location : 'right',
+						showText : false
 					}]
 				},
 				"android-header-toolbar" : {
 					commands : [{
 						id : "sort",
 						location : 'right',
-						// text : 'Sắp xếp',
-						showText : false
+						text : 'Sắp xếp ',
+						showText : true
 					}, {
 						id : "edit",
+						location : 'right',
+						showText : false
+					}, {
+						id : "refresh",
 						location : 'right',
 						showText : false
 					}]
@@ -72,16 +80,19 @@
 		}
 
 		function exitApp() {
-			if (confirm("Bạn có chắc muốn thoát ứng dụng?")) {
-				switch(DevExpress.devices.real().platform) {
-					case "win8":
-						window.external.Notify("DevExpress.ExitApp");
-						break;
-					default:
-						navigator.app.exitApp();
-						break;
+			var result = DevExpress.ui.dialog.confirm("Bạn có chắc muốn thoát ứng dụng?", "Sendo.vn");
+			result.done(function(dialogResult) {
+				if (dialogResult) {
+					switch(DevExpress.devices.real().platform) {
+						case "win8":
+							window.external.Notify("DevExpress.ExitApp");
+							break;
+						default:
+							navigator.app.exitApp();
+							break;
+					}
 				}
-			}
+			});
 			// DevExpress.ui.notify("Nhấn lần nữa sẽ thoát ứng dụng!");unction onBackButton() {
 		}
 

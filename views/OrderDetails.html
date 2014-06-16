@@ -5,9 +5,11 @@
 		dataSource: dropDownMenuData,
 		visible: actionSheetVisible,
 		title: 'Xử lý đơn hàng',
-		cancelText: 'Bỏ qua'
+		cancelText: 'Bỏ qua',
+		usePopover : true,
+		target : '#processbutton'
 		}"></div>
-		<div data-bind="dxScrollView:{}" style="padding: 10px;">
+		<div data-bind="dxScrollView:{}" style="padding: 10px; color: black;">
 			<!-- <div data-bind="dxDropDownMenu: { buttonText: 'Change status', dataSource: dropDownMenuData, itemClickAction: processValueChange, disabled: disabled }"></div> -->
 			<h2 style="margin: 10px;">Chi tiết đơn hàng</h2>
 			<div>
@@ -21,13 +23,13 @@
 								<td style="font-size:larger;" data-bind="text: name"></td>
 							</tr>
 							<tr>
-								<td style="color: white" data-bind="text:'Màu xanh Cỡ L'"></td>
+								<td class="product-property" data-bind="text:description"></td>
 							</tr>
 							<tr>
-								<td style="color: white" data-bind="text:weight + 'g'"></td>
+								<td class="product-property" data-bind="text:weight + 'g'"></td>
 							</tr>
 							<tr>
-								<td style="color: #d45e14" data-bind="text:price + 'VND x ' + quantity"></td>
+								<td class="product-price" data-bind="text:price + ' VNĐ x ' + quantity"></td>
 							</tr>
 					</tbody>
 				</table>
@@ -36,7 +38,7 @@
 					<tbody>
 						<tr>
 							<td width="auto" class="transparent-button" data-bind="dxButton: {icon: 'payment'}"></td>
-							<td width="50%" style="white-space: pre-wrap; word-wrap: break-word; text-align: left; color:green" data-bind="text: paymentMethod"></td>
+							<td width="50%" data-bind="text: paymentMethod"></td>
 							<td width="auto" class="transparent-button" data-bind="dxButton: {icon: 'transport'}"></td>
 							<td width="50%" style="white-space: pre-wrap; word-wrap: break-word; text-align: left; color:green" data-bind="text: shippingMethod"></td>
 						</tr>
@@ -45,7 +47,7 @@
 
 			</div>
 			<div style="text-align: right;margin: 10px;font-weight: bold;">
-				<span>Tổng tiền: </span><span style="color: #d45e14;" data-bind="text:totalAmount() + ' VND'"></span>
+				<span>Tổng tiền: </span><span class="order-total-amount" data-bind="text:totalAmount() + ' VNĐ'"></span>
 			</div>
 			<div class="order-info dx-fieldset">
 				<div class="dx-field">
@@ -87,7 +89,7 @@
 					</div>
 				</div>
 			</div>
-			<table style="background: #333333;width: 100%;color: white;">
+			<table id="noteField" style="background: #333333;width: 100%;color: white;">
 				<tbody>
 					<tr>
 						<td><div style="padding: 10px; background-image: url('images/qa-icon.png'); background-repeat: no-repeat; background-position: right top;" data-bind="text:note" ></div></td>
@@ -95,7 +97,7 @@
 				</tbody>
 			</table>
 			<div style="text-align: center;">
-				<div class="default-button" style="margin: 20px;" data-bind="dxButton: {text:'Xử lý đơn hàng', clickAction: function() {showActionSheet();}}">
+				<div id="processbutton" class="default-button" style="margin: 20px;" data-bind="dxButton: {text:'Xử lý đơn hàng', clickAction: function() {showActionSheet();}}">
 
 				</div>
 			</div>

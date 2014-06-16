@@ -11,9 +11,7 @@
 				});
 			} else {
 				// ordersStore.clear();
-				doLoadDataByOrderStatus("New");
-				doLoadDataByOrderStatus("Delayed");
-				doLoadDataByOrderStatus("Processing");
+				refresh();
 			}
 		},
 
@@ -22,30 +20,29 @@
 
 		actionSheetVisible : ko.observable(false),
 		dropDownMenuData : [{
-			text : "Mới",
-			clickAction : function() {
-				processValueChange("New");
-			}
-		}, {
 			text : "Còn hàng",
 			clickAction : function() {
 				processValueChange("Processing");
-			}
-		}, {
-			text : "Hết hàng",
-			clickAction : function() {
-				processValueChange("Cancel");
-			}
+			},
+			disabled : ko.observable(true),
 		}, {
 			text : "Hoãn",
 			clickAction : function() {
 				processValueChange("Delay");
-			}
+			},
+			disabled : ko.observable(true),
 		}, {
 			text : "Tách đơn hàng",
 			clickAction : function() {
 				processValueChange("Split");
-			}
+			},
+			disabled : ko.observable(true),
+		}, {
+			text : "Hết hàng",
+			clickAction : function() {
+				processValueChange("Cancel");
+			},
+			disabled : ko.observable(true),
 		}],
 		products : ko.observableArray([]),
 		productsToSplit : ko.observableArray([]),
@@ -358,33 +355,34 @@
 				var result = $.map(data.Data, function(item) {
 					// var dateString = item.OrderDate;
 					// if (dateString.indexOf("+") == -1)
-						// dateString += 'Z';
+					// dateString += 'Z';
 					// var itemOrderDate = new Date(dateString);
 					var itemOrderDate = convertDate(item.OrderDate);
 					var orderDateString = Globalize.format(itemOrderDate, 'dd/MM/yyyy');
-					
+
 					// dateString = item.DelayDate;
 					// if (dateString.indexOf("+") == -1)
-						// dateString += 'Z';
+					// dateString += 'Z';
 					// var itemDelayDate = new Date(dateString);
 					var itemDelayDate = convertDate(item.DelayDate);
-					
-					
+
 					var delayDateString = Globalize.format(itemDelayDate, 'dd/MM/yyyy');
 					var itemProducts = $.map(item.Products, function(product) {
+						var price = numberWithCommas(product.Price);
 						return {
 							id : product.Id,
 							name : product.Name,
 							storeSku : product.StoreSku,
 							quantity : product.Quantity,
 							thumbnail : product.Thumnail,
-							price : product.Price,
+							price : price,
 							weight : product.Weight,
 							upProductDate : product.UpProductDate + 'Z',
 							updatedDate : product.UpdatedDate + 'Z',
 							description : product.Description,
 						};
 					});
+					var totalAmount = numberWithCommas(item.TotalAmount);
 					return {
 						status : status,
 						orderNumber : item.OrderNumber,
@@ -398,7 +396,7 @@
 						buyerAddress : item.BuyerAddress,
 						buyerPhone : item.BuyerPhone,
 						note : item.Note,
-						totalAmount : item.TotalAmount,
+						totalAmount : totalAmount,
 						updatedDate : item.UpdatedDate,
 						canDelay : item.CanDelay,
 						canCancel : item.CanCancel,
@@ -441,14 +439,25 @@
 	};
 
 	showActionSheet = function(orderNumber) {
-		viewModel.actionSheetVisible(true);
 		ordersStore.byKey(orderNumber).done(function(dataItem) {
+			var idOrderNumber = "#" + orderNumber;
+			var actionSheet = $("#actionsheet").dxActionSheet("instance");
+			var button = $(idOrderNumber).dxButton("instance");
+			actionSheet.option('target', idOrderNumber); 
 			viewModel.dataItem(dataItem);
 			viewModel.products(dataItem.products);
-			viewModel.dropDownMenuData[1].disabled(!dataItem.canProcess);
-			viewModel.dropDownMenuData[2].disabled(!dataItem.canDelay);
-			viewModel.dropDownMenuData[3].disabled(!dataItem.canSplit);
+			viewModel.dropDownMenuData[0].disabled(!dataItem.canProcess);
+			viewModel.dropDownMenuData[1].disabled(!dataItem.canDelay);
+			viewModel.dropDownMenuData[2].disabled(!dataItem.canSplit);
+			viewModel.dropDownMenuData[3].disabled(!dataItem.canCancel);
+			viewModel.actionSheetVisible(true);
 		});
+	};
+
+	refresh = function() {
+		doLoadDataByOrderStatus("New");
+		doLoadDataByOrderStatus("Delayed");
+		doLoadDataByOrderStatus("Processing");
 	};
 
 	return viewModel;
