@@ -37,10 +37,10 @@
 				<table class="products-list" style="width:100%;">
 					<tbody>
 						<tr>
-							<td width="auto" class="transparent-button" data-bind="dxButton: {icon: 'payment'}"></td>
-							<td width="50%" data-bind="text: paymentMethod"></td>
-							<td width="auto" class="transparent-button" data-bind="dxButton: {icon: 'transport'}"></td>
-							<td width="50%" style="white-space: pre-wrap; word-wrap: break-word; text-align: left; color:green" data-bind="text: shippingMethod"></td>
+							<td width="auto" class="transparent-button" data-bind="dxButton: {icon: 'payment', disabled : true}"></td>
+							<td width="auto" data-bind="text: paymentMethod"></td>
+							<td width="auto" class="transparent-button" data-bind="dxButton: {icon: 'transport', disabled : true}"></td>
+							<td width="100%" style="white-space: pre-wrap; word-wrap: break-word; text-align: left; color:green" data-bind="text: shippingMethod"></td>
 						</tr>
 					</tbody>
 				</table>

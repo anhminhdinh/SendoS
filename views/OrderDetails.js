@@ -40,8 +40,8 @@
 				viewModel.updatedDate(dataItem.updatedDate);
 				viewModel.orderDateDisplay(dataItem.orderDateDisplay);
 				viewModel.delayDateDisplay(dataItem.delayDateDisplay);
-				viewModel.paymentMethod = dataItem.paymentMethod === 2 ? 'Senpay' : 'COD';
-				viewModel.shippingMethod(dataItem.shippingMethod);
+				viewModel.paymentMethod(dataItem.paymentMethod === 2 ? 'Senpay' : 'COD');
+				viewModel.shippingMethod(dataItem.shippingMethod === 1 ? 'Sengo vận chuyển' : (dataItem.shippingMethod === 2 ? 'Tự vận chuyển' : 'Sengo, tự vận chuyển'));
 				switch (dataItem.status) {
 					case "New":
 						viewModel.orderStatus("Mới");

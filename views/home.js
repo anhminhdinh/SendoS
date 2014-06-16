@@ -10,7 +10,7 @@
 					root : true
 				});
 			} else {
-				// ordersStore.clear();
+				ordersStore.clear();
 				refresh();
 			}
 		},
@@ -334,7 +334,7 @@
 			TokenId : tokenId,
 			Status : status,
 			// Status : viewModel.selectedType(),
-			TimeStamp : timeStamp
+			TimeStamp : 0
 		};
 		var jsonData = JSON.stringify(dataToSend);
 		// alert(jsonData);
@@ -389,7 +389,7 @@
 						orderDate : itemOrderDate,
 						delayDate : itemDelayDate,
 						paymentMethod : item.PaymentMethod,
-						shippingMethod : item.ShippingMethod,
+						shippingMethod : item.ShippingType,
 						orderDateDisplay : orderDateString,
 						delayDateDisplay : delayDateString,
 						buyerName : item.BuyerName,
