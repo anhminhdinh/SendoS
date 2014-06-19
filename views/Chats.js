@@ -61,7 +61,7 @@
 		var jsonData = JSON.stringify(dataToSend);
 		// alert(jsonData);
 		return $.ajax({
-			url : "http://180.148.138.140/SellerTest2/api/mobile/ListComment",
+			url : "http://ban.sendo.vn/api/mobile/ListComment",
 			type : "POST",
 			data : jsonData,
 			contentType : "application/json; charset=utf-8",

@@ -4,7 +4,8 @@
 		<div data-bind="dxActionSheet: {
 		dataSource: dropDownMenuData,
 		visible: actionSheetVisible,
-		title: 'Xử lý đơn hàng',
+		showTitle : false,
+		<!-- title: 'Xử lý đơn hàng', -->
 		cancelText: 'Bỏ qua',
 		usePopover : true,
 		target : '#processbutton'
@@ -12,25 +13,27 @@
 		<div data-bind="dxScrollView:{}" style="padding: 10px; color: black;">
 			<div>
 				<!-- ko foreach: products -->
-				<table class="products-info" cellspacing="2px;">
-					<tbody>
-						<tr>
-							<td rowspan="5" align=center valign=middle width="80px"><img class="product-thumbnail" data-bind="attr: { src: thumbnail }"><img></td>
-						</tr>
-						<tr>
-							<td style="font-size:larger;" data-bind="text: name"></td>
-						</tr>
-						<tr>
-							<td class="product-property" style="white-space: pre-wrap; word-wrap: break-word;" data-bind="text:description"></td>
-						</tr>
-						<tr>
-							<td class="product-property" data-bind="text:weight + 'g'"></td>
-						</tr>
-						<tr>
-							<td class="product-price" data-bind="text:price + ' VNĐ x ' + quantity"></td>
-						</tr>
-					</tbody>
-				</table>
+				<div class="products-info">
+					<table class="product-table">
+						<tbody>
+							<tr>
+								<td rowspan="5" align=center valign=middle width="80px"><img class="product-thumbnail" data-bind="attr: { src: thumbnail }"><img></td>
+							</tr>
+							<tr>
+								<td style="font-size:larger;" data-bind="text: name"></td>
+							</tr>
+							<tr>
+								<td class="product-property" style="white-space: pre-wrap; word-wrap: break-word;" data-bind="text:description"></td>
+							</tr>
+							<tr>
+								<td class="product-property" data-bind="text:weight + 'g'"></td>
+							</tr>
+							<tr>
+								<td class="product-price" data-bind="text:price + ' VNĐ x ' + quantity"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 				<!-- /ko -->
 			</div>
 			<div style="text-align: right;margin: 10px;font-weight: bold;">
@@ -80,11 +83,12 @@
 					<div class="dx-field-value" data-bind="text: ': ' + buyerAddress()" ></div>
 				</div>
 				<div class="dx-field">
-					<div data-bind="dxButton: {icon:'tel', text:buyerPhone, clickAction:'tel:'+buyerPhone}"></div>
+					<div data-bind="dxButton: {icon:'tel', text:buyerPhone, clickAction:function() { window.location = 'tel:' + buyerPhone(); } }"></div>
 				</div>
 			</div>
 			<div id="noteField" style="background: #e6e7eb; border-radius : 10px; padding: 10px; background-image: url('images/qa-icon.png'); background-repeat: no-repeat; background-position: right top;" data-bind="text:note" ></div>
 			<div style="text-align: center;padding: 10px; width: 100%;" id="processbutton" class="default-button" data-bind="dxButton: {text:'Xử lý đơn hàng', clickAction: function() {showActionSheet();}}"></div>
+			<div style="padding: 10px;"></div>
 		</div>
 		<div data-bind="dxLoadPanel:{message: 'Đang xử lý...', visible: loadPanelVisible }"></div>
 		<div class="popup" data-bind="dxPopup:{visible:popupDelayVisible, fullScreen:false, title:'Delay'}">

@@ -2,9 +2,6 @@
 .home-view p {
 	padding: 5px;
 }
-.product-property {
-	/*color: white;*/
-}
 .product-price {
 	color: #d45e14;
 }
@@ -15,9 +12,11 @@
 }
 .products-info {
 	background-color: #e6e7eb;
+	/*width: 100%;*/
+	margin: 2px;
+	color: #333333;
+}
+.product-table {
 	border-spacing: 5px;
 	border-collapse: separate;
-	width: 100%;
-	margin: 2px;
-	color : #333333;
 }

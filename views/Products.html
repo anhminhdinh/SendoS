@@ -59,34 +59,37 @@
 			nextButtonText: 'Tải tiếp ...',
 			pageLoadingText: 'Đang tải ...' }">
 				<div data-options="dxTemplate : { name: 'item' }">
-					<table class="products-info" cellspacing="2px;">
-						<tbody>
-							<tr>
-								<td rowspan="4" align=center valign=middle width="80px"><img class="product-thumbnail lazy" data-bind="attr: { src: thumbnail }"><img></td>
-								<td colspan="2" width="100%" style="white-space: pre-wrap; word-wrap: break-word; text-align: left; font-size: larger;" data-bind="text: name"></td>
-								<td data-bind="dxButton: {icon:'edit', clickAction: function(e) {edit(e, $data);}}"></td>
-							</tr>
-							<tr>
-								<!-- <td width="auto" class="transparent-button" data-bind="dxButton: {iconSrc: 'images/moneyicon.png'}"></td> -->
-								<td style="color: #d45e14;" data-bind="text: price + ' VNĐ'"></td>
-							</tr>
-							<tr>
-								<!-- <td width="auto" class="transparent-button" data-bind="dxButton: {iconSrc: 'images/weight.png'}"></td> -->
-								<td style="color: white;" data-bind="text: weight + ' g'"></td>
-							</tr>
-							<tr>
-								<td width="auto" style="text-align: right;"
-								data-bind="dxSwitch:{
-								value:stockAvailability,
-								valueChangeAction: function(e) {
-								changeStockStatus(e,$data);
-								},
-								onText: 'Còn hàng',
-								offText: 'Hết hàng',
-								}"></td>
-							</tr>
-						</tbody>
-					</table>
+					<div class="products-info">
+						<table class="product-table">
+
+							<tbody>
+								<tr>
+									<td rowspan="4" align=center valign=middle width="80px"><img class="product-thumbnail lazy" data-bind="attr: { src: thumbnail }"><img></td>
+									<td colspan="2" width="100%" style="white-space: pre-wrap; word-wrap: break-word; text-align: left; font-size: larger;" data-bind="text: name"></td>
+									<td data-bind="dxButton: {icon:'edit', clickAction: function(e) {edit(e, $data);}}"></td>
+								</tr>
+								<tr>
+									<!-- <td width="auto" class="transparent-button" data-bind="dxButton: {iconSrc: 'images/moneyicon.png'}"></td> -->
+									<td class="product-price" data-bind="text: price + ' VNĐ'"></td>
+								</tr>
+								<tr>
+									<!-- <td width="auto" class="transparent-button" data-bind="dxButton: {iconSrc: 'images/weight.png'}"></td> -->
+									<td data-bind="text: weight + ' g'"></td>
+								</tr>
+								<tr>
+									<td width="auto" style="text-align: right;"
+									data-bind="dxSwitch:{
+									value:stockAvailability,
+									valueChangeAction: function(e) {
+									changeStockStatus(e,$data);
+									},
+									onText: 'Còn hàng',
+									offText: 'Hết hàng',
+									}"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 					<table class="products-list" style="width:100%">
 						<tbody>
 							<tr>

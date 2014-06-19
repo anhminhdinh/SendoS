@@ -110,7 +110,7 @@
 				var jsonData = JSON.stringify(dataToSend);
 				// alert(jsonData);
 				return $.ajax({
-					url : "http://180.148.138.140/SellerTest2/api/mobile/UpdateProductStock",
+					url : "http://ban.sendo.vn/api/mobile/UpdateProductStock",
 					type : "POST",
 					data : jsonData,
 					contentType : "application/json; charset=utf-8",
@@ -157,7 +157,7 @@
 				var jsonData = JSON.stringify(dataToSend);
 				// alert(jsonData);
 				return $.ajax({
-					url : "http://180.148.138.140/SellerTest2/api/mobile/UpdateProduct",
+					url : "http://ban.sendo.vn/api/mobile/UpdateProduct",
 					type : "POST",
 					data : jsonData,
 					contentType : "application/json; charset=utf-8",
@@ -222,7 +222,7 @@
 		var jsonData = JSON.stringify(dataToSend);
 		// alert(jsonData);
 		return $.ajax({
-			url : "http://180.148.138.140/SellerTest2/api/mobile/SearchProductByName",
+			url : "http://ban.sendo.vn/api/mobile/SearchProductByName",
 			type : "POST",
 			data : jsonData,
 			contentType : "application/json; charset=utf-8",
@@ -315,7 +315,7 @@
 				var jsonData = JSON.stringify(dataToSend);
 				// alert(jsonData);
 				return $.ajax({
-					url : "http://180.148.138.140/SellerTest2/api/mobile/UpProduct",
+					url : "http://ban.sendo.vn/api/mobile/UpProduct",
 					type : "POST",
 					data : jsonData,
 					contentType : "application/json; charset=utf-8",
@@ -327,7 +327,7 @@
 					};
 					var jsonData = JSON.stringify(dataToSend);
 					$.ajax({
-						url : "http://180.148.138.140/SellerTest2/api/mobile/ProductInfoById",
+						url : "http://ban.sendo.vn/api/mobile/ProductInfoById",
 						type : "POST",
 						data : jsonData,
 						contentType : "application/json; charset=utf-8",

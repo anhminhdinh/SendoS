@@ -122,15 +122,14 @@ body {
 	margin-left: 20px;
 	margin-right: 60px;
 	width: auto;
-	background-color: #666666;
-	border: 1px solid white;
-	color: white;
+	color: black;
+	background-color : #E6E7EB;
+	border: 1px solid #d5d7d6;
 }
 .conversations-title {
 	padding: 10px;
 	width: auto;
 	color: black;
-	/*border: 1px solid black;*/
 	background-color: #feea93;
 }
 .conversations-message {
@@ -139,7 +138,6 @@ body {
 	margin-right: 20px;
 	width: auto;
 	color: black;
-	/*border: 1px solid black;*/
 	background-color: #feea93;
 }
 .conversations-empty {
@@ -157,8 +155,7 @@ body {
 	padding: 10px;
 	margin-left: 20px;
 	font-size: 10px;
-	color: black;
-	background-color : #E6E7EB;
+	color: #0395d0;
 }
 /*.conversations-list td {
  text-align: center;
@@ -181,7 +178,7 @@ body {
 	position: absolute;
 	bottom: 0;
 	width: 100%;
-	padding-right: 66px;
+	padding-right: 44px;
 	box-sizing: border-box;
 }
 .conversations-comment-button {

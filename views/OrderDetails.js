@@ -172,108 +172,6 @@
 		}
 	};
 
-	doLoadDataByOrderID = function() {
-		showLoading(true);
-		var tokenId = window.localStorage.getItem("MyTokenId");
-
-		var dataToSend = {
-			TokenId : tokenId,
-			OrderNumber : viewModel.id
-		};
-		var jsonData = JSON.stringify(dataToSend);
-		return $.ajax({
-			url : "http://180.148.138.140/SellerTest2/api/mobile/SalesOrderInfoByOrderNumber",
-			type : "POST",
-			data : jsonData,
-			contentType : "application/json; charset=utf-8",
-			dataType : "json"
-		}).done(function(data, textStatus) {
-			showLoading(false);
-			viewModel.orderNumber(data.Data.OrderNumber);
-			viewModel.totalAmount(data.Data.TotalAmount);
-			viewModel.buyerName(data.Data.BuyerName);
-			viewModel.buyerAddress(data.Data.BuyerAddress);
-			viewModel.buyerPhone(data.Data.BuyerPhone);
-
-			// var dateString = data.Data.OrderDate;
-			// if (dateString.indexOf("+") == -1)
-			// dateString += 'Z';
-			// var OrderDate = new Date(dateString);
-			var OrderDate = convertDate(data.Data.OrderDate);
-			viewModel.orderDate(Globalize.format(OrderDate, 'dd-MM, yyyy'));
-
-			// var dateString = data.Data.DelayDate;
-			// if (dateString.indexOf("+") == -1)
-			// dateString += 'Z';
-			// var DelayDate = new Date(dateString);
-			var DelayDate = convertDate(data.Data.DelayDate);
-			viewModel.delayDate(Globalize.format(DelayDate, 'dd-MM, yyyy'));
-			var display = "Mới";
-			switch (data.Data.OrderStatus) {
-				case "Delayed":
-					display = "Đã hoãn";
-					break;
-				case "Processing":
-					display = "Chờ giao hàng";
-					break;
-				case "Splitting":
-					display = "Chờ tách";
-					break;
-			}
-			if (data.Data.OrderStatus != "Delayed") {
-				$("#delayField").hide();
-			}
-			viewModel.orderStatus(display);
-			viewModel.note('LƯU Ý: ' + data.Data.Note);
-			var result = $.map(data.Data.Products, function(item) {
-				return {
-					id : item.Id,
-					name : item.Name,
-					storeSku : item.StoreSku,
-					quantity : item.Quantity,
-					thumnail : item.Thumnail,
-					price : item.Price,
-					weight : item.Weight,
-					upProductDate : new Date(item.UpProductDate),
-				};
-			});
-			viewModel.products(result);
-		}).fail(function(jqxhr, textStatus, error) {
-			showLoading(false);
-			var err = textStatus + ", " + jqxhr.responseText;
-			alert("Get Failed: " + err);
-		});
-
-	};
-
-	doNewOrderByOrderID = function() {
-		showLoading(true);
-		var tokenId = window.localStorage.getItem("MyTokenId");
-
-		var dataToSend = {
-			TokenId : tokenId,
-			OrderNumber : viewModel.dataItem().orderNumber,
-			Action : "New",
-		};
-		var jsonData = JSON.stringify(dataToSend);
-		return $.ajax({
-			url : "http://180.148.138.140/SellerTest2/api/mobile/ProcessOrder",
-			type : "POST",
-			data : jsonData,
-			contentType : "application/json; charset=utf-8",
-			dataType : "json"
-		}).done(function(data, textStatus) {
-			showLoading(false);
-			viewModel.dataItem().status = "New";
-			listDataStore.update(viewModel.dataItem().orderNumber, viewModel.dataItem());
-			MyApp.app.back();
-		}).fail(function(jqxhr, textStatus, error) {
-			showLoading(false);
-			var err = textStatus + ", " + jqxhr.responseText;
-			alert("Process Failed: " + err);
-		});
-	};
-
 	doCancelOrderByOrderID = function() {
 		showLoading(true);
 		var tokenId = window.localStorage.getItem("MyTokenId");
@@ -285,7 +183,7 @@
 		};
 		var jsonData = JSON.stringify(dataToSend);
 		return $.ajax({
-			url : "http://180.148.138.140/SellerTest2/api/mobile/ProcessOrder",
+			url : "http://ban.sendo.vn/api/mobile/ProcessOrder",
 			type : "POST",
 			data : jsonData,
 			contentType : "application/json; charset=utf-8",
@@ -314,7 +212,7 @@
 		};
 		var jsonData = JSON.stringify(dataToSend);
 		return $.ajax({
-			url : "http://180.148.138.140/SellerTest2/api/mobile/ProcessOrder",
+			url : "http://ban.sendo.vn/api/mobile/ProcessOrder",
 			type : "POST",
 			data : jsonData,
 			contentType : "application/json; charset=utf-8",
@@ -350,12 +248,14 @@
 		};
 		var jsonData = JSON.stringify(dataToSend);
 		return $.ajax({
-			url : "http://180.148.138.140/SellerTest2/api/mobile/ProcessOrder",
+			url : "http://ban.sendo.vn/api/mobile/ProcessOrder",
 			type : "POST",
 			data : jsonData,
 			contentType : "application/json; charset=utf-8",
 			dataType : "json"
 		}).done(function(data, textStatus) {
+			viewModel.dataItem().status = "Cancel";
+			listDataStore.update(viewModel.dataItem().orderNumber, viewModel.dataItem());			
 			hideSplitPopUp();
 			MyApp.app.back();
 			//TODO modify local data here
@@ -381,13 +281,14 @@
 		var jsonData = JSON.stringify(dataToSend);
 		// alert(jsonData);
 		return $.ajax({
-			url : "http://180.148.138.140/SellerTest2/api/mobile/ProcessOrder",
+			url : "http://ban.sendo.vn/api/mobile/ProcessOrder",
 			type : "POST",
 			data : jsonData,
 			contentType : "application/json; charset=utf-8",
 			dataType : "json"
 		}).done(function(data, textStatus) {
-			//TODO modify local data here
+			viewModel.dataItem().status = "Delayed";
+			listDataStore.update(viewModel.dataItem().orderNumber, viewModel.dataItem());
 			hideDelayPopUp();
 			MyApp.app.back();
 		}).fail(function(jqxhr, textStatus, error) {

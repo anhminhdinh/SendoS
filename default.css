@@ -24,7 +24,7 @@
 	box-shadow: inset 0 -2px #336699, inset 0 -8px #09c;
 }
 /* button widget */
-.default-button, .default-button .dx-state-active, .conversations-comment-button, .conversations-comment-button .dx-state-active, .transparent-button, .transparent-button .dx-state-active {
+.default-button, .default-button .dx-state-active, .transparent-button, .transparent-button .dx-state-active {
 	padding: 0;
 	border: none;
 	background: none;

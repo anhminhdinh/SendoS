@@ -52,7 +52,7 @@
 			var jsonData = JSON.stringify(dataToSend);
 			// alert(jsonData);
 			var request = $.ajax({
-				url : "http://180.148.138.140/SellerTest2/api/mobile/login",
+				url : "http://ban.sendo.vn/api/mobile/login",
 				type : "POST",
 				data : jsonData,
 				contentType : "application/json; charset=utf-8",
@@ -93,7 +93,7 @@
 					var jsonData = JSON.stringify(dataToSend);
 					// alert(jsonData);
 					$.ajax({
-						url : "http://180.148.138.140/SellerTest2/api/mobile/logout",
+						url : "http://ban.sendo.vn/api/mobile/logout",
 						type : "POST",
 						data : jsonData,
 						contentType : "application/json; charset=utf-8",
