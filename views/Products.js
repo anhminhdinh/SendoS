@@ -14,6 +14,24 @@
 				doLoadProducts();
 			}
 		},
+		viewShown : function() {
+			var isAndroid = DevExpress.devices.real().platform === 'android';
+			var obj = null;
+			obj = $("#productsList");
+			var list = obj.dxList("instance");
+			list.option('showNextButton', isAndroid);
+			list.option('pullRefreshEnabled', !isAndroid);
+			var _dataSource = list._dataSource;
+			if (_dataSource != undefined) {
+				var _items = _dataSource._items;
+				if (_items != undefined) {
+					var length = _items.length;
+					currentView = length;
+				}
+			}
+			// list.option('autoPagingEnabled', !isAndroid);
+			loadImages();
+		},
 		loadPanelVisible : ko.observable(false),
 		searchString : ko.observable(''),
 		find : function() {
@@ -62,7 +80,9 @@
 			this.popupEditVisible(false);
 		},
 	};
-
+	var currentLoadStart = 0;
+	var currentLoadSize = 100;
+	var currentView = 0;
 	edit = function(e, itemData) {
 		viewModel.popupEditVisible(true);
 		productsStore.byKey(itemData.id).done(function(dataItem) {
@@ -164,8 +184,9 @@
 		});
 	};
 
+	var myUserName = window.localStorage.getItem("UserName");
 	productsStore = new DevExpress.data.LocalStore({
-		name : "productsStore",
+		name : myUserName + "productsStore",
 		key : "id",
 	});
 	productsDataSource = new DevExpress.data.DataSource({
@@ -177,23 +198,25 @@
 			getter : 'updatedDate',
 			desc : true
 		}],
-		// pageSize : 10
+		pageSize : 10
 	});
 
 	doLoadProducts = function(actionOptions) {
 		// alert(viewModel.id);
 		viewModel.loadPanelVisible(true);
-
+		var myUserName = window.localStorage.getItem("UserName");
 		var tokenId = window.localStorage.getItem("MyTokenId");
-		var timeStamp = window.localStorage.getItem("ProductsTimeStamp");
-		if (timeStamp == undefined)
+		var timeStamp = Number(window.localStorage.getItem(myUserName + "ProductsTimeStamp"));
+		if (timeStamp === null)
 			timeStamp = 0;
 
+		if (viewModel.searchString() != '')
+			timeStamp = 0;
 		var dataToSend = {
 			TokenId : tokenId,
 			Name : viewModel.searchString(),
-			From : 0,
-			To : 100,
+			From : currentLoadStart,
+			To : currentLoadStart + currentLoadSize - 1,
 			TimeStamp : timeStamp,
 		};
 		var jsonData = JSON.stringify(dataToSend);
@@ -206,58 +229,64 @@
 			dataType : "json"
 		}).done(function(data, textStatus) {
 			// alert(JSON.stringify(data));
-			var result = $.map(data.Data, function(item) {
-				// var dateString = item.UpProductDate;
-				// if (dateString.indexOf("+") == -1)
-				// dateString += 'Z';
-				// var UpProductDate = new Date(dateString);
-				var UpProductDate = convertDate(item.UpProductDate);
-				UpProductDateDisplay = Globalize.format(UpProductDate, 'dd/MM/yyyy');
+			if (data.Flag === true && data.Data != null) {
+				if (viewModel.searchString() != '')
+					window.localStorage.setItem(myUserName + "ProductsTimeStamp", data.TimeStamp);
+				var result = $.map(data.Data, function(item) {
+					// var dateString = item.UpProductDate;
+					// if (dateString.indexOf("+") == -1)
+					// dateString += 'Z';
+					// var UpProductDate = new Date(dateString);
+					var UpProductDate = convertDate(item.UpProductDate);
+					UpProductDateDisplay = Globalize.format(UpProductDate, 'dd/MM/yyyy');
 
-				// dateString = item.UpdatedDate;
-				// if (dateString.indexOf("+") == -1)
-				// dateString += 'Z';
-				// var UpdatedDate = new Date(dateString);
-				var UpdatedDate = convertDate(item.UpdatedDate);
-				UpdatedDateDisplay = Globalize.format(UpdatedDate, 'dd/MM/yyyy');
-				// alert(JSON.stringify(item));
-				var price = numberWithCommas(item.Price);
-
-				return {
-					id : item.Id,
-					// stockAvailabilityDisplay : ko.observable(item.StockAvailability),
-					name : item.Name,
-					thumbnail : item.Thumnail,
-					price : price,
-					storeSKU : item.StoreSku,
-					quantity : item.Quantity,
-					weight : item.Weight,
-					storeSKU : item.StoreSku,
-					upProductDate : UpProductDate,
-					updatedDate : UpdatedDate,
-					upProductDateDisplay : UpProductDateDisplay,
-					updatedDateDisplay : UpdatedDateDisplay,
-					stockAvailability : item.StockAvailability,
-					stockAvailabilityDisplay : item.StockAvailability ? 'Còn hàng' : 'Hết hàng',
-				};
-			});
-			// arrayStore.clear();
-			for (var i = 0; i < result.length; i++) {
-				productsStore.byKey(result[i].id).done(function(dataItem) {
-					if (dataItem != undefined)
-						productsStore.update(result[i].id, result[i]);
-					else
-						productsStore.insert(result[i]);
-				}).fail(function(error) {
-					productsStore.insert(result[i]);
+					// dateString = item.UpdatedDate;
+					// if (dateString.indexOf("+") == -1)
+					// dateString += 'Z';
+					// var UpdatedDate = new Date(dateString);
+					var UpdatedDate = convertDate(item.UpdatedDate);
+					UpdatedDateDisplay = Globalize.format(UpdatedDate, 'dd/MM/yyyy');
+					// alert(JSON.stringify(item));
+					var price = numberWithCommas(item.Price);
+					var showUpProductDate = UpProductDate.getFullYear() > 1;
+					return {
+						id : item.Id,
+						// stockAvailabilityDisplay : ko.observable(item.StockAvailability),
+						name : item.Name,
+						thumbnail : item.Thumnail,
+						price : price,
+						storeSKU : item.StoreSku,
+						quantity : item.Quantity,
+						weight : item.Weight,
+						storeSKU : item.StoreSku,
+						upProductDate : UpProductDate,
+						updatedDate : UpdatedDate,
+						displayUpProductDate : showUpProductDate,
+						upProductDateDisplay : UpProductDateDisplay,
+						updatedDateDisplay : UpdatedDateDisplay,
+						stockAvailability : item.StockAvailability,
+						stockAvailabilityDisplay : item.StockAvailability ? 'Còn hàng' : 'Hết hàng',
+					};
 				});
-				// alert(JSON.stringify(result[i]));
+				// arrayStore.clear();
+				for (var i = 0; i < result.length; i++) {
+					productsStore.byKey(result[i].id).done(function(dataItem) {
+						if (dataItem != undefined)
+							productsStore.update(result[i].id, result[i]);
+						else
+							productsStore.insert(result[i]);
+					}).fail(function(error) {
+						productsStore.insert(result[i]);
+					});
+					// alert(JSON.stringify(result[i]));
+				}
 			}
-			doReload(true);
 			// alert(JSON.stringify(result));
 			// viewModel.dataSource(result);
 			viewModel.loadPanelVisible(false);
-			actionOptions.component.release();
+			doReload(true);
+			if ((actionOptions != null) && (actionOptions.component != undefined))
+				actionOptions.component.release();
 			// alert(JSON.stringify(viewModel.dataSource()));
 			// popupVisible(false);
 			//textStatus contains the status: success, error, etc
@@ -265,7 +294,8 @@
 			var err = textStatus + ", " + jqxhr.responseText;
 			alert("Get Failed: " + err);
 			viewModel.loadPanelVisible(false);
-			actionOptions.component.release();
+			if ((actionOptions != null) && (actionOptions.component != undefined))
+				actionOptions.component.release();
 		});
 
 	};
@@ -356,14 +386,35 @@
 
 		productsDataSource.pageIndex(0);
 		productsDataSource.load();
+
+		var _items = productsDataSource._items;
+		if (_items != undefined) {
+			var length = _items.length;
+			currentView = length;
+		}
 	};
 
-	// ko.computed(function() {
-	// return viewModel.searchString();
-	// }).extend({
-	// throttle : 500
-	// }).subscribe(function() {
-	// doLoadProducts();
-	// });
+	loadImages = function() {
+		jQuery("img.product-thumbnail.lazy").lazy({
+			effect : "fadeIn",
+			effectTime : 1500
+		});
+	};
+
+	loadNext = function() {
+		var _items = productsDataSource._items;
+		if (_items != undefined) {
+			var length = _items.length;
+			currentView = length;
+		}
+		currentView += 10;
+		// alert(currentView);
+		if (currentView >= currentLoadStart + currentLoadSize - 1) {
+			currentLoadStart += currentLoadSize;
+			doLoadProducts();
+		}
+		loadImages();
+	};
+
 	return viewModel;
 };

@@ -14,7 +14,10 @@
 	font-weight: bold;
 }
 .products-info {
-	background-color: #e8e8e8;
+	background-color: #e6e7eb;
+	border-spacing: 5px;
+	border-collapse: separate;
 	width: 100%;
 	margin: 2px;
+	color : #333333;
 }

@@ -1,6 +1,5 @@
 ﻿MyApp.home = function(params) {
 	var viewModel = {
-
 		viewShowing : function() {
 			if (window.localStorage.getItem("MyTokenId") == undefined) {
 				MyApp.app.navigate({
@@ -10,11 +9,39 @@
 					root : true
 				});
 			} else {
-				ordersStore.clear();
+				// ordersStore.clear();
 				refresh();
 			}
 		},
-
+		viewShown : function() {
+			var isAndroid = DevExpress.devices.real().platform === 'android';
+			var obj = null;
+			obj = $("#listNew");
+			var list = obj.dxList("instance");
+			// list.option('autoPagingEnabled', !isAndroid);
+			list.option('showNextButton', isAndroid);
+			list.option('pullRefreshEnabled', !isAndroid);
+			loadImages();
+		},
+		selectNewTab : function(input) {
+			var isAndroid = DevExpress.devices.real().platform === 'android';
+			var obj = null;
+			switch (input.selectedIndex) {
+				case 0:
+					obj = $("#listNew");
+					break;
+				case 1:
+					obj = $("#listProcessing");
+					break;
+				case 2:
+					obj = $("#listDelayed");
+					break;
+			}
+			var list = obj.dxList("instance");
+			list.option('showNextButton', isAndroid);
+			list.option('pullRefreshEnabled', !isAndroid);
+			// list.option('autoPagingEnabled', !isAndroid);
+		},
 		username : ko.observable(),
 		pass : ko.observable(),
 
@@ -43,6 +70,12 @@
 				processValueChange("Cancel");
 			},
 			disabled : ko.observable(true),
+		}, {
+			text : "Xem chi tiết",
+			clickAction : function() {
+				processValueChange("Details");
+			},
+			// disabled : ko.observable(false),
 		}],
 		products : ko.observableArray([]),
 		productsToSplit : ko.observableArray([]),
@@ -51,6 +84,22 @@
 		popupDelayVisible : ko.observable(false),
 		popupSplitVisible : ko.observable(false),
 		loadPanelVisible : ko.observable(false),
+		showActionSheet : function(e) {
+			var orderNumber = e.model.orderNumber;
+			ordersStore.byKey(orderNumber).done(function(dataItem) {
+				var idOrderNumber = "#" + orderNumber;
+				var actionSheet = $("#actionsheet").dxActionSheet("instance");
+				actionSheet.option('target', idOrderNumber);
+				viewModel.dataItem(dataItem);
+				viewModel.products(dataItem.products);
+				viewModel.dropDownMenuData[0].disabled(!dataItem.canProcess);
+				viewModel.dropDownMenuData[1].disabled(!dataItem.canDelay);
+				viewModel.dropDownMenuData[2].disabled(!dataItem.canSplit);
+				viewModel.dropDownMenuData[3].disabled(!dataItem.canCancel);
+				viewModel.actionSheetVisible(true);
+			});
+			e.jQueryEvent.stopPropagation();
+		},
 	};
 
 	showLoading = function(show) {
@@ -114,12 +163,11 @@
 			doLoadDataByOrderStatus("New");
 		}).fail(function(jqxhr, textStatus, error) {
 			showLoading(false);
-			var err = textStatus + ", " + jqxhr.responseText;
-			alert("Process Failed: " + err);
+			alert("Lỗi mạng, thử lại sau!");
 		});
 	};
 
-	doNewOrderByOrderID = function() {
+	doCancelOrderByOrderID = function() {
 		showLoading(true);
 		var tokenId = window.localStorage.getItem("MyTokenId");
 
@@ -144,8 +192,7 @@
 			doLoadDataByOrderStatus(oldStatus);
 		}).fail(function(jqxhr, textStatus, error) {
 			showLoading(false);
-			var err = textStatus + ", " + jqxhr.responseText;
-			alert("Process Failed: " + err);
+			alert("Lỗi mạng, thử lại sau!");
 		});
 	};
 
@@ -175,8 +222,7 @@
 			doLoadDataByOrderStatus("Processing");
 		}).fail(function(jqxhr, textStatus, error) {
 			showLoading(false);
-			var err = textStatus + ", " + jqxhr.responseText;
-			alert("Process Failed: " + err);
+			alert("Lỗi mạng, thử lại sau!");
 		});
 
 	};
@@ -211,8 +257,7 @@
 		}).fail(function(jqxhr, textStatus, error) {
 			hideSplitPopUp();
 			viewModel.popupSplitVisible(false);
-			var err = textStatus + ", " + jqxhr.responseText;
-			alert("Process Failed: " + err);
+			alert("Lỗi mạng, thử lại sau!");
 		});
 
 	};
@@ -241,15 +286,16 @@
 			hideDelayPopUp();
 		}).fail(function(jqxhr, textStatus, error) {
 			hideDelayPopUp();
-			var err = textStatus + ", " + jqxhr.responseText;
-			alert("Process Failed: " + err);
+			alert("Lỗi mạng, thử lại sau!");
 		});
 
 	};
 
+	var myUserName = window.localStorage.getItem("UserName");
+
 	ordersStore = new DevExpress.data.LocalStore({
 		type : "local",
-		name : "OrdersStore",
+		name : myUserName + "OrdersStore",
 		key : "orderNumber",
 		flushInterval : 1000,
 		// immediate : true,
@@ -319,6 +365,9 @@
 			case "Cancel":
 				doCancelOrderByOrderID();
 				break;
+			case "Details":
+				showDetail();
+				break;
 		}
 	};
 
@@ -327,14 +376,15 @@
 		viewModel.loadPanelVisible(true);
 		// alert(viewModel.selectedType());
 		var tokenId = window.localStorage.getItem("MyTokenId");
-		var timeStamp = window.localStorage.getItem("OrdersTimeStamp" + status);
-		if (timeStamp == undefined)
+		var myUserName = window.localStorage.getItem("UserName");
+		var timeStamp = Number(window.localStorage.getItem(myUserName + "OrdersTimeStamp" + status));
+		if (timeStamp === null)
 			timeStamp = 0;
 		var dataToSend = {
 			TokenId : tokenId,
 			Status : status,
 			// Status : viewModel.selectedType(),
-			TimeStamp : 0
+			TimeStamp : timeStamp
 		};
 		var jsonData = JSON.stringify(dataToSend);
 		// alert(jsonData);
@@ -347,11 +397,11 @@
 		}).done(function(data, textStatus) {
 			viewModel.loadPanelVisible(false);
 			// alert(JSON.stringify(data.Data));
-			if (data.Data.length == 0) {
+			if ((data.Data != null) && (data.Data.length == 0)) {
 				// DevExpress.ui.notify("loading data from disk for " + status, "info", 1000);
 			} else {
 				// alert(JSON.stringify(data.Data));
-				window.localStorage.setItem("OrdersTimeStamp" + status, data.TimeStamp);
+				window.localStorage.setItem(myUserName + "OrdersTimeStamp" + status, data.TimeStamp);
 				var result = $.map(data.Data, function(item) {
 					// var dateString = item.OrderDate;
 					// if (dateString.indexOf("+") == -1)
@@ -425,32 +475,22 @@
 			doReloadPivot(status);
 		}).fail(function(jqxhr, textStatus, error) {
 			viewModel.loadPanelVisible(false);
-			var err = textStatus + ", " + jqxhr.responseText;
-			alert("Get Failed: " + err);
+			alert("Lỗi mạng, thử lại sau!");
 		});
 
 	};
 
-	showDetail = function(orderNumber) {
+	showDetailsData = function(e) {
 		MyApp.app.navigate({
 			view : 'order-details',
-			id : orderNumber
+			id : e.itemData.orderNumber
 		});
 	};
 
-	showActionSheet = function(orderNumber) {
-		ordersStore.byKey(orderNumber).done(function(dataItem) {
-			var idOrderNumber = "#" + orderNumber;
-			var actionSheet = $("#actionsheet").dxActionSheet("instance");
-			var button = $(idOrderNumber).dxButton("instance");
-			actionSheet.option('target', idOrderNumber); 
-			viewModel.dataItem(dataItem);
-			viewModel.products(dataItem.products);
-			viewModel.dropDownMenuData[0].disabled(!dataItem.canProcess);
-			viewModel.dropDownMenuData[1].disabled(!dataItem.canDelay);
-			viewModel.dropDownMenuData[2].disabled(!dataItem.canSplit);
-			viewModel.dropDownMenuData[3].disabled(!dataItem.canCancel);
-			viewModel.actionSheetVisible(true);
+	showDetail = function() {
+		MyApp.app.navigate({
+			view : 'order-details',
+			id : viewModel.dataItem().orderNumber
 		});
 	};
 
@@ -460,5 +500,11 @@
 		doLoadDataByOrderStatus("Processing");
 	};
 
+	loadImages = function() {
+		jQuery("img.product-thumbnail.lazy").lazy({
+			effect : "fadeIn",
+			effectTime : 1500
+		});
+	};
 	return viewModel;
 };

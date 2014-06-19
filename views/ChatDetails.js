@@ -58,15 +58,16 @@
 			$("#chatScroll").dxScrollView("instance").scrollTo(scrollHeight);
 
 			viewModel.loadPanelVisible(false);
-			actionOptions.component.release();
+			if ((actionOptions != null) && (actionOptions.component != undefined))
+				actionOptions.component.release();
 			// alert(JSON.stringify(viewModel.chatDetailDataSource()));
 			// popupVisible(false);
 			//textStatus contains the status: success, error, etc
 		}).fail(function(jqxhr, textStatus, error) {
-			var err = textStatus + ", " + jqxhr.responseText;
-			alert("Get Failed: " + err);
+			alert("Lỗi mạng, thử lại sau!");
 			viewModel.loadPanelVisible(false);
-			actionOptions.component.release();
+			if ((actionOptions != null) && (actionOptions.component != undefined))
+				actionOptions.component.release();
 		});
 
 	};
@@ -90,8 +91,7 @@
 			viewModel.commentToPost('');
 			doLoadChatDetailData();
 		}).fail(function(jqxhr, textStatus, error) {
-			var err = textStatus + ", " + jqxhr.responseText;
-			alert("Get Failed: " + err);
+			alert("Lỗi mạng, thử lại sau!");
 			viewModel.loadPanelVisible(false);
 		});
 

@@ -2,20 +2,23 @@
 	<div data-bind="dxCommand: { id: 'refresh', icon: 'refresh', action: function() { doLoadChatIdsData(); } }" ></div>
 	<div data-options="dxContent : { targetPlaceholder: 'content' } " >
 		<div data-bind="dxLoadPanel:{message: '', visible: loadPanelVisible }"></div>
-		<div data-bind="dxList:
+		<div id="chatidlist" data-bind="dxList:
 		{ dataSource: chatsDataSource,
 		autoPagingEnabled: true,
+		pageLoadingAction: function() { loadImages(); },
 		pullRefreshEnabled: true,
 		pullRefreshAction: function() { doLoadChatIdsData(); },
 		noDataText: 'Chưa có câu hỏi nào',
 		pulledDownText: 'Thả để tải lại...',
-		pullingDownText: 'Kéo để tải lại...'  }">
+		pullingDownText: 'Kéo để tải lại...',
+		nextButtonText: 'Tải tiếp ...',
+		pageLoadingText: 'Đang tải ...'  }">
 			<div data-options="dxTemplate : { name: 'item' } " data-bind="dxAction: '#chatdetails/{id}'">
 				<!-- <div class="left conversations-title" data-bind="text:msg" style="white-space: pre-wrap; word-wrap: break-word;"></div> -->
 				<table class="products-list" style="width:100%">
 					<tbody>
 						<tr>
-							<td rowspan="3" align=center valign=middle width="80px"><img class="product-thumbnail" data-bind="attr: { src: thumbnail }"><img></td>
+							<td rowspan="3" align=center valign=middle width="80px"><img class="product-thumbnail lazy" data-bind="attr: { src: thumbnail }"><img></td>
 							<td style="font-weight: bold;" data-bind="text:name"></td>
 						</tr>
 						<tr>

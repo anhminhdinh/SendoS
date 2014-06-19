@@ -72,6 +72,13 @@
 				alert(JSON.stringify(error));
 				viewModel.loadPanelVisible(false);
 			});
+			viewModel.loadImages();
+		},
+		loadImages : function() {
+			jQuery("img.product-thumbnail.lazy").lazy({
+				effect : "fadeIn",
+				effectTime : 1500
+			});
 		},
 		id : params.id,
 		dataItem : ko.observable(),
@@ -111,9 +118,10 @@
 		loadPanelVisible : ko.observable(true),
 	};
 
+	var myUserName = window.localStorage.getItem("UserName");
 	listDataStore = new DevExpress.data.LocalStore({
 		type : "local",
-		name : "OrdersStore",
+		name : myUserName + "OrdersStore",
 		key : "orderNumber",
 		flushInterval : 1000,
 		// immediate : true,
@@ -389,15 +397,6 @@
 		});
 
 	};
-
-	function load(img) {
-		img.fadeOut(0, function() {
-			img.fadeIn(1000);
-		});
-	};
-	$('.lazyload').lazyload({
-		load : load
-	});
 
 	return viewModel;
 };

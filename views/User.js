@@ -4,17 +4,36 @@
 		pass : ko.observable(),
 		loadPanelVisible : ko.observable(false),
 		passMode : "password",
+		savePassword : ko.observable(false),
+		toggleSavePassword : function() {
+			var myUserName = window.localStorage.getItem("UserName");
+			if (!viewModel.savePassword()) {
+				localStorage.removeItem(myUserName + "Password");
+				viewModel.pass('');
+			}
+			localStorage.setItem(myUserName + "SavePassword", Boolean(viewModel.savePassword()));
+		},
 		isLoggedOut : ko.observable(false),
 		viewShowing : function() {
 			viewModel.loadPanelVisible(false);
-			if (window.localStorage.getItem("UserName") != undefined) {
-				viewModel.username(window.localStorage.getItem("UserName"));
-			}
 			var tokenId = window.localStorage.getItem("MyTokenId");
 			var isLoggedOut = tokenId === null;
 			viewModel.isLoggedOut(isLoggedOut);
 			if (isLoggedOut) {
 				viewModel.toggleNavs(false);
+				var myUserName = window.localStorage.getItem("UserName");
+				if (myUserName != null) {
+					viewModel.username(myUserName);
+					var myPassword = window.localStorage.getItem(myUserName + "Password");
+					var mySavePassword = localStorage.getItem(myUserName + 'SavePassword');
+					if (mySavePassword != null) {
+						viewModel.savePassword(Boolean(mySavePassword));
+					}
+					if (myPassword != null) {
+						viewModel.pass(myPassword);
+						viewModel.dologin();
+					}
+				}
 			} else {
 				viewModel.dologout();
 			}
@@ -41,22 +60,25 @@
 			});
 			request.done(function(data, textStatus) {
 				viewModel.loadPanelVisible(false);
-				window.localStorage.setItem("UserName", viewModel.username());
-				window.localStorage.setItem("MyTokenId", data.Data);
-				viewModel.toggleNavs(true);
-				MyApp.app.navigation[3].option('title', 'Đăng xuất');
-				MyApp.app.navigate({
-					view : "home",
-					id : undefined
-				}, {
-					root : true
-				});
-				registerPush();
+				if (data.Flag === true) {
+					window.localStorage.setItem("UserName", viewModel.username());
+					if (viewModel.savePassword)
+						window.localStorage.setItem(viewModel.username() + "Password", viewModel.pass());
+					window.localStorage.setItem("MyTokenId", data.Data);
+					viewModel.toggleNavs(true);
+					MyApp.app.navigation[3].option('title', 'Đăng xuất');
+					MyApp.app.navigate({
+						view : "home",
+						id : undefined
+					}, {
+						root : true
+					});
+					registerPush();
+				}
 				//textStatus contains the status: success, error, etc
 			});
 			request.fail(function(jqxhr, textStatus, error) {
-				var err = textStatus + ", " + jqxhr.responseText;
-				alert("Login Failed: " + err);
+				alert("Đăng nhập thất bại!");
 				viewModel.loadPanelVisible(false);
 			});
 		},
@@ -84,8 +106,7 @@
 						MyApp.app.navigation[3].option('title', 'Đăng nhập');
 						//textStatus contains the status: success, error, etc
 					}).fail(function(jqxhr, textStatus, error) {
-						var err = textStatus + ", " + jqxhr.responseText;
-						alert("Logout Failed: " + err);
+						alert("Đăng xuất thất bại!");
 						viewModel.loadPanelVisible(false);
 					});
 				}

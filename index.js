@@ -15,19 +15,23 @@
 			navigation : [{
 				title : 'Đơn hàng',
 				action : "#home",
-				icon : "order"
+				icon : "order",
+				// icon : "cart",
 			}, {
 				title : 'Sản Phẩm',
 				action : "#products",
-				icon : "products"
+				icon : "products",
+				// icon : "box",
 			}, {
 				title : 'Hỏi & đáp',
 				action : "#chats",
-				icon : "qa"
+				icon : "qa",				
+				// icon : "comment",
 			}, {
 				title : 'Đăng nhập',
 				action : "#user",
-				icon : "profile"
+				icon : "profile",
+				// icon : "user",
 			}, {
 				title : 'Thông tin',
 				action : "#about",
@@ -124,12 +128,13 @@
 			//This is first called from the checkPushUser event above.
 			//If a user is not found, success = false, and this tries to add that user.
 			if (event.success === false) {
-				if (window.localStorage.getItem("didAddPushUser") == undefined) {
+				var myUserName = window.localStorage.getItem("UserName");
+				if (window.localStorage.getItem(myUserName + "didAddPushUser") === null) {
 					//Set cookie 'didAddPushUser' in order to avoid multiple addPushUser calls
-					window.localStorage.setItem("didAddPushUser", true);
+					window.localStorage.setItem(myUserName + "didAddPushUser", true);
 					AppMobi.notification.alert("Doing addPushUser now...", "My Message", "OK");
 					//Try adding the user now - sending unique user id, password, and email address.
-					AppMobi.notification.addPushUser(window.localStorage.getItem("UserName"), AppMobi.device.uuid, 'no@email.com');
+					AppMobi.notification.addPushUser(myUserName, AppMobi.device.uuid, 'no@email.com');
 					//This will fire the push.enable event again, so that is why we use didAdd to make sure
 					//we dont add the user twice if this fails for any reason.
 					return;
