@@ -99,39 +99,30 @@
 		result.done(function(dialogResult) {
 			if (dialogResult) {
 				viewModel.loadPanelVisible(true);
-				// alert(viewModel.id);
 				var tokenId = window.localStorage.getItem("MyTokenId");
-				// alert(itemData.stockAvailability);
-				var dataToSend = {
+				return $.post("http://ban.sendo.vn/api/mobile/UpdateProductStock", {
 					TokenId : tokenId,
 					Id : itemData.id,
 					StockAvailability : !itemData.stockAvailability,
-				};
-				var jsonData = JSON.stringify(dataToSend);
-				// alert(jsonData);
-				return $.ajax({
-					url : "http://ban.sendo.vn/api/mobile/UpdateProductStock",
-					type : "POST",
-					data : jsonData,
-					contentType : "application/json; charset=utf-8",
-					dataType : "json"
-				}).done(function(data, textStatus) {
+				}, "json").done(function(data) {
+					viewModel.loadPanelVisible(false);
+					if (data.Flag != true) {
+						alert("Lỗi mạng, thử lại sau!");
+						return;
+					}
+
 					productsStore.byKey(itemData.id).done(function(dataItem) {
-						// dataItem.stockAvailability = itemData.stockAvailability;
 						dataItem.stockAvailability = !itemData.stockAvailability;
 						dataItem.stockAvailabilityDisplay = itemData.stockAvailability ? 'Còn hàng' : 'Hết hàng';
 						productsStore.remove(itemData.id);
 						productsStore.insert(dataItem);
-						// productsStore.update(id, dataItem);
 					});
 					doReload(true);
-					viewModel.loadPanelVisible(false);
 					// doLoadDataByProductID();
 					//textStatus contains the status: success, error, etc
 				}).fail(function(jqxhr, textStatus, error) {
 					viewModel.loadPanelVisible(false);
-					var err = textStatus + ", " + jqxhr.responseText;
-					alert("Get Failed: " + err);
+					alert("Lỗi mạng, thử lại sau!");
 				});
 			} else {
 				doReload(true);
@@ -142,45 +133,40 @@
 	changeProductProperties = function() {
 		var result = DevExpress.ui.dialog.confirm("Bạn có chắc muốn sửa thông tin sản phẩm?", "Sendo");
 		result.done(function(dialogResult) {
-			if (dialogResult) {
-				viewModel.loadPanelVisible(true);
-				// alert(viewModel.id);
-				var tokenId = window.localStorage.getItem("MyTokenId");
-
-				var dataToSend = {
-					TokenId : tokenId,
-					Id : viewModel.dataItem().id,
-					Name : viewModel.editName(),
-					Weight : viewModel.editWeight(),
-					Price : viewModel.editPrice(),
-				};
-				var jsonData = JSON.stringify(dataToSend);
-				// alert(jsonData);
-				return $.ajax({
-					url : "http://ban.sendo.vn/api/mobile/UpdateProduct",
-					type : "POST",
-					data : jsonData,
-					contentType : "application/json; charset=utf-8",
-					dataType : "json"
-				}).done(function(data, textStatus) {
-					productsStore.byKey(viewModel.dataItem().id).done(function(dataItem) {
-						dataItem.name = viewModel.editName();
-						dataItem.price = viewModel.editPrice();
-						dataItem.weight = viewModel.editWeight();
-						productsStore.remove(dataItem.id);
-						productsStore.insert(dataItem);
-					});
-					doReload(true);
-					viewModel.loadPanelVisible(false);
-					viewModel.popupEditVisible(false);
-					//textStatus contains the status: success, error, etc
-				}).fail(function(jqxhr, textStatus, error) {
-					viewModel.loadPanelVisible(false);
-					viewModel.popupEditVisible(false);
-					var err = textStatus + ", " + jqxhr.responseText;
-					alert("Get Failed: " + err);
-				});
+			viewModel.loadPanelVisible(true);
+			if (!dialogResult) {
+				return;
 			}
+			var tokenId = window.localStorage.getItem("MyTokenId");
+
+			return $.post("http://ban.sendo.vn/api/mobile/UpdateProduct", {
+				TokenId : tokenId,
+				Id : viewModel.dataItem().id,
+				Name : viewModel.editName(),
+				Weight : viewModel.editWeight(),
+				Price : viewModel.editPrice(),
+			}, "json").done(function(data) {
+				viewModel.loadPanelVisible(false);
+				viewModel.popupEditVisible(false);
+				if (data.Flag != true) {
+					alert("Lỗi mạng, thử lại sau!");
+					return;
+				}
+
+				productsStore.byKey(viewModel.dataItem().id).done(function(dataItem) {
+					dataItem.name = viewModel.editName();
+					dataItem.price = viewModel.editPrice();
+					dataItem.weight = viewModel.editWeight();
+					productsStore.remove(dataItem.id);
+					productsStore.insert(dataItem);
+				});
+				doReload(true);
+			}).fail(function(jqxhr, textStatus, error) {
+				viewModel.loadPanelVisible(false);
+				viewModel.popupEditVisible(false);
+				alert("Lỗi mạng, thử lại sau!");
+			});
+
 		});
 	};
 
@@ -212,84 +198,63 @@
 
 		if (viewModel.searchString() != '')
 			timeStamp = 0;
-		var dataToSend = {
+		return $.post("http://ban.sendo.vn/api/mobile/SearchProductByName", {
 			TokenId : tokenId,
 			Name : viewModel.searchString(),
 			From : currentLoadStart,
 			To : currentLoadStart + currentLoadSize - 1,
 			TimeStamp : timeStamp,
-		};
-		var jsonData = JSON.stringify(dataToSend);
-		// alert(jsonData);
-		return $.ajax({
-			url : "http://ban.sendo.vn/api/mobile/SearchProductByName",
-			type : "POST",
-			data : jsonData,
-			contentType : "application/json; charset=utf-8",
-			dataType : "json"
-		}).done(function(data, textStatus) {
-			// alert(JSON.stringify(data));
-			if (data.Flag === true && data.Data != null) {
-				if (viewModel.searchString() != '')
-					window.localStorage.setItem(myUserName + "ProductsTimeStamp", data.TimeStamp);
-				var result = $.map(data.Data, function(item) {
-					// var dateString = item.UpProductDate;
-					// if (dateString.indexOf("+") == -1)
-					// dateString += 'Z';
-					// var UpProductDate = new Date(dateString);
-					var UpProductDate = convertDate(item.UpProductDate);
-					UpProductDateDisplay = Globalize.format(UpProductDate, 'dd/MM/yyyy');
-
-					// dateString = item.UpdatedDate;
-					// if (dateString.indexOf("+") == -1)
-					// dateString += 'Z';
-					// var UpdatedDate = new Date(dateString);
-					var UpdatedDate = convertDate(item.UpdatedDate);
-					UpdatedDateDisplay = Globalize.format(UpdatedDate, 'dd/MM/yyyy');
-					// alert(JSON.stringify(item));
-					var price = numberWithCommas(item.Price);
-					var showUpProductDate = UpProductDate.getFullYear() > 1;
-					return {
-						id : item.Id,
-						// stockAvailabilityDisplay : ko.observable(item.StockAvailability),
-						name : item.Name,
-						thumbnail : item.Thumnail,
-						price : price,
-						storeSKU : item.StoreSku,
-						quantity : item.Quantity,
-						weight : item.Weight,
-						storeSKU : item.StoreSku,
-						upProductDate : UpProductDate,
-						updatedDate : UpdatedDate,
-						displayUpProductDate : showUpProductDate,
-						upProductDateDisplay : UpProductDateDisplay,
-						updatedDateDisplay : UpdatedDateDisplay,
-						stockAvailability : item.StockAvailability,
-						stockAvailabilityDisplay : item.StockAvailability ? 'Còn hàng' : 'Hết hàng',
-					};
-				});
-				// arrayStore.clear();
-				for (var i = 0; i < result.length; i++) {
-					productsStore.byKey(result[i].id).done(function(dataItem) {
-						if (dataItem != undefined)
-							productsStore.update(result[i].id, result[i]);
-						else
-							productsStore.insert(result[i]);
-					}).fail(function(error) {
-						productsStore.insert(result[i]);
-					});
-					// alert(JSON.stringify(result[i]));
-				}
-			}
-			// alert(JSON.stringify(result));
-			// viewModel.dataSource(result);
+		}, "json").done(function(data) {
 			viewModel.loadPanelVisible(false);
-			doReload(true);
 			if ((actionOptions != null) && (actionOptions.component != undefined))
 				actionOptions.component.release();
-			// alert(JSON.stringify(viewModel.dataSource()));
-			// popupVisible(false);
-			//textStatus contains the status: success, error, etc
+			if (data.Flag != true) {
+				alert("Lỗi mạng, thử lại sau!");
+				return;
+			}
+
+			if (data.Data === null) {
+				return;
+			}
+			if (viewModel.searchString() != '')
+				window.localStorage.setItem(myUserName + "ProductsTimeStamp", data.TimeStamp);
+			var result = $.map(data.Data, function(item) {
+				var UpProductDate = convertDate(item.UpProductDate);
+				UpProductDateDisplay = Globalize.format(UpProductDate, 'dd/MM/yyyy');
+				var UpdatedDate = convertDate(item.UpdatedDate);
+				UpdatedDateDisplay = Globalize.format(UpdatedDate, 'dd/MM/yyyy');
+				var price = numberWithCommas(item.Price);
+				var showUpProductDate = UpProductDate.getFullYear() > 1;
+				return {
+					id : item.Id,
+					name : item.Name,
+					thumbnail : item.Thumnail,
+					price : price,
+					storeSKU : item.StoreSku,
+					quantity : item.Quantity,
+					weight : item.Weight,
+					storeSKU : item.StoreSku,
+					upProductDate : UpProductDate,
+					updatedDate : UpdatedDate,
+					displayUpProductDate : showUpProductDate,
+					upProductDateDisplay : UpProductDateDisplay,
+					updatedDateDisplay : UpdatedDateDisplay,
+					stockAvailability : item.StockAvailability,
+					stockAvailabilityDisplay : item.StockAvailability ? 'Còn hàng' : 'Hết hàng',
+				};
+			});
+			for (var i = 0; i < result.length; i++) {
+				productsStore.byKey(result[i].id).done(function(dataItem) {
+					if (dataItem != undefined)
+						productsStore.update(result[i].id, result[i]);
+					else
+						productsStore.insert(result[i]);
+				}).fail(function(error) {
+					productsStore.insert(result[i]);
+				});
+			}
+			doReload(true);
+
 		}).fail(function(jqxhr, textStatus, error) {
 			var err = textStatus + ", " + jqxhr.responseText;
 			alert("Get Failed: " + err);
@@ -305,45 +270,30 @@
 		result.done(function(dialogResult) {
 			if (dialogResult) {
 				viewModel.loadPanelVisible(true);
-				// alert(viewModel.id);
 				var tokenId = window.localStorage.getItem("MyTokenId");
 
-				var dataToSend = {
+				return $.post("http://ban.sendo.vn/api/mobile/UpProduct", {
 					TokenId : tokenId,
 					ProductId : id,
-				};
-				var jsonData = JSON.stringify(dataToSend);
-				// alert(jsonData);
-				return $.ajax({
-					url : "http://ban.sendo.vn/api/mobile/UpProduct",
-					type : "POST",
-					data : jsonData,
-					contentType : "application/json; charset=utf-8",
-					dataType : "json"
-				}).done(function(upData, upTextStatus) {
-					var dataToSend = {
+				}, "json").done(function(upData, upTextStatus) {
+					viewModel.loadPanelVisible(false);
+					if (data.Flag != true) {
+						alert("Lỗi mạng, thử lại sau!");
+						return;
+					}
+					viewModel.loadPanelVisible(true);
+					$.post("http://ban.sendo.vn/api/mobile/ProductInfoById", {
 						TokenId : tokenId,
 						Id : id,
-					};
-					var jsonData = JSON.stringify(dataToSend);
-					$.ajax({
-						url : "http://ban.sendo.vn/api/mobile/ProductInfoById",
-						type : "POST",
-						data : jsonData,
-						contentType : "application/json; charset=utf-8",
-						dataType : "json"
-					}).done(function(data, textStatus) {
-						// var dateString = data.Data[0].UpProductDate;
-						// if (dateString.indexOf("+") == -1)
-						// dateString += 'Z';
-						// var UpProductDate = new Date(dateString);
+					}, "json").done(function(data) {
+						viewModel.loadPanelVisible(false);
+						if (data.Flag != true) {
+							alert("Lỗi mạng, thử lại sau!");
+							return;
+						}
 						var UpProductDate = convertDate(data.Data.UpProductDate);
 						UpProductDateDisplay = Globalize.format(UpProductDate, 'dd/MM/yyyy');
 
-						// dateString = data.Data[0].UpdatedDate;
-						// if (dateString.indexOf("+") == -1)
-						// dateString += 'Z';
-						// var UpdatedDate = new Date(dateString);
 						var UpdatedDate = convertDate(data.Data.UpdatedDate);
 						UpdatedDateDisplay = Globalize.format(UpdatedDate, 'dd/MM/yyyy');
 
@@ -354,16 +304,12 @@
 							dataItem.updatedDateDisplay = UpdatedDateDisplay;
 							productsStore.remove(id);
 							productsStore.insert(dataItem);
-							// productsStore.update(id, dataItem);
 						});
 						doReload(true);
-						viewModel.loadPanelVisible(false);
 					});
-					//textStatus contains the status: success, error, etc
 				}).fail(function(jqxhr, textStatus, error) {
 					viewModel.loadPanelVisible(false);
-					var err = textStatus + ", " + jqxhr.responseText;
-					alert("Get Failed: " + err);
+					alert("Lỗi mạng, thử lại sau!");
 				});
 			}
 		});

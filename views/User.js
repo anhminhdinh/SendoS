@@ -45,40 +45,31 @@
 		},
 		dologin : function() {
 			this.loadPanelVisible(true);
-			var dataToSend = {
+			$.post("http://ban.sendo.vn/api/mobile/login", {
 				UserName : viewModel.username(),
 				Password : viewModel.pass()
-			};
-			var jsonData = JSON.stringify(dataToSend);
-			// alert(jsonData);
-			var request = $.ajax({
-				url : "http://ban.sendo.vn/api/mobile/login",
-				type : "POST",
-				data : jsonData,
-				contentType : "application/json; charset=utf-8",
-				dataType : "json"
-			});
-			request.done(function(data, textStatus) {
+			}, "json").done(function(data) {
 				viewModel.loadPanelVisible(false);
-				if (data.Flag === true) {
-					window.localStorage.setItem("UserName", viewModel.username());
-					if (viewModel.savePassword)
-						window.localStorage.setItem(viewModel.username() + "Password", viewModel.pass());
-					window.localStorage.setItem("MyTokenId", data.Data);
-					viewModel.toggleNavs(true);
-					MyApp.app.navigation[3].option('title', 'Đăng xuất');
-					MyApp.app.navigate({
-						view : "home",
-						id : undefined
-					}, {
-						root : true
-					});
-					registerPush();
+				if (data.Flag != true) {
+					alert("Sai tên hoặc mật khẩu, thử lại sau!");
+					return;
 				}
-				//textStatus contains the status: success, error, etc
-			});
-			request.fail(function(jqxhr, textStatus, error) {
-				alert("Đăng nhập thất bại!");
+				window.localStorage.setItem("UserName", viewModel.username());
+				if (viewModel.savePassword)
+					window.localStorage.setItem(viewModel.username() + "Password", viewModel.pass());
+				window.localStorage.setItem("MyTokenId", data.Data);
+				viewModel.toggleNavs(true);
+				MyApp.app.navigation[3].option('title', 'Đăng xuất');
+				MyApp.app.navigate({
+					view : "home",
+					id : undefined
+				}, {
+					root : true
+				});
+				registerPush();
+
+			}).fail(function(jqxhr, textStatus, error) {
+				alert("Lỗi mạng, đăng nhập thất bại!");
 				viewModel.loadPanelVisible(false);
 			});
 		},
@@ -87,19 +78,14 @@
 			result.done(function(dialogResult) {
 				if (dialogResult) {
 					viewModel.loadPanelVisible(true);
-					var dataToSend = {
+					$.post("http://ban.sendo.vn/api/mobile/logout", {
 						TokenId : window.localStorage.getItem("MyTokenId")
-					};
-					var jsonData = JSON.stringify(dataToSend);
-					// alert(jsonData);
-					$.ajax({
-						url : "http://ban.sendo.vn/api/mobile/logout",
-						type : "POST",
-						data : jsonData,
-						contentType : "application/json; charset=utf-8",
-						dataType : "json"
-					}).done(function(data, textStatus) {
+					}, "json").done(function(data, textStatus) {
 						viewModel.loadPanelVisible(false);
+						if (data.Flag != true) {
+							alert("Đăng xuất thất bại!");
+							return;
+						}
 						window.localStorage.removeItem("MyTokenId");
 						viewModel.isLoggedOut(true);
 						viewModel.toggleNavs(false);

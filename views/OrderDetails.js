@@ -175,28 +175,23 @@
 	doCancelOrderByOrderID = function() {
 		showLoading(true);
 		var tokenId = window.localStorage.getItem("MyTokenId");
-
-		var dataToSend = {
+		return $.post("http://ban.sendo.vn/api/mobile/ProcessOrder", {
 			TokenId : tokenId,
 			OrderNumber : viewModel.dataItem().orderNumber,
 			Action : "Cancel",
-		};
-		var jsonData = JSON.stringify(dataToSend);
-		return $.ajax({
-			url : "http://ban.sendo.vn/api/mobile/ProcessOrder",
-			type : "POST",
-			data : jsonData,
-			contentType : "application/json; charset=utf-8",
-			dataType : "json"
-		}).done(function(data, textStatus) {
+		}, "json").done(function(data, textStatus) {
 			showLoading(false);
+			if (data.Flag != true) {
+				alert("Lỗi mạng, thử lại sau!");
+				return;
+			}
+
 			viewModel.dataItem().status = "Cancel";
 			listDataStore.update(viewModel.dataItem().orderNumber, viewModel.dataItem());
 			MyApp.app.back();
 		}).fail(function(jqxhr, textStatus, error) {
 			showLoading(false);
-			var err = textStatus + ", " + jqxhr.responseText;
-			alert("Process Failed: " + err);
+			alert("Lỗi mạng, thử lại sau!");
 		});
 
 	};
@@ -211,21 +206,22 @@
 			Action : "Processing",
 		};
 		var jsonData = JSON.stringify(dataToSend);
-		return $.ajax({
-			url : "http://ban.sendo.vn/api/mobile/ProcessOrder",
-			type : "POST",
-			data : jsonData,
-			contentType : "application/json; charset=utf-8",
-			dataType : "json"
-		}).done(function(data, textStatus) {
+		return $.post("http://ban.sendo.vn/api/mobile/ProcessOrder", {
+			TokenId : tokenId,
+			OrderNumber : viewModel.dataItem().orderNumber,
+			Action : "Processing",
+		}, "json").done(function(data, textStatus) {
 			showLoading(false);
+			if (data.Flag != true) {
+				alert("Lỗi mạng, thử lại sau!");
+				return;
+			}
 			viewModel.dataItem().status = "Processing";
 			listDataStore.update(viewModel.dataItem().orderNumber, viewModel.dataItem());
 			MyApp.app.back();
 		}).fail(function(jqxhr, textStatus, error) {
 			showLoading(false);
-			var err = textStatus + ", " + jqxhr.responseText;
-			alert("Process Failed: " + err);
+			alert("Lỗi mạng, thử lại sau!");
 		});
 
 	};
@@ -240,30 +236,24 @@
 			splitIDs.push(product);
 		}
 		var tokenId = window.localStorage.getItem("MyTokenId");
-		var dataToSend = {
+		return $.post("http://ban.sendo.vn/api/mobile/ProcessOrder", {
 			TokenId : tokenId,
 			OrderNumber : viewModel.id,
 			Action : "Split",
 			Products : splitIDs
-		};
-		var jsonData = JSON.stringify(dataToSend);
-		return $.ajax({
-			url : "http://ban.sendo.vn/api/mobile/ProcessOrder",
-			type : "POST",
-			data : jsonData,
-			contentType : "application/json; charset=utf-8",
-			dataType : "json"
-		}).done(function(data, textStatus) {
-			viewModel.dataItem().status = "Cancel";
-			listDataStore.update(viewModel.dataItem().orderNumber, viewModel.dataItem());			
+		}, "json").done(function(data, textStatus) {
 			hideSplitPopUp();
+			if (data.Flag != true) {
+				alert("Lỗi mạng, thử lại sau!");
+				return;
+			}
+			viewModel.dataItem().status = "Cancel";
+			listDataStore.update(viewModel.dataItem().orderNumber, viewModel.dataItem());
 			MyApp.app.back();
 			//TODO modify local data here
 		}).fail(function(jqxhr, textStatus, error) {
 			hideSplitPopUp();
-			viewModel.popupSplitVisible(false);
-			var err = textStatus + ", " + jqxhr.responseText;
-			alert("Process Failed: " + err);
+			alert("Lỗi mạng, thử lại sau!");
 		});
 
 	};
@@ -272,29 +262,23 @@
 		showLoading(true);
 		var tokenId = window.localStorage.getItem("MyTokenId");
 		var newDelayDate = new Date(viewModel.dateBoxValue());
-		var dataToSend = {
+		return $.post("http://ban.sendo.vn/api/mobile/ProcessOrder", {
 			TokenId : tokenId,
 			OrderNumber : viewModel.id,
 			Action : "Delay",
 			DelayDate : Globalize.format(newDelayDate, 'yyyy-MM-dd')
-		};
-		var jsonData = JSON.stringify(dataToSend);
-		// alert(jsonData);
-		return $.ajax({
-			url : "http://ban.sendo.vn/api/mobile/ProcessOrder",
-			type : "POST",
-			data : jsonData,
-			contentType : "application/json; charset=utf-8",
-			dataType : "json"
-		}).done(function(data, textStatus) {
+		}, "json").done(function(data, textStatus) {
+			hideDelayPopUp();
+			if (data.Flag != true) {
+				alert("Lỗi mạng, thử lại sau!");
+				return;
+			}
 			viewModel.dataItem().status = "Delayed";
 			listDataStore.update(viewModel.dataItem().orderNumber, viewModel.dataItem());
-			hideDelayPopUp();
 			MyApp.app.back();
 		}).fail(function(jqxhr, textStatus, error) {
 			hideDelayPopUp();
-			var err = textStatus + ", " + jqxhr.responseText;
-			alert("Process Failed: " + err);
+			alert("Lỗi mạng, thử lại sau!");
 		});
 
 	};

@@ -140,21 +140,16 @@
 	doCancelOrderByOrderID = function() {
 		showLoading(true);
 		var tokenId = window.localStorage.getItem("MyTokenId");
-
-		var dataToSend = {
+		return $.post("http://ban.sendo.vn/api/mobile/ProcessOrder", {
 			TokenId : tokenId,
 			OrderNumber : viewModel.dataItem().orderNumber,
 			Action : "Cancel",
-		};
-		var jsonData = JSON.stringify(dataToSend);
-		return $.ajax({
-			url : "http://ban.sendo.vn/api/mobile/ProcessOrder",
-			type : "POST",
-			data : jsonData,
-			contentType : "application/json; charset=utf-8",
-			dataType : "json"
-		}).done(function(data, textStatus) {
+		}, "json").done(function(data) {
 			showLoading(false);
+			if (data.Flag != true) {
+				alert("Lỗi mạng, thử lại sau!");
+				return;
+			}
 			var item = viewModel.dataItem();
 			var oldStatus = item.status;
 			item.status = "Cancel";
@@ -170,21 +165,16 @@
 	doProcessOrderByOrderID = function() {
 		showLoading(true);
 		var tokenId = window.localStorage.getItem("MyTokenId");
-
-		var dataToSend = {
+		return $.post("http://ban.sendo.vn/api/mobile/ProcessOrder", {
 			TokenId : tokenId,
 			OrderNumber : viewModel.dataItem().orderNumber,
 			Action : "Processing",
-		};
-		var jsonData = JSON.stringify(dataToSend);
-		return $.ajax({
-			url : "http://ban.sendo.vn/api/mobile/ProcessOrder",
-			type : "POST",
-			data : jsonData,
-			contentType : "application/json; charset=utf-8",
-			dataType : "json"
-		}).done(function(data, textStatus) {
+		}, "json").done(function(data, textStatus) {
 			showLoading(false);
+			if (data.Flag != true) {
+				alert("Lỗi mạng, thử lại sau!");
+				return;
+			}
 			var item = viewModel.dataItem();
 			var oldStatus = item.status;
 			item.status = "Processing";
@@ -208,21 +198,17 @@
 			splitIDs.push(product);
 		}
 		var tokenId = window.localStorage.getItem("MyTokenId");
-		var dataToSend = {
+		return $.post("http://ban.sendo.vn/api/mobile/ProcessOrder", {
 			TokenId : tokenId,
 			OrderNumber : viewModel.dataItem().orderNumber,
 			Action : "Split",
 			Products : splitIDs
-		};
-		var jsonData = JSON.stringify(dataToSend);
-		return $.ajax({
-			url : "http://ban.sendo.vn/api/mobile/ProcessOrder",
-			type : "POST",
-			data : jsonData,
-			contentType : "application/json; charset=utf-8",
-			dataType : "json"
-		}).done(function(data, textStatus) {
+		}, "json").done(function(data) {
 			hideSplitPopUp();
+			if (data.Flag != true) {
+				alert("Lỗi mạng, thử lại sau!");
+				return;
+			}
 			var item = viewModel.dataItem();
 			var oldStatus = item.status;
 			item.status = "Splitting";
@@ -232,7 +218,6 @@
 			//TODO modify local data here
 		}).fail(function(jqxhr, textStatus, error) {
 			hideSplitPopUp();
-			viewModel.popupSplitVisible(false);
 			alert("Lỗi mạng, thử lại sau!");
 		});
 
@@ -242,28 +227,23 @@
 		showLoading(true);
 		var tokenId = window.localStorage.getItem("MyTokenId");
 		var newDelayDate = new Date(viewModel.dateBoxValue());
-		var dataToSend = {
+		return $.post("http://ban.sendo.vn/api/mobile/ProcessOrder", {
 			TokenId : tokenId,
 			OrderNumber : viewModel.dataItem().orderNumber,
 			Action : "Delay",
 			DelayDate : Globalize.format(newDelayDate, 'yyyy-MM-dd')
-		};
-		var jsonData = JSON.stringify(dataToSend);
-		// alert(jsonData);
-		return $.ajax({
-			url : "http://ban.sendo.vn/api/mobile/ProcessOrder",
-			type : "POST",
-			data : jsonData,
-			contentType : "application/json; charset=utf-8",
-			dataType : "json"
-		}).done(function(data, textStatus) {
+		}, "json").done(function(data, textStatus) {
+			hideDelayPopUp();
+			if (data.Flag != true) {
+				alert("Lỗi mạng, thử lại sau!");
+				return;
+			}
 			var item = viewModel.dataItem();
 			var oldStatus = item.status;
 			item.status = "Delayed";
 			ordersStore.update(item.orderNumber, item);
 			doLoadDataByOrderStatus(oldStatus);
 			doLoadDataByOrderStatus("Delayed");
-			hideDelayPopUp();
 		}).fail(function(jqxhr, textStatus, error) {
 			hideDelayPopUp();
 			alert("Lỗi mạng, thử lại sau!");
@@ -360,98 +340,79 @@
 		var timeStamp = Number(window.localStorage.getItem(myUserName + "OrdersTimeStamp" + status));
 		if (timeStamp === null)
 			timeStamp = 0;
-		var dataToSend = {
+		return $.post("http://ban.sendo.vn/api/mobile/ListSalesOrderByStatus", {
 			TokenId : tokenId,
 			Status : status,
-			// Status : viewModel.selectedType(),
-			TimeStamp : timeStamp
-		};
-		var jsonData = JSON.stringify(dataToSend);
-		// alert(jsonData);
-		return $.ajax({
-			url : "http://ban.sendo.vn/api/mobile/ListSalesOrderByStatus",
-			type : "POST",
-			data : jsonData,
-			contentType : "application/json; charset=utf-8",
-			dataType : "json"
-		}).done(function(data, textStatus) {
+			TimeStamp : 0
+		}, "json").done(function(data, textStatus) {
 			viewModel.loadPanelVisible(false);
-			// alert(JSON.stringify(data.Data));
-			if ((data.Data != null) && (data.Data.length == 0)) {
-				// DevExpress.ui.notify("loading data from disk for " + status, "info", 1000);
-			} else {
-				// alert(JSON.stringify(data.Data));
-				window.localStorage.setItem(myUserName + "OrdersTimeStamp" + status, data.TimeStamp);
-				var result = $.map(data.Data, function(item) {
-					// var dateString = item.OrderDate;
-					// if (dateString.indexOf("+") == -1)
-					// dateString += 'Z';
-					// var itemOrderDate = new Date(dateString);
-					var itemOrderDate = convertDate(item.OrderDate);
-					var orderDateString = Globalize.format(itemOrderDate, 'dd/MM/yyyy');
+			if (data.Flag != true) {
+				alert("Lỗi mạng, thử lại sau!");
+				return;
+			}
+			// alert(data.Data);
+			if ((data.Data === null) || (data.Data.length == 0)) {
+				return;
+			}
+			window.localStorage.setItem(myUserName + "OrdersTimeStamp" + status, data.TimeStamp);
+			var result = $.map(data.Data, function(item) {
+				var itemOrderDate = convertDate(item.OrderDate);
+				var orderDateString = Globalize.format(itemOrderDate, 'dd/MM/yyyy');
+				var itemDelayDate = convertDate(item.DelayDate);
 
-					// dateString = item.DelayDate;
-					// if (dateString.indexOf("+") == -1)
-					// dateString += 'Z';
-					// var itemDelayDate = new Date(dateString);
-					var itemDelayDate = convertDate(item.DelayDate);
-
-					var delayDateString = Globalize.format(itemDelayDate, 'dd/MM/yyyy');
-					var itemProducts = $.map(item.Products, function(product) {
-						var price = numberWithCommas(product.Price);
-						return {
-							id : product.Id,
-							name : product.Name,
-							storeSku : product.StoreSku,
-							quantity : product.Quantity,
-							thumbnail : product.Thumnail,
-							price : price,
-							weight : product.Weight,
-							upProductDate : product.UpProductDate + 'Z',
-							updatedDate : product.UpdatedDate + 'Z',
-							description : product.Description,
-						};
-					});
-					var totalAmount = numberWithCommas(item.TotalAmount);
+				var delayDateString = Globalize.format(itemDelayDate, 'dd/MM/yyyy');
+				var itemProducts = $.map(item.Products, function(product) {
+					var price = numberWithCommas(product.Price);
 					return {
-						status : status,
-						orderNumber : item.OrderNumber,
-						orderDate : itemOrderDate,
-						delayDate : itemDelayDate,
-						paymentMethod : item.PaymentMethod,
-						shippingMethod : item.ShippingType,
-						orderDateDisplay : orderDateString,
-						delayDateDisplay : delayDateString,
-						buyerName : item.BuyerName,
-						buyerAddress : item.BuyerAddress,
-						buyerPhone : item.BuyerPhone,
-						note : item.Note,
-						totalAmount : totalAmount,
-						updatedDate : item.UpdatedDate,
-						canDelay : item.CanDelay,
-						canCancel : item.CanCancel,
-						canSplit : item.CanSplit,
-						canProcess : item.CanProcess,
-						products : itemProducts,
+						id : product.Id,
+						name : product.Name,
+						storeSku : product.StoreSku,
+						quantity : product.Quantity,
+						thumbnail : product.Thumnail,
+						price : price,
+						weight : product.Weight,
+						upProductDate : product.UpProductDate + 'Z',
+						updatedDate : product.UpdatedDate + 'Z',
+						description : product.Description,
 					};
 				});
+				var totalAmount = numberWithCommas(item.TotalAmount);
+				return {
+					status : status,
+					orderNumber : item.OrderNumber,
+					orderDate : itemOrderDate,
+					delayDate : itemDelayDate,
+					paymentMethod : item.PaymentMethod,
+					shippingMethod : item.ShippingType,
+					orderDateDisplay : orderDateString,
+					delayDateDisplay : delayDateString,
+					buyerName : item.BuyerName,
+					buyerAddress : item.BuyerAddress,
+					buyerPhone : item.BuyerPhone,
+					note : item.Note,
+					totalAmount : totalAmount,
+					updatedDate : item.UpdatedDate,
+					canDelay : item.CanDelay,
+					canCancel : item.CanCancel,
+					canSplit : item.CanSplit,
+					canProcess : item.CanProcess,
+					products : itemProducts,
+				};
+			});
 
-				// listDataSource.store().clear();
-				for (var i = 0; i < result.length; i++) {
-					ordersStore.byKey(result[i].orderNumber).done(function(dataItem) {
-						if (dataItem != undefined)
-							ordersStore.update(result[i].orderNumber, result[i]).fail(function(error) {
-								alert(error);
-							});
-						else
-							ordersStore.insert(result[i]).fail(function(error) {
-								alert("insert: " + error);
-							});
-					});
-					// alert(JSON.stringify(result[i]));
-				}
+			for (var i = 0; i < result.length; i++) {
+				ordersStore.byKey(result[i].orderNumber).done(function(dataItem) {
+					if (dataItem != undefined)
+						ordersStore.update(result[i].orderNumber, result[i]).fail(function(error) {
+							alert(error);
+						});
+					else
+						ordersStore.insert(result[i]).fail(function(error) {
+							alert("insert: " + error);
+						});
+				});
 			}
-			//textStatus contains the status: success, error, etc
+
 			doReloadPivot(status);
 		}).fail(function(jqxhr, textStatus, error) {
 			viewModel.loadPanelVisible(false);
